@@ -2,7 +2,6 @@
 server:
   port: 9000
 
-
 spring:
   datasource:
     url:  jdbc:postgresql://localhost:5432/ecom_Db
@@ -22,8 +21,9 @@ spring:
 jwt:
   auth:
     converter:
-      resource_id: ecom-api
+      resource_id: ecom-spring
       principal-attribute: preferred_username
+
 
 
 
