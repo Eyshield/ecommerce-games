@@ -19,12 +19,10 @@ import java.util.stream.Stream;
 public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
             new JwtGrantedAuthoritiesConverter();
-
     @Value("${jwt.auth.converter.principal-attribute}")
     private String principleAttribute;
     @Value("${jwt.auth.converter.resource-id}")
     private String resourceId;
-
     @Override
     public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
