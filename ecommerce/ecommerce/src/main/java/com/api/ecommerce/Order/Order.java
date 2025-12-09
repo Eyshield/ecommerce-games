@@ -1,34 +1,28 @@
-package com.api.ecommerce.Games;
+package com.api.ecommerce.Order;
 
-import com.api.ecommerce.Order.OrderItem;
+import com.api.ecommerce.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class Game {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String description;
-    private double price;
-    private String plateform;
-    private LocalDate releaseDate;
-    private int stock;
-    private String imageUrl;
-    @OneToMany(mappedBy = "game")
+    private double totalPrice;
+    @OneToMany(mappedBy = "order")
     private Collection<OrderItem>orderItems=new ArrayList<>();
-
+    @ManyToOne
+    private User user;
 }
