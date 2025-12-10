@@ -1,5 +1,6 @@
 package com.api.ecommerce.Order;
 
+import com.api.ecommerce.Cart.CartService;
 import com.api.ecommerce.Common.PageResponse;
 import com.api.ecommerce.Games.Game;
 import com.api.ecommerce.Games.GameRepo;
@@ -20,10 +21,12 @@ public class implOrderService implements OrderService{
     private UserRepo userRepo;
     private GameRepo gameRepo;
     private OrderMapper orderMapper;
+    private CartService cartService;
     @Override
-    public Order MakeOrder(Long userId, List<OrderItemRequest> items) {
+    public Order MakeOrder(Long cartId,Long userId, List<OrderItemRequest> items) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        cartService.clearCart(cartId);
         Order order = new Order();
         order.setUser(user);
         order.setOrderItems(new ArrayList<>());

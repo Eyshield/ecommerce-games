@@ -1,5 +1,6 @@
 package com.api.ecommerce.Order;
 
+import com.api.ecommerce.Cart.CartService;
 import com.api.ecommerce.Common.PageResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order>makeOrder(@RequestBody OrderRequestDto orderRequestDto){
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(orderService.MakeOrder(orderRequestDto.getUserId(),orderRequestDto.getOrderItemRequest()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(orderService.MakeOrder(orderRequestDto.getCartId(), orderRequestDto.getUserId(),orderRequestDto.getOrderItemRequest()));
         }catch (Exception e){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
