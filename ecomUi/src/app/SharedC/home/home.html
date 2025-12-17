@@ -1,4 +1,7 @@
 <div class="bg-linear-to-b from-blue-900 to-black">
   <app-navbar></app-navbar>
   <app-banner></app-banner>
+  @for (item of games; track $index) {
+  <app-list-games [game]="item"></app-list-games>
+  }
 </div>
