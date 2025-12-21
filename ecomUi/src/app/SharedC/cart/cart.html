@@ -1,0 +1,95 @@
+<div class="bg-linear-to-b from-blue-900 to-black h-screen w-full">
+  <app-navbar></app-navbar>
+
+  @if (cartItems().length == 0) {
+  <div class="flex flex-col justify-center items-center text-white p-8">
+    <h1 class="text-4xl font-bold mb-8">Your Cart</h1>
+    <p class="text-lg text-gray-300">Your cart is currently empty.</p>
+  </div>
+  } @else {
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-white">Your Cart</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-4">
+        @for (cartItem of cartItems(); track $index) {
+        <div class="flex gap-4 p-4 bg-gray-800 rounded-lg shadow-md">
+          <img
+            [src]="cartItem.imageUrl"
+            [alt]="cartItem.title"
+            class="h-24 w-24 object-cover rounded-lg"
+          />
+
+          <div class="flex-1 flex flex-col justify-between">
+            <h2 class="text-xl font-bold text-white">
+              {{ cartItem.title }}
+            </h2>
+
+            <div class="flex items-center justify-between mt-2">
+              <div
+                class="flex items-center gap-3 bg-gray-700 rounded-lg px-3 py-2"
+              >
+                <button
+                  class="text-white hover:text-blue-400 transition w-8 h-8 flex items-center justify-center font-bold text-xl"
+                >
+                  -
+                </button>
+                <span class="text-white font-semibold text-center">1</span>
+                <button
+                  class="text-white hover:text-blue-400 transition w-8 h-8 flex items-center justify-center font-bold text-xl"
+                >
+                  +
+                </button>
+              </div>
+
+              <p class="text-lg font-bold text-gray-300">
+                {{ cartItem.price }}
+              </p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+      <div class="lg:col-span-1">
+        <div class="bg-gray-800 rounded-lg shadow-md p-6 sticky top-4">
+          <h2 class="text-2xl font-bold mb-6 text-white">Order Summary</h2>
+
+          <div class="space-y-3 mb-6">
+            @for (cartItem of cartItems(); track $index) {
+            <div
+              class="flex justify-between items-center text-gray-300 text-sm"
+            >
+              <span class="truncate mr-2">{{ cartItem.title }} x1</span>
+              <span>{{ cartItem.price }}</span>
+            </div>
+            }
+          </div>
+
+          <div class="border-t border-gray-700 pt-4 mb-4">
+            <div class="flex justify-between items-center text-white">
+              <span>Total Items:</span>
+              <span class="font-semibold">{{ cartItems().length }}</span>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-700 pt-4 mb-6">
+            <div
+              class="flex justify-between items-center text-2xl font-bold text-white"
+            >
+              <span>Total:</span>
+              <span class="text-blue-400">$0.00</span>
+            </div>
+          </div>
+
+          <button
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>
