@@ -1,0 +1,151 @@
+<div class="flex w-screen h-screen bg-gray-50">
+  <app-side-bar-admin></app-side-bar-admin>
+  <div class="flex-1 overflow-x-hidden">
+    <h1 class="text-4xl font-bold p-10 text-gray-800">Admin Dashboard</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto px-10">
+      <div
+        class="bg-blue-800 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+      >
+        <h2 class="text-xl font-semibold mb-2 opacity-90">Total Users</h2>
+        <p class="text-4xl font-bold">1,234</p>
+      </div>
+      <div
+        class="bg-blue-800 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+      >
+        <h2 class="text-xl font-semibold mb-2 opacity-90">Total Orders</h2>
+        <p class="text-4xl font-bold">567</p>
+      </div>
+      <div
+        class="bg-blue-800 text-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+      >
+        <h2 class="text-xl font-semibold mb-2 opacity-90">Total Revenue</h2>
+        <p class="text-4xl font-bold">$89,012</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mx-auto px-10 mt-10">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b pb-2">
+          Best Sellers
+        </h2>
+        <ul class="space-y-3">
+          <li
+            class="flex items-center justify-between p-3 bg-green-50 rounded hover:bg-green-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 1</p>
+              <p class="text-sm text-gray-600">Category: Action</p>
+            </div>
+            <span class="text-green-600 font-bold text-lg">342 sales</span>
+          </li>
+          <li
+            class="flex items-center justify-between p-3 bg-green-50 rounded hover:bg-green-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 2</p>
+              <p class="text-sm text-gray-600">Category: RPG</p>
+            </div>
+            <span class="text-green-600 font-bold text-lg">298 sales</span>
+          </li>
+          <li
+            class="flex items-center justify-between p-3 bg-green-50 rounded hover:bg-green-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 3</p>
+              <p class="text-sm text-gray-600">Category: Adventure</p>
+            </div>
+            <span class="text-green-600 font-bold text-lg">276 sales</span>
+          </li>
+          <li
+            class="flex items-center justify-between p-3 bg-green-50 rounded hover:bg-green-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 4</p>
+              <p class="text-sm text-gray-600">Category: Strategy</p>
+            </div>
+            <span class="text-green-600 font-bold text-lg">213 sales</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b pb-2">
+          Flops
+        </h2>
+        <ul class="space-y-3">
+          <li
+            class="flex items-center justify-between p-3 bg-red-50 rounded hover:bg-red-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 10</p>
+              <p class="text-sm text-gray-600">Category: Puzzle</p>
+            </div>
+            <span class="text-red-600 font-bold text-lg">12 sales</span>
+          </li>
+          <li
+            class="flex items-center justify-between p-3 bg-red-50 rounded hover:bg-red-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 11</p>
+              <p class="text-sm text-gray-600">Category: Simulation</p>
+            </div>
+            <span class="text-red-600 font-bold text-lg">8 sales</span>
+          </li>
+          <li
+            class="flex items-center justify-between p-3 bg-red-50 rounded hover:bg-red-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 12</p>
+              <p class="text-sm text-gray-600">Category: Sports</p>
+            </div>
+            <span class="text-red-600 font-bold text-lg">5 sales</span>
+          </li>
+          <li
+            class="flex items-center justify-between p-3 bg-red-50 rounded hover:bg-red-100 transition-colors"
+          >
+            <div>
+              <p class="font-semibold text-gray-800">Game Title 13</p>
+              <p class="text-sm text-gray-600">Category: Casual</p>
+            </div>
+            <span class="text-red-600 font-bold text-lg">3 sales</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mx-auto px-10 mt-10 pb-10">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+        Recent Activities
+      </h2>
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-blue-800 text-white">
+            <tr>
+              <th class="p-4 text-left font-semibold">Activity</th>
+              <th class="p-4 text-left font-semibold">User</th>
+              <th class="p-4 text-left font-semibold">Date</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="p-4 text-gray-800">User registered</td>
+              <td class="p-4 text-gray-800">JohnDoe</td>
+              <td class="p-4 text-gray-600">2024-06-15</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="p-4 text-gray-800">Order #1234 placed</td>
+              <td class="p-4 text-gray-800">JaneSmith</td>
+              <td class="p-4 text-gray-600">2024-06-15</td>
+            </tr>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="p-4 text-gray-800">User JaneSmith registered</td>
+              <td class="p-4 text-gray-800">JaneSmith</td>
+              <td class="p-4 text-gray-600">2024-06-14</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
