@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-side-bar-admin',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './side-bar-admin.html',
   styleUrl: './side-bar-admin.css',
 })
-export class SideBarAdmin {
-
-}
+export class SideBarAdmin {}

@@ -5,22 +5,30 @@
     class="flex flex-col pt-12 gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
   >
     <li class="whitespace-nowrap">
-      <a href="#" class="hover:text-blue-300 transition-colors font-semibold"
+      <a
+        [routerLink]="['/dashboard']"
+        class="hover:text-blue-300 transition-colors font-semibold"
         >Dashboard</a
       >
     </li>
     <li class="whitespace-nowrap">
-      <a href="#" class="hover:text-blue-300 transition-colors font-semibold"
+      <a
+        [routerLink]="['/user']"
+        class="hover:text-blue-300 transition-colors font-semibold"
         >Users</a
       >
     </li>
     <li class="whitespace-nowrap">
-      <a href="#" class="hover:text-blue-300 transition-colors font-semibold"
+      <a
+        [routerLink]="['/category']"
+        class="hover:text-blue-300 transition-colors font-semibold"
         >Category</a
       >
     </li>
     <li class="whitespace-nowrap">
-      <a href="#" class="hover:text-blue-300 transition-colors font-semibold"
+      <a
+        [routerLink]="['/games']"
+        class="hover:text-blue-300 transition-colors font-semibold"
         >Games</a
       >
     </li>
