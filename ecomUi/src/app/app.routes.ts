@@ -7,6 +7,8 @@ import { DashBoard } from './AdminSpace/dash-board/dash-board';
 import { ManageUser } from './AdminSpace/manage-user/manage-user';
 import { Managecategory } from './AdminSpace/managecategory/managecategory';
 import { ManageGames } from './AdminSpace/manage-games/manage-games';
+import { ManageOrders } from './AdminSpace/manage-orders/manage-orders';
+import { ManageCarts } from './AdminSpace/manage-carts/manage-carts';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,4 +19,6 @@ export const routes: Routes = [
   { path: 'user', component: ManageUser },
   { path: 'category', component: Managecategory },
   { path: 'games', component: ManageGames },
+  { path: 'orders', component: ManageOrders },
+  { path: 'carts', component: ManageCarts },
 ];
