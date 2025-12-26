@@ -1,0 +1,23 @@
+import { Component } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faCartShopping,
+  faCog,
+  faSignOut,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-user-menu',
+  imports: [FontAwesomeModule, RouterLink],
+  templateUrl: './user-menu.html',
+  styleUrl: './user-menu.css',
+})
+export class UserMenu {
+  faUser = faUser;
+  faCart = faCartShopping;
+  faSignOut = faSignOut;
+  faCog = faCog;
+  clicked: boolean = false;
+}

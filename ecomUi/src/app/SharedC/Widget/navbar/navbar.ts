@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { UserMenu } from '../user-menu/user-menu';
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [UserMenu],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
-
+  isLoggedIn: boolean = true;
 }

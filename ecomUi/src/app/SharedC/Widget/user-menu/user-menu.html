@@ -1,0 +1,47 @@
+<div class="flex items-center space-x-4">
+  <div class="relative">
+    <button class="focus:outline-none cursor-pointer group">
+      <fa-icon
+        (click)="clicked = !clicked"
+        [icon]="faUser"
+        class="text-2xl rounded-full transition-colors duration-200 group-hover:text-blue-600"
+      ></fa-icon>
+    </button>
+
+    @if (clicked) {
+    <div
+      class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl py-1 z-20 animate-in fade-in slide-in-from-top-2 duration-200"
+    >
+      <a
+        [routerLink]="['/personal']"
+        class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150"
+      >
+        <fa-icon [icon]="faUser" class="mr-3 text-base"></fa-icon>
+        Profile settings
+      </a>
+
+      <div class="border-t border-gray-100 my-1"></div>
+
+      <a
+        href="#"
+        class="flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
+      >
+        <fa-icon [icon]="faSignOut" class="mr-3 text-base"></fa-icon>
+        Déconnexion
+      </a>
+    </div>
+    }
+  </div>
+
+  <a class="cursor-pointer group relative" [routerLink]="['/cart']">
+    <fa-icon
+      [icon]="faCart"
+      class="text-2xl rounded-full transition-colors duration-200 group-hover:text-blue-600"
+    ></fa-icon>
+    <span
+      class="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center"
+    >
+      3
+    </span>
+  </a>
+</div>
