@@ -1,0 +1,121 @@
+<div class="flex bg-gray-50 h-screen w-screen">
+  <app-side-bar-admin></app-side-bar-admin>
+  <div class="flex-1 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-full p-6">
+      <div class="w-full max-w-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">
+          Edit Carts
+        </h1>
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="customerName"
+            >
+              Customer Name
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="customerName"
+              type="text"
+              placeholder="Enter customer name"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="customerEmail"
+            >
+              Customer Email
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="customerEmail"
+              type="email"
+              placeholder="Enter customer email"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="game"
+            >
+              Game
+            </label>
+            <select
+              id="game"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="" disabled selected>Select game</option>
+              <option value="game1">Game Title 1</option>
+              <option value="game2">Game Title 2</option>
+              <option value="game3">Game Title 3</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="quantity"
+            >
+              Quantity
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="quantity"
+              type="number"
+              min="1"
+              value="1"
+              placeholder="Enter quantity"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="unitPrice"
+            >
+              Unit Price
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="unitPrice"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="Enter unit price"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="totalAmount"
+            >
+              Total Amount
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="totalAmount"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="Enter total amount"
+            />
+          </div>
+
+          <div class="flex items-center justify-center">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Edit Carts
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

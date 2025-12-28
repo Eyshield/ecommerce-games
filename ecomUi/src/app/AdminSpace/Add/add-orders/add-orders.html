@@ -1,0 +1,198 @@
+<div class="flex bg-gray-50 h-screen w-screen">
+  <app-side-bar-admin></app-side-bar-admin>
+  <div class="flex-1 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-full p-6">
+      <div class="w-full max-w-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">
+          Add New Order
+        </h1>
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="customerName"
+              >
+                Customer Name
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="customerName"
+                type="text"
+                placeholder="Enter customer name"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="customerEmail"
+              >
+                Customer Email
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="customerEmail"
+                type="email"
+                placeholder="Enter customer email"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="game"
+            >
+              Game
+            </label>
+            <select
+              id="game"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="" disabled selected>Select game</option>
+              <option value="game1">Game Title 1</option>
+              <option value="game2">Game Title 2</option>
+              <option value="game3">Game Title 3</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="quantity"
+              >
+                Quantity
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="quantity"
+                type="number"
+                min="1"
+                value="1"
+                placeholder="Enter quantity"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="unitPrice"
+              >
+                Unit Price
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="unitPrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Enter unit price"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="orderDate"
+              >
+                Order Date
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="orderDate"
+                type="date"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="status"
+              >
+                Status
+              </label>
+              <select
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="status"
+              >
+                <option value="" disabled selected>Select status</option>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="paymentMethod"
+              >
+                Payment Method
+              </label>
+              <select
+                id="paymentMethod"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="" disabled selected>
+                  Select payment method
+                </option>
+                <option value="Credit Card">Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Cash">Cash</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="totalAmount"
+              >
+                Total Amount
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="totalAmount"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Enter total amount"
+              />
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="shippingAddress"
+            >
+              Shipping Address
+            </label>
+            <textarea
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
+              id="shippingAddress"
+              rows="3"
+              placeholder="Enter shipping address"
+            ></textarea>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Add Order
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

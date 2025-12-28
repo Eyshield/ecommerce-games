@@ -3,12 +3,22 @@ import { Home } from './SharedC/home/home';
 import { PresentationGame } from './SharedC/presentation-game/presentation-game';
 import { Cart } from './SharedC/cart/cart';
 import { DashBoardPersonelAccount } from './SharedC/dash-board-personel-account/dash-board-personel-account';
-import { DashBoard } from './AdminSpace/dash-board/dash-board';
-import { ManageUser } from './AdminSpace/manage-user/manage-user';
-import { Managecategory } from './AdminSpace/managecategory/managecategory';
-import { ManageGames } from './AdminSpace/manage-games/manage-games';
-import { ManageOrders } from './AdminSpace/manage-orders/manage-orders';
-import { ManageCarts } from './AdminSpace/manage-carts/manage-carts';
+import { DashBoard } from './AdminSpace/Manages/dash-board/dash-board';
+import { ManageCarts } from './AdminSpace/Manages/manage-carts/manage-carts';
+import { ManageGames } from './AdminSpace/Manages/manage-games/manage-games';
+import { ManageOrders } from './AdminSpace/Manages/manage-orders/manage-orders';
+import { ManageUser } from './AdminSpace/Manages/manage-user/manage-user';
+import { Managecategory } from './AdminSpace/Manages/managecategory/managecategory';
+import { AddUsers } from './AdminSpace/Add/add-users/add-users';
+import { AddCategories } from './AdminSpace/Add/add-categories/add-categories';
+import { AddGames } from './AdminSpace/Add/add-games/add-games';
+import { AddOrders } from './AdminSpace/Add/add-orders/add-orders';
+import { AddCarts } from './AdminSpace/Add/add-carts/add-carts';
+import { EditCarts } from './AdminSpace/Edit/edit-carts/edit-carts';
+import { EditCategories } from './AdminSpace/Edit/edit-categories/edit-categories';
+import { EditGames } from './AdminSpace/Edit/edit-games/edit-games';
+import { EditOrders } from './AdminSpace/Edit/edit-orders/edit-orders';
+import { EditUsers } from './AdminSpace/Edit/edit-users/edit-users';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -21,4 +31,14 @@ export const routes: Routes = [
   { path: 'games', component: ManageGames },
   { path: 'orders', component: ManageOrders },
   { path: 'carts', component: ManageCarts },
+  { path: 'addUsers', component: AddUsers },
+  { path: 'addCategory', component: AddCategories },
+  { path: 'addGames', component: AddGames },
+  { path: 'addOrders', component: AddOrders },
+  { path: 'addCarts', component: AddCarts },
+  { path: 'editGames/:id', component: EditGames },
+  { path: 'editCategory/:id', component: EditCategories },
+  { path: 'editOrders/:id', component: EditOrders },
+  { path: 'editCarts/:id', component: EditCarts },
+  { path: 'editUsers/:id', component: EditUsers },
 ];

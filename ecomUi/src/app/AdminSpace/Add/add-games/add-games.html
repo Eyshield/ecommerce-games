@@ -1,0 +1,176 @@
+<div class="w-screen h-screen flex bg-gray-50">
+  <app-side-bar-admin></app-side-bar-admin>
+  <div class="flex-1 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-full p-6">
+      <div class="w-full max-w-2xl">
+        <h1 class="text-3xl text-center font-bold mb-6 text-gray-900">
+          Add New Game
+        </h1>
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="gameImage"
+            >
+              Game Image
+            </label>
+            <input
+              class="hidden"
+              id="gameImage"
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            />
+            @if (!previewImage) {
+            <label
+              for="gameImage"
+              class="shadow border rounded w-full py-8 px-3 text-gray-700 leading-tight cursor-pointer flex items-center justify-center bg-gray-50 hover:bg-gray-100"
+            >
+              <span class="text-sm">Click to upload an image</span>
+            </label>
+            } @if (previewImage) {
+            <label for="gameImage" class="cursor-pointer inline-block">
+              <img
+                [src]="previewImage"
+                alt="Game Image Preview"
+                class="w-40 h-40 object-cover rounded shadow-sm hover:opacity-80 transition-opacity"
+              />
+            </label>
+            }
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="gameTitle"
+              >
+                Game Title
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="gameTitle"
+                type="text"
+                placeholder="Enter game title"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="category"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="" disabled selected>Select category</option>
+                <option value="Action">Action</option>
+                <option value="Adventure">Adventure</option>
+                <option value="RPG">RPG</option>
+                <option value="Strategy">Strategy</option>
+                <option value="Sports">Sports</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="description"
+            >
+              Description
+            </label>
+            <textarea
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
+              id="description"
+              rows="4"
+              placeholder="Enter game description"
+            ></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="Price"
+              >
+                Price
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="Price"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Enter game price"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="Stock"
+              >
+                Stock
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="Stock"
+                type="number"
+                min="0"
+                placeholder="Enter game stock"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="ReleaseDate"
+              >
+                Release Date
+              </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="ReleaseDate"
+                type="date"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="Platform"
+              >
+                Platform
+              </label>
+              <select
+                id="Platform"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="" disabled selected>Select platform</option>
+                <option value="PC">PC</option>
+                <option value="PlayStation">PlayStation</option>
+                <option value="Xbox">Xbox</option>
+                <option value="Nintendo Switch">Nintendo Switch</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Add Game
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
