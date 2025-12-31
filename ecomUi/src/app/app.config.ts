@@ -19,7 +19,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
         realm: 'ecom-realm',
         clientId: 'ecom-api',
       },
-      initOptions: {},
+      initOptions: {
+        onLoad: 'check-sso',
+      },
     });
 }
 

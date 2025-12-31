@@ -26,4 +26,9 @@ export class CartService {
       cartRequestDto
     );
   }
+  public getAllCarts(page: number, size: number): Observable<Page<Cart>> {
+    return this.http.get<Page<Cart>>(
+      `${environment.apiUrl}/cart/all?page=${page}&size=${size}`
+    );
+  }
 }
