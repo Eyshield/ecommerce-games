@@ -19,9 +19,11 @@ import { EditCategories } from './AdminSpace/Edit/edit-categories/edit-categorie
 import { EditGames } from './AdminSpace/Edit/edit-games/edit-games';
 import { EditOrders } from './AdminSpace/Edit/edit-orders/edit-orders';
 import { EditUsers } from './AdminSpace/Edit/edit-users/edit-users';
+import { Redirect } from './SharedC/Widget/redirect/redirect';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  { path: 'redirect', component: Redirect },
   { path: 'presentation-game/:id', component: PresentationGame },
   { path: 'cart', component: Cart },
   { path: 'personal', component: DashBoardPersonelAccount },

@@ -21,6 +21,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
       initOptions: {
         onLoad: 'check-sso',
+        redirectUri: window.location.origin + '/redirect',
       },
     });
 }
