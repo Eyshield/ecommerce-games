@@ -17,7 +17,7 @@ export class AddGames {
     description: new FormControl(''),
     price: new FormControl(''),
     category: new FormControl(''),
-    realeaseDate: new FormControl(''),
+    releaseDate: new FormControl(''),
     platform: new FormControl(''),
     stock: new FormControl(''),
     image: new FormControl(''),

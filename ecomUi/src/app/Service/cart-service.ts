@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { cartRequestDto } from '../Models/CartRequestDto.models';
 import { Observable } from 'rxjs';
-import { Cart } from '../SharedC/cart/cart';
+
 import { environment } from '../Environment/Environement';
 import { Page } from '../Models/Page.Models';
+import { Cart } from '../Models/Cart.models';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class CartService {
   }
   public getAllCarts(page: number, size: number): Observable<Page<Cart>> {
     return this.http.get<Page<Cart>>(
-      `${environment.apiUrl}/cart/all?page=${page}&size=${size}`
+      `${environment.apiUrl}/cart?page=${page}&size=${size}`
     );
   }
 }

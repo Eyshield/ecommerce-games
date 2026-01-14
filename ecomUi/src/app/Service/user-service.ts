@@ -11,7 +11,7 @@ export class UserService {
   http = inject(HttpClient);
   public getAllUsers(size: number, page: number): Observable<Page<user>> {
     return this.http.get<Page<user>>(
-      `${environment.apiUrl}/user?size=${size}&page=${page}`
+      `${environment.apiUrl}/user/all?size=${size}&page=${page}`
     );
   }
   public getUserById(id: number): Observable<user> {

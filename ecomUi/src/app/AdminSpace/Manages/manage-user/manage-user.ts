@@ -28,10 +28,13 @@ export class ManageUser {
   }
   loadUsers(page: number) {
     this.userService
-      .getAllUsers(page, this.userPage().Size)
+      .getAllUsers(this.userPage().Size, page)
       .subscribe((response) => {
         this.userPage.set(response);
         this.users.set(response.content);
       });
+  }
+  deleteUser(id: number) {
+    this.userService.deleteUser(id);
   }
 }

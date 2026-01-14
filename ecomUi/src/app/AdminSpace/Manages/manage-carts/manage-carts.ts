@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SideBarAdmin } from '../../../SharedC/Widget/side-bar-admin/side-bar-admin';
 import { RouterLink } from '@angular/router';
-import { Cart } from '../../../SharedC/cart/cart';
+
 import { Page } from '../../../Models/Page.Models';
 import { CartService } from '../../../Service/cart-service';
+import { Cart } from '../../../Models/Cart.models';
 
 @Component({
   selector: 'app-manage-carts',

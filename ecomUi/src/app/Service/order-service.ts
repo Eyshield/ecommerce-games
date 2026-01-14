@@ -32,7 +32,7 @@ export class OrderService {
 
   public getAllOrders(page: number, size: number): Observable<Page<orders>> {
     return this.http.get<Page<orders>>(
-      `${environment.apiUrl}/order/all?page=${page}&size=${size}`
+      `${environment.apiUrl}/order?page=${page}&size=${size}`
     );
   }
 }

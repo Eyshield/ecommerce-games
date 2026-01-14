@@ -34,4 +34,7 @@ export class ManageGames implements OnInit {
         this.games.set(response.content);
       });
   }
+  deleteGame(id: number) {
+    this.gamesService.deleteGame(id);
+  }
 }

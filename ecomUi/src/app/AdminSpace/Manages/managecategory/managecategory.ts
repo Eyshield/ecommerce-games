@@ -34,4 +34,7 @@ export class Managecategory {
         this.categories.set(response.content);
       });
   }
+  deleteCategory(id: number) {
+    this.categoryService.deleteCategory(id);
+  }
 }
