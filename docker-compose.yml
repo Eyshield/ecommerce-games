@@ -16,20 +16,14 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.4.2
-    container_name: keycloak
+    container_name: keycloakEcom
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/e-commerceDb
-      KC_DB_USERNAME: username
-      KC_DB_PASSWORD: password
     ports:
-      - "8081:8080"
+      - "8083:8080"
     command:
       - "start-dev"
-    depends_on:
-      - postgres
     networks:
       - spring-demo
 

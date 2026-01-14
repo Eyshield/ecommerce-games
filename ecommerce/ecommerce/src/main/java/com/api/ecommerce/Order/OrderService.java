@@ -12,4 +12,6 @@ public interface OrderService {
 
     Order updateOrder(Long orderId, List<OrderItemRequest> items);
 
+    PageResponse<Order>getAllOrders(Pageable pageable);
+
 }

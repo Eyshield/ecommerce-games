@@ -97,4 +97,19 @@ public class ImplCartService implements CartService {
             return e.getMessage();
         }
     }
+
+    @Override
+    public PageResponse<Cart> getAllCarts(Pageable pageable) {
+        Page<Cart>carts = cartRepo.findAll(pageable);
+        PageResponse<Cart> response=new PageResponse<>(
+                carts.getContent(),
+                carts.getNumber(),
+                carts.getSize(),
+                carts.getNumberOfElements(),
+                carts.getTotalPages(),
+                carts.isFirst(),
+                carts.isLast()
+        );
+        return response;
+    }
 }

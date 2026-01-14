@@ -89,4 +89,19 @@ public class implOrderService implements OrderService{
         order.setTotalPrice(totalPrice);
         return orderRepo.save(order);
     }
+
+    @Override
+    public PageResponse<Order> getAllOrders(Pageable pageable) {
+        Page<Order> orders=orderRepo.findAll(pageable);
+        PageResponse<Order>response=new PageResponse<>(
+                orders.getContent(),
+                orders.getNumber(),
+                orders.getSize(),
+                orders.getNumberOfElements(),
+                orders.getTotalPages(),
+                orders.isFirst(),
+                orders.isLast()
+        );
+        return response;
+    }
 }

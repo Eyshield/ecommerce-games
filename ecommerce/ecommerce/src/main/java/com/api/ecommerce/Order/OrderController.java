@@ -44,6 +44,16 @@ public class OrderController {
     }
 
 
+    @GetMapping
+    public ResponseEntity<PageResponse<Order>> getAllOrders(@PageableDefault(size = 10, page = 0)Pageable pageable){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrders(pageable));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
 
 
 

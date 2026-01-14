@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/game/")
+@RequestMapping("/api/game")
 public class GameController {
     private GameService gameService;
     @PostMapping

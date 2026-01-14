@@ -23,5 +23,5 @@ public class User {
     private String nom;
     private String prenom;
     @OneToMany(mappedBy = "user")
-    private Collection<Order>orders=new ArrayList<>();
+    private Collection<Order>orders= new ArrayList<>();
 }

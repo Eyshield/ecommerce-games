@@ -11,4 +11,6 @@ public interface CartService {
 
     Cart updateCart(Long cartId, List<CartItemRequest> items);
     String clearCart(Long cartId);
+
+    PageResponse<Cart> getAllCarts(Pageable pageable);
 }

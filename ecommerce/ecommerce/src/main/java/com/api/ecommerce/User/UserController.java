@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
     @GetMapping("/all")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<PageResponse<User>> getAllUser(Pageable pageable){
+    public ResponseEntity<PageResponse<User>> getAllUser( @PageableDefault(size = 10,page = 0)Pageable  pageable){
         try {
             PageResponse<User>response=userService.getAllUser(pageable);
             return ResponseEntity.status(HttpStatus.OK).body(response);
