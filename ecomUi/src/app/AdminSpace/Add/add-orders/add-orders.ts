@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { SideBarAdmin } from '../../../SharedC/Widget/side-bar-admin/side-bar-admin';
 import { OrderService } from '../../../Service/order-service';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -15,30 +16,32 @@ import {
   styleUrl: './add-orders.css',
 })
 export class AddOrders {
-  ordersService = inject(OrderService);
+  orderService = inject(OrderService);
   orderForm = new FormGroup({
-    userId: new FormControl('', [Validators.required]),
-    cartId: new FormControl('', [Validators.required]),
-    gameId: new FormControl('', [Validators.required]),
-    quantity: new FormControl('', [Validators.required]),
+    userId: new FormControl('', Validators.required),
+    orderItemRequests: new FormArray<FormGroup>([]),
   });
-  AddOrder() {
+
+  get orderItems(): FormArray {
+    return this.orderForm.get('orderItemRequests') as FormArray;
+  }
+
+  addItem(): void {
+    this.orderItems.push(
+      new FormGroup({
+        gameId: new FormControl(null, Validators.required),
+        quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
+      })
+    );
+  }
+
+  removeItem(index: number): void {
+    this.orderItems.removeAt(index);
+  }
+
+  makeOrder(): void {
     if (this.orderForm.valid) {
-      const orderRequestDto = {
-        userId: Number(this.orderForm.get('userId')?.value!),
-        cartId: Number(this.orderForm.get('cartId')?.value!),
-        orderItemRequests: [
-          {
-            gameId: Number(this.orderForm.get('gameId')?.value!),
-            quantity: Number(this.orderForm.get('quantity')?.value!),
-          },
-        ],
-      };
-      this.ordersService.placeOrder(orderRequestDto).subscribe((response) => {
-        console.log('Order added successfully', response);
-      });
-    } else {
-      console.log('Form is invalid');
+      this.orderService.placeOrder(this.orderForm.value as any).subscribe();
     }
   }
 }
