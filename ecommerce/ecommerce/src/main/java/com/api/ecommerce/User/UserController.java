@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
     private UserService userService;
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('Admin','User')")
+    public User me(@AuthenticationPrincipal Jwt jwt) {
+
+        return userService.getOrCreate(jwt);
+    }
     @GetMapping("/all")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<PageResponse<User>> getAllUser( @PageableDefault(size = 10,page = 0)Pageable  pageable){

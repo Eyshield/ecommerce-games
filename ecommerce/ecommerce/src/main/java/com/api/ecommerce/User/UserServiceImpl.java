@@ -1,9 +1,11 @@
 package com.api.ecommerce.User;
 
 import com.api.ecommerce.Common.PageResponse;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +25,24 @@ public class UserServiceImpl implements UserService{
                 userPage.isLast()
         );
         return userPageResponse;
+    }
+   @Override
+    @Transactional
+    public User getOrCreate(Jwt jwt) {
+
+        return userRepo.findByKeycloakId(jwt.getSubject())
+                .orElseGet(() -> createFromJwt(jwt));
+    }
+  @Override
+    public User createFromJwt(Jwt jwt) {
+        User user = new User();
+        user.setKeycloakId(jwt.getSubject());
+        user.setEmail(jwt.getClaim("email"));
+        user.setUsername(jwt.getClaim("preferred_username"));
+        user.setPrenom(jwt.getClaim("given_name"));
+        user.setNom(jwt.getClaim("family_name"));
+
+        return userRepo.save(user);
     }
 
     @Override
