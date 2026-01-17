@@ -15,6 +15,9 @@ export class CartService {
   public addToCart(cartRequestDto: cartRequestDto): Observable<Cart> {
     return this.http.post<Cart>(`${environment.apiUrl}/cart`, cartRequestDto);
   }
+  public getCartById(id: number): Observable<Cart> {
+    return this.http.get<Cart>(`${environment.apiUrl}/cart/${id}`);
+  }
   public getCartByUserId(userId: number): Observable<Page<Cart>> {
     return this.http.get<Page<Cart>>(`${environment.apiUrl}/cart/${userId}`);
   }
