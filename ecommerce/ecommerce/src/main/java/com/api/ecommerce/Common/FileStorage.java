@@ -22,7 +22,7 @@ public class FileStorage {
             String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            return "http://localhost:9000/Uploads/" + "/" + fileName;
+            return "http://localhost:9000/uploads/"+ fileName;
         } catch (IOException e) {
             throw new RuntimeException("Erreur lors de l'upload du fichier : " + file.getOriginalFilename(), e);
         }

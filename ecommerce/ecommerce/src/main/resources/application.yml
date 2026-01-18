@@ -1,5 +1,5 @@
 file:
-  upload-dir: C:/Users/sany/Uploads/
+  upload-dir: C:/Users/sany/uploads/
 
 server:
   port: 9000
@@ -13,6 +13,11 @@ spring:
     hibernate:
       ddl-auto: create
       show-sql: true
+  web:
+    resources:
+      static-locations: file:C:/Users/sany/uploads/
+  mvc:
+    static-path-pattern: /uploads/**
 
   security:
     oauth2:

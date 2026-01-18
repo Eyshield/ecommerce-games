@@ -36,6 +36,7 @@ public class securityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/game/**").hasRole("Admin")
                         .requestMatchers("/api/category/**").hasRole("Admin")
                         .requestMatchers("/api/cart/**").hasRole("Admin")
