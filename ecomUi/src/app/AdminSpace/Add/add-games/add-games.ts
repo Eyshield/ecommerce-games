@@ -11,6 +11,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class AddGames {
   previewImage: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
   gameService = inject(GameService);
   gameForm = new FormGroup({
     title: new FormControl(''),
@@ -25,6 +26,7 @@ export class AddGames {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
+      this.selectedFile = file;
       this.previewImage = URL.createObjectURL(file);
     } else {
       this.previewImage = null;
@@ -35,6 +37,9 @@ export class AddGames {
       const fromData = new FormData();
       for (const [Key, value] of Object.entries(this.gameForm.value)) {
         fromData.append(Key, value as string);
+      }
+      if (this.selectedFile) {
+        fromData.append('image', this.selectedFile);
       }
       this.gameService.addGame(fromData).subscribe((response) => {
         console.log('Game added successfully', response);

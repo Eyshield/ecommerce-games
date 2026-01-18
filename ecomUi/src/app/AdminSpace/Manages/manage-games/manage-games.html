@@ -64,48 +64,48 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               @for (game of games(); track $index) {
-              <tr class="hover:bg-gray-50 transition">
-                <td class="py-4 px-6 text-sm text-gray-900 font-medium">
-                  {{ game.id }}
-                </td>
-                <td class="py-4 px-6">
-                  <img
-                    [src]="game.ImageUrl"
-                    alt="PES Game"
-                    class="w-20 h-12 object-cover rounded shadow-sm"
-                  />
-                </td>
-                <td class="py-4 px-6 text-sm text-gray-900 font-medium">
-                  {{ game.title }}
-                </td>
-                <td class="py-4 px-6">
-                  <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
-                  >
-                    {{ game.category }}
-                  </span>
-                </td>
-                <td class="py-4 px-6 text-sm text-gray-900 font-semibold">
-                  {{ game.price }}
-                </td>
-                <td class="py-4 px-6">
-                  <div class="flex items-center gap-2">
-                    <a [routerLink]="['/editGames', game.id]">
-                      <button
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
-                      >
-                        Edit
-                      </button>
-                    </a>
-                    <button
-                      (click)="deleteGame(game.id!)"
-                      class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
+                <tr class="hover:bg-gray-50 transition">
+                  <td class="py-4 px-6 text-sm text-gray-900 font-medium">
+                    {{ game.id }}
+                  </td>
+                  <td class="py-4 px-6">
+                    <img
+                      [src]="game.imageUrl"
+                      alt="PES Game"
+                      class="w-20 h-12 object-cover rounded shadow-sm"
+                    />
+                  </td>
+                  <td class="py-4 px-6 text-sm text-gray-900 font-medium">
+                    {{ game.title }}
+                  </td>
+                  <td class="py-4 px-6">
+                    <span
+                      class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
                     >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                      {{ game.category }}
+                    </span>
+                  </td>
+                  <td class="py-4 px-6 text-sm text-gray-900 font-semibold">
+                    {{ game.price }}
+                  </td>
+                  <td class="py-4 px-6">
+                    <div class="flex items-center gap-2">
+                      <a [routerLink]="['/editGames', game.id]">
+                        <button
+                          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
+                        >
+                          Edit
+                        </button>
+                      </a>
+                      <button
+                        (click)="deleteGame(game.id!)"
+                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               }
             </tbody>
           </table>

@@ -9,5 +9,5 @@ export interface Game {
   price: number;
   stock: number;
   description: string;
-  ImageUrl: string;
+  imageUrl: string;
 }

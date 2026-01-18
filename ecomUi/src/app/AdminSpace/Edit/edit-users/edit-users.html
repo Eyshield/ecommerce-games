@@ -3,7 +3,10 @@
   <div class="flex-1 flex items-center justify-center p-6">
     <div class="w-full max-w-lg">
       <h1 class="text-3xl font-bold mb-6 text-gray-900">Edit User</h1>
-      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+      <form
+        [formGroup]="userForm"
+        class="bg-white shadow-md rounded px-8 pt-6 pb-8"
+      >
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="nom">
             Nom
@@ -11,6 +14,7 @@
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="nom"
+            formControlName="nom"
             type="text"
             placeholder="Enter username"
           />
@@ -23,6 +27,7 @@
             Prenom
           </label>
           <input
+            formControlName="prenom"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="Prenom"
             type="text"
@@ -39,6 +44,7 @@
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="username"
+            formControlName="username"
             type="text"
             placeholder="Enter username"
           />
@@ -50,26 +56,15 @@
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
+            formControlName="email"
             type="email"
             placeholder="Enter email"
           />
         </div>
-        <div class="mb-6">
-          <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="password"
-          >
-            Password
-          </label>
-          <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="password"
-            type="password"
-            placeholder="Enter password"
-          />
-        </div>
+
         <div class="w-full flex justify-center">
           <button
+            (click)="editUser()"
             class="bg-blue-500 hover:bg-blue-700 rounded-lg self-center text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
             type="button"
           >

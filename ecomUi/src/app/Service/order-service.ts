@@ -14,25 +14,28 @@ export class OrderService {
   public placeOrder(orderRequestDto: orderRequestDto): Observable<orders> {
     return this.http.post<orders>(
       `${environment.apiUrl}/order`,
-      orderRequestDto
+      orderRequestDto,
     );
   }
   public getOrdersByUserId(userId: number): Observable<Page<orders>> {
     return this.http.get<Page<orders>>(`${environment.apiUrl}/order/${userId}`);
   }
+  public getOrdersById(id: number): Observable<orders> {
+    return this.http.get<orders>(`${environment.apiUrl}/order/${id}`);
+  }
   public updateOrder(
     id: number,
-    orderRequestDto: orderRequestDto
+    orderRequestDto: orderRequestDto,
   ): Observable<orders> {
     return this.http.put<orders>(
       `${environment.apiUrl}/order/${id}`,
-      orderRequestDto
+      orderRequestDto,
     );
   }
 
   public getAllOrders(page: number, size: number): Observable<Page<orders>> {
     return this.http.get<Page<orders>>(
-      `${environment.apiUrl}/order?page=${page}&size=${size}`
+      `${environment.apiUrl}/order?page=${page}&size=${size}`,
     );
   }
 }

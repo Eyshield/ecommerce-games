@@ -9,27 +9,28 @@
     </button>
 
     @if (clicked) {
-    <div
-      class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl py-1 z-20 animate-in fade-in slide-in-from-top-2 duration-200"
-    >
-      <a
-        [routerLink]="['/personal']"
-        class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150"
+      <div
+        class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-xl py-1 z-20 animate-in fade-in slide-in-from-top-2 duration-200"
       >
-        <fa-icon [icon]="faUser" class="mr-3 text-base"></fa-icon>
-        Profile settings
-      </a>
+        <a
+          [routerLink]="['/personal']"
+          class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150"
+        >
+          <fa-icon [icon]="faUser" class="mr-3 text-base"></fa-icon>
+          Profile settings
+        </a>
 
-      <div class="border-t border-gray-100 my-1"></div>
-
-      <a
-        href="#"
-        class="flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
-      >
-        <fa-icon [icon]="faSignOut" class="mr-3 text-base"></fa-icon>
-        Déconnexion
-      </a>
-    </div>
+        <div class="border-t border-gray-100 my-1"></div>
+        <button class="w-full" (click)="logout()">
+          <a
+            href="#"
+            class="flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
+          >
+            <fa-icon [icon]="faSignOut" class="mr-3 text-base"></fa-icon>
+            Déconnexion
+          </a>
+        </button>
+      </div>
     }
   </div>
 

@@ -4,9 +4,12 @@
     <div class="flex items-center justify-center min-h-full p-6">
       <div class="w-full max-w-2xl">
         <h1 class="text-3xl text-center font-bold mb-6 text-gray-900">
-          Edit Game
+          Add New Game
         </h1>
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+        <form
+          [formGroup]="gameForm"
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8"
+        >
           <div class="mb-4">
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
@@ -17,25 +20,27 @@
             <input
               class="hidden"
               id="gameImage"
+              formControlName="image"
               type="file"
               accept="image/*"
               (change)="onFileSelected($event)"
             />
             @if (!previewImage) {
-            <label
-              for="gameImage"
-              class="shadow border rounded w-full py-8 px-3 text-gray-700 leading-tight cursor-pointer flex items-center justify-center bg-gray-50 hover:bg-gray-100"
-            >
-              <span class="text-sm">Click to upload an image</span>
-            </label>
-            } @if (previewImage) {
-            <label for="gameImage" class="cursor-pointer inline-block">
-              <img
-                [src]="previewImage"
-                alt="Game Image Preview"
-                class="w-40 h-40 object-cover rounded shadow-sm hover:opacity-80 transition-opacity"
-              />
-            </label>
+              <label
+                for="gameImage"
+                class="shadow border rounded w-full py-8 px-3 text-gray-700 leading-tight cursor-pointer flex items-center justify-center bg-gray-50 hover:bg-gray-100"
+              >
+                <span class="text-sm">Click to upload an image</span>
+              </label>
+            }
+            @if (previewImage) {
+              <label for="gameImage" class="cursor-pointer inline-block">
+                <img
+                  [src]="previewImage"
+                  alt="Game Image Preview"
+                  class="w-40 h-40 object-cover rounded shadow-sm hover:opacity-80 transition-opacity"
+                />
+              </label>
             }
           </div>
 
@@ -50,6 +55,7 @@
               <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="gameTitle"
+                formControlName="title"
                 type="text"
                 placeholder="Enter game title"
               />
@@ -64,6 +70,7 @@
               </label>
               <select
                 id="category"
+                formControlName="category"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="" disabled selected>Select category</option>
@@ -86,6 +93,7 @@
             <textarea
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
               id="description"
+              formControlName="description"
               rows="4"
               placeholder="Enter game description"
             ></textarea>
@@ -102,6 +110,7 @@
               <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="Price"
+                formControlName="price"
                 type="number"
                 min="0"
                 step="0.01"
@@ -119,6 +128,7 @@
               <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="Stock"
+                formControlName="stock"
                 type="number"
                 min="0"
                 placeholder="Enter game stock"
@@ -138,6 +148,7 @@
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="ReleaseDate"
                 type="date"
+                formControlName="releaseDate"
               />
             </div>
 
@@ -150,6 +161,7 @@
               </label>
               <select
                 id="Platform"
+                formControlName="platform"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="" disabled selected>Select platform</option>
@@ -163,10 +175,11 @@
 
           <div class="flex items-center justify-center">
             <button
+              (click)="editGame()"
               class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Edit Game
+              Add Game
             </button>
           </div>
         </form>

@@ -21,11 +21,13 @@ export class AddUsers {
     telephone: new FormControl('', [Validators.required]),
     nom: new FormControl('', [Validators.required]),
     prenom: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
   });
   AddUser() {
     if (this.userForm.valid) {
       const user: user = {
         email: this.userForm.get('email')?.value!,
+        username: this.userForm.get('username')?.value!,
         telephone: Number(this.userForm.get('telephone')?.value),
         nom: this.userForm.get('nom')?.value!,
         prenom: this.userForm.get('prenom')?.value!,

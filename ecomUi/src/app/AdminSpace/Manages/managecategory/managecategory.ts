@@ -28,7 +28,7 @@ export class Managecategory {
   }
   loadCategories(page: number) {
     this.categoryService
-      .getAllCategories(page, this.categoriePage().Size)
+      .getAllCategories(this.categoriePage().Size, page)
       .subscribe((response) => {
         this.categoriePage.set(response);
         this.categories.set(response.content);
