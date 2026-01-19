@@ -112,4 +112,11 @@ public class ImplCartService implements CartService {
         );
         return response;
     }
+
+    @Override
+    public List<CartResponse> getCartById(Long id) {
+        Cart cart=cartRepo.findById(id).orElseThrow();
+        List<CartResponse> cartResponse= cartMapper.toCartResponse(cart);
+        return cartResponse;
+    }
 }

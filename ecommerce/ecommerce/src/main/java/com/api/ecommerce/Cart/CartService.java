@@ -13,4 +13,5 @@ public interface CartService {
     String clearCart(Long cartId);
 
     PageResponse<Cart> getAllCarts(Pageable pageable);
+   List <CartResponse> getCartById(Long id);
 }

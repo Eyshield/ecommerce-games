@@ -1,5 +1,6 @@
 package com.api.ecommerce.Games;
 
+import com.api.ecommerce.Category.Category;
 import com.api.ecommerce.Order.OrderItem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,5 +31,7 @@ public class Game {
     private String imageUrl;
     @OneToMany(mappedBy = "game")
     private Collection<OrderItem>orderItems=new ArrayList<>();
+    @ManyToOne
+    private Category category;
 
 }

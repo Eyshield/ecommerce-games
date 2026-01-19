@@ -79,10 +79,14 @@ public class ImplGameService implements GameService{
     }
 
     @Override
-    public PageResponse<Game> findAllGame(Pageable pageable) {
+    public PageResponse<GameResponse> findAllGame(Pageable pageable) {
         Page<Game> gamePage= gameRepo.findAll(pageable);
-        PageResponse<Game>response=new PageResponse<>(
-                gamePage.getContent(),
+        List<GameResponse> gameResponses = gamePage.getContent()
+                .stream()
+                .map(gameMapper::toGameResponse)
+                .toList();
+        PageResponse<GameResponse>response=new PageResponse<>(
+                gameResponses,
                 gamePage.getNumber(),
                 gamePage.getSize(),
                 gamePage.getNumberOfElements(),

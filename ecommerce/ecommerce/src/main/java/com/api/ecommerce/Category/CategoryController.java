@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/category")
 @RestController
 @AllArgsConstructor
@@ -55,6 +57,16 @@ public class CategoryController {
     public ResponseEntity<PageResponse<Category>> getCategories(@PageableDefault(page = 0,size = 10)Pageable pageable){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(categoryService.getCategories(pageable));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
+
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Category>> getCategories(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAllCategories());
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 

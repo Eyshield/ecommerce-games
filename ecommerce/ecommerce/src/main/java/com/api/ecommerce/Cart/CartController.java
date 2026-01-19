@@ -42,6 +42,15 @@ public class CartController {
         }
 
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<List<CartResponse>>getCartById(@PathVariable Long id){
+        try {
+            return   ResponseEntity.status(HttpStatus.OK).body(cartService.getCartById(id));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
 
 
     @GetMapping

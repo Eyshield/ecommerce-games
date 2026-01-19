@@ -22,4 +22,11 @@ public class CartMapper {
                         .map(this::toCartItemResponse))
                 .collect(Collectors.toList());
     }
+    public List<CartResponse> toCartResponse(Cart cart) {
+        return cart.getCartItems()
+                .stream()
+                .map(this::toCartItemResponse)
+                .collect(Collectors.toList());
+    }
+
 }

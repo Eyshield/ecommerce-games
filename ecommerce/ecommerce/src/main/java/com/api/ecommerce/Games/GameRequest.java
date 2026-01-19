@@ -1,5 +1,6 @@
 package com.api.ecommerce.Games;
 
+import com.api.ecommerce.Category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,5 @@ public class GameRequest {
     private LocalDate releaseDate;
     private int stock;
     private MultipartFile image;
+    private Long categoryId;
 }

@@ -88,7 +88,7 @@ public class GameController {
 
     @GetMapping
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<PageResponse<Game>> findAllGames(
+    public ResponseEntity<PageResponse<GameResponse>> findAllGames(
             @PageableDefault(page = 0,size = 10)Pageable pageable
 
     ) {

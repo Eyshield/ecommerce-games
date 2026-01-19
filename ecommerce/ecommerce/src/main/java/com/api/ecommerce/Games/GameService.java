@@ -11,7 +11,7 @@ public interface GameService {
 
    PageResponse <GameResponse> searchGame(Pageable pageable, String title);
     PageResponse<Game> searchGameForAdmin(Pageable pageable,String title);
-    PageResponse<Game>findAllGame(Pageable pageable);
+    PageResponse<GameResponse>findAllGame(Pageable pageable);
 
 
 
