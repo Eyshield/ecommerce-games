@@ -11,10 +11,10 @@ export class CategoryService {
   http = inject(HttpClient);
   public getAllCategories(
     size: number,
-    page: number
+    page: number,
   ): Observable<Page<Category>> {
     return this.http.get<Page<Category>>(
-      `${environment.apiUrl}/category?size=${size}&page=${page}`
+      `${environment.apiUrl}/category?size=${size}&page=${page}`,
     );
   }
   public getCategoryById(id: number): Observable<Category> {
@@ -26,7 +26,7 @@ export class CategoryService {
   public updateCategory(id: number, category: Category): Observable<Category> {
     return this.http.put<Category>(
       `${environment.apiUrl}/category/${id}`,
-      category
+      category,
     );
   }
   public deleteCategory(id: number): Observable<void> {
@@ -34,7 +34,10 @@ export class CategoryService {
   }
   public searchCategories(name: string): Observable<Page<Category>> {
     return this.http.get<Page<Category>>(
-      `${environment.apiUrl}/category/search/${name}`
+      `${environment.apiUrl}/category/search/${name}`,
     );
+  }
+  public getAllCategorie(): Observable<[]> {
+    return this.http.get<[]>(`${environment.apiUrl}/category/all`);
   }
 }

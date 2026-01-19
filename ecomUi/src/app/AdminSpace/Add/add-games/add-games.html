@@ -26,20 +26,21 @@
               (change)="onFileSelected($event)"
             />
             @if (!previewImage) {
-            <label
-              for="gameImage"
-              class="shadow border rounded w-full py-8 px-3 text-gray-700 leading-tight cursor-pointer flex items-center justify-center bg-gray-50 hover:bg-gray-100"
-            >
-              <span class="text-sm">Click to upload an image</span>
-            </label>
-            } @if (previewImage) {
-            <label for="gameImage" class="cursor-pointer inline-block">
-              <img
-                [src]="previewImage"
-                alt="Game Image Preview"
-                class="w-40 h-40 object-cover rounded shadow-sm hover:opacity-80 transition-opacity"
-              />
-            </label>
+              <label
+                for="gameImage"
+                class="shadow border rounded w-full py-8 px-3 text-gray-700 leading-tight cursor-pointer flex items-center justify-center bg-gray-50 hover:bg-gray-100"
+              >
+                <span class="text-sm">Click to upload an image</span>
+              </label>
+            }
+            @if (previewImage) {
+              <label for="gameImage" class="cursor-pointer inline-block">
+                <img
+                  [src]="previewImage"
+                  alt="Game Image Preview"
+                  class="w-40 h-40 object-cover rounded shadow-sm hover:opacity-80 transition-opacity"
+                />
+              </label>
             }
           </div>
 
@@ -69,15 +70,14 @@
               </label>
               <select
                 id="category"
-                formControlName="category"
+                (click)="loadCategories()"
+                formControlName="categoryId"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="" disabled selected>Select category</option>
-                <option value="Action">Action</option>
-                <option value="Adventure">Adventure</option>
-                <option value="RPG">RPG</option>
-                <option value="Strategy">Strategy</option>
-                <option value="Sports">Sports</option>
+                @for (category of categories(); track $index) {
+                  <option [value]="category.id">{{ category.name }}</option>
+                }
               </select>
             </div>
           </div>

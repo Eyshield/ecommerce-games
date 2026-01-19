@@ -23,10 +23,12 @@ export class GameService {
   }
   public getAllGames(Size: number, page: number): Observable<Page<Game>> {
     return this.http.get<Page<Game>>(
-      `${environment.apiUrl}/game?size=${Size}&page=${page}`
+      `${environment.apiUrl}/game?size=${Size}&page=${page}`,
     );
   }
-  public searchGames(title: string): Observable<Game> {
-    return this.http.get<Game>(`${environment.apiUrl}/game/search/${title}`);
+  public searchGames(title: string): Observable<Page<Game>> {
+    return this.http.get<Page<Game>>(
+      `${environment.apiUrl}/game/search?title=${title}`,
+    );
   }
 }

@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SideBarAdmin } from '../../../SharedC/Widget/side-bar-admin/side-bar-admin';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../../Service/game-service';
 import { ActivatedRoute } from '@angular/router';
+import { Category } from '../../../Models/Category.models';
+import { CategoryService } from '../../../Service/category-service';
 
 @Component({
   selector: 'app-edit-games',
@@ -14,6 +16,9 @@ export class EditGames {
   previewImage: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
   gameService = inject(GameService);
+  categoryService = inject(CategoryService);
+
+  categories = signal<Category[]>([]);
   gameForm = new FormGroup({
     title: new FormControl(''),
     description: new FormControl(''),
@@ -41,6 +46,11 @@ export class EditGames {
         image: data.imageUrl,
       });
       this.previewImage = data.imageUrl;
+    });
+  }
+  loadCategories() {
+    this.categoryService.getAllCategorie().subscribe((response) => {
+      this.categories.set(response);
     });
   }
   onFileSelected(event: any) {

@@ -1,7 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SideBarAdmin } from '../../../SharedC/Widget/side-bar-admin/side-bar-admin';
 import { GameService } from '../../../Service/game-service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CategoryService } from '../../../Service/category-service';
+import { Category } from '../../../Models/Category.models';
 
 @Component({
   selector: 'app-add-games',
@@ -12,12 +15,15 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class AddGames {
   previewImage: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
+  router = inject(Router);
+  categoryService = inject(CategoryService);
   gameService = inject(GameService);
+  categories = signal<Category[]>([]);
   gameForm = new FormGroup({
     title: new FormControl(''),
     description: new FormControl(''),
     price: new FormControl(''),
-    category: new FormControl(''),
+    categoryId: new FormControl<number | null>(null),
     releaseDate: new FormControl(''),
     platform: new FormControl(''),
     stock: new FormControl(''),
@@ -31,6 +37,11 @@ export class AddGames {
     } else {
       this.previewImage = null;
     }
+  }
+  loadCategories() {
+    this.categoryService.getAllCategorie().subscribe((response) => {
+      this.categories.set(response);
+    });
   }
   AddGame() {
     if (this.gameForm.valid) {
