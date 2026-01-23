@@ -22,13 +22,18 @@ public class ImplCartService implements CartService {
     private GameRepo gameRepo;
     private CartMapper cartMapper;
     @Override
-    public Cart MakeCart(Long userId, List<CartItemRequest> items) {
+    public Cart makeCart(Long userId, List<CartItemRequest> items) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         Cart cart = new Cart();
         cart.setUser(user);
         cart.setCartItems(new ArrayList<>());
+        cart.setTotalPrice(0.0);
+        cart = cartRepo.save(cart);
+
         double totalPrice = 0.0;
+
         for (CartItemRequest itemRequest : items) {
             Game game = gameRepo.findById(itemRequest.getGameId())
                     .orElseThrow(() -> new RuntimeException("Game not found: " + itemRequest.getGameId()));
@@ -37,14 +42,17 @@ public class ImplCartService implements CartService {
             cartItem.setGame(game);
             cartItem.setQuantity(itemRequest.getQuantity());
             cartItem.setCart(cart);
+
             cartItemRepo.save(cartItem);
             cart.getCartItems().add(cartItem);
 
             totalPrice += game.getPrice() * cartItem.getQuantity();
         }
+
         cart.setTotalPrice(totalPrice);
         return cartRepo.save(cart);
     }
+
 
     @Override
     public PageResponse<CartResponse> getCarts(Pageable pageable, Long userId) {

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CartService {
-    Cart MakeCart(Long userId, List<CartItemRequest> items);
+    Cart makeCart(Long userId, List<CartItemRequest> items);
     PageResponse<CartResponse> getCarts(Pageable pageable, Long userId);
 
     Cart updateCart(Long cartId, List<CartItemRequest> items);

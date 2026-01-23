@@ -19,8 +19,10 @@ public class CartController {
     @PostMapping
     public ResponseEntity<Cart> makeCart(@RequestBody CartRequestDto cartRequestDto){
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(cartService.MakeCart(cartRequestDto.getUserId(),cartRequestDto.getCartItemRequests()));
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(cartService.makeCart(cartRequestDto.getUserId(),cartRequestDto.getCartItemRequests()));
         }catch (Exception e){
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
