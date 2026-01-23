@@ -76,7 +76,7 @@ export class EditCarts {
 
     const dto: cartRequestDto = {
       userId: this.cartForm.value.userId!,
-      cartItmeRequest: this.cartForm.value.cartItmeRequest!.map((item) => ({
+      cartItemRequests: this.cartForm.value.cartItmeRequest!.map((item) => ({
         gameId: item.gameId!,
         quantity: item.quantity,
       })),
@@ -89,7 +89,7 @@ export class EditCarts {
       new FormGroup({
         gameId: new FormControl(null, Validators.required),
         quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-      })
+      }),
     );
   }
 

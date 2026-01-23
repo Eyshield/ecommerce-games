@@ -12,6 +12,9 @@ import { GameService } from '../../../Service/game-service';
 import { Game } from '../../../Models/Game.models';
 import { Page } from '../../../Models/Page.Models';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { user } from '../../../Models/User.models';
+import { UserService } from '../../../Service/user-service';
+import { cartRequestDto } from '../../../Models/CartRequestDto.models';
 
 @Component({
   selector: 'app-add-carts',
@@ -22,6 +25,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 export class AddCarts {
   cartService = inject(CartService);
   gameService = inject(GameService);
+  userService = inject(UserService);
   searchGame = new FormControl('');
   games = signal<Page<Game>>({
     content: [],
@@ -33,12 +37,22 @@ export class AddCarts {
     isLast: false,
   });
   cartForm = new FormGroup({
-    userId: new FormControl('', Validators.required),
-    cartItmeRequest: new FormArray<FormGroup>([]),
+    userId: new FormControl<number | null>(null, Validators.required),
+    cartItemRequests: new FormArray<FormGroup>([]),
+  });
+  userSearch = new FormControl('');
+  customers = signal<Page<user>>({
+    content: [],
+    page: 0,
+    Size: 10,
+    totalElements: 0,
+    totalPages: 0,
+    isFirst: true,
+    isLast: false,
   });
 
   get cartItems(): FormArray {
-    return this.cartForm.get('cartItmeRequest') as FormArray;
+    return this.cartForm.get('cartItemRequests') as FormArray;
   }
 
   ngOnInit() {
@@ -51,6 +65,28 @@ export class AddCarts {
           this.games.set({ ...this.games(), content: [] });
         }
       });
+    this.userSearch.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((value) => {
+        if (value && value.length >= 2) {
+          this.searchUsers(value);
+        } else {
+          this.customers.set({ ...this.customers(), content: [] });
+        }
+      });
+  }
+
+  searchUsers(keyword: string) {
+    this.userService.searchUsers(keyword).subscribe({
+      next: (response) => this.customers.set(response),
+      error: () => this.customers.set({ ...this.customers(), content: [] }),
+    });
+  }
+
+  selectCustomer(customer: user) {
+    this.cartForm.patchValue({ userId: customer.id });
+    this.userSearch.setValue(`${customer.nom} ${customer.prenom}`);
+    this.customers.set({ ...this.customers(), content: [] });
   }
 
   searchGames(keyword: string) {
@@ -59,23 +95,34 @@ export class AddCarts {
       error: () => this.games.set({ ...this.games(), content: [] }),
     });
   }
-  selectGame(game: Game): void {
-    this.cartItems.push(
-      new FormGroup({
-        gameId: new FormControl(game.id, Validators.required),
-        quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-      }),
-    );
 
-    this.searchGame.reset();
+  selectGame(game: Game, index: number): void {
+    const item = this.cartItems.at(index);
+    item.patchValue({
+      gameId: game.id,
+      gameTitle: game.title,
+      searchControl: '',
+    });
+
     this.games.set({ ...this.games(), content: [] });
   }
-
+  onGameSearch(value: string, index: number): void {
+    if (value && value.length >= 2) {
+      this.searchGames(value);
+    } else {
+      this.games.set({ ...this.games(), content: [] });
+    }
+  }
   addItem(): void {
     this.cartItems.push(
       new FormGroup({
-        gameId: new FormControl(null, Validators.required),
-        quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
+        gameId: new FormControl<number | null>(null, Validators.required),
+        quantity: new FormControl<number>(1, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        searchControl: new FormControl(''),
+        gameTitle: new FormControl(''),
       }),
     );
   }
@@ -86,7 +133,26 @@ export class AddCarts {
 
   addCart(): void {
     if (this.cartForm.valid) {
-      this.cartService.addToCart(this.cartForm.value as any).subscribe();
+      const cartData: cartRequestDto = {
+        userId: this.cartForm.value.userId!,
+        cartItemRequests: this.cartItems.value.map((item: any) => ({
+          gameId: item.gameId,
+          quantity: item.quantity,
+        })),
+      };
+      console.log('Submitting cart data:', cartData);
+
+      this.cartService.addToCart(cartData).subscribe({
+        next: (response) => {
+          console.log('Cart added successfully', response);
+          this.cartForm.reset();
+          this.cartItems.clear();
+          this.userSearch.reset();
+        },
+        error: (error) => {
+          console.error('Error adding cart', error);
+        },
+      });
     }
   }
 }

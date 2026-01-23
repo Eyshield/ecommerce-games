@@ -15,15 +15,24 @@
               Customer
             </label>
 
-            <select
-              formControlName="userId"
+            <input
+              type="text"
+              [formControl]="userSearch"
               class="shadow border rounded w-full py-2 px-3"
-            >
-              <option value="" disabled>Select customer</option>
-              <option [value]="1">Mark</option>
-              <option [value]="2">Don</option>
-              <option [value]="3">Don Mark</option>
-            </select>
+              placeholder="Enter Customer  ..."
+            />
+            <ul>
+              <li>
+                @for (customer of customers().content; track $index) {
+                  <div
+                    class="p-2 hover:bg-gray-100 cursor-pointer"
+                    (click)="selectCustomer(customer)"
+                  >
+                    {{ customer.nom }} {{ customer.prenom }}
+                  </div>
+                }
+              </li>
+            </ul>
 
             @if (
               cartForm.get("userId")?.invalid && cartForm.get("userId")?.touched
@@ -32,7 +41,7 @@
             }
           </div>
 
-          <div formArrayName="cartItmeRequest">
+          <div formArrayName="cartItemRequests">
             @for (item of cartItems.controls; track item; let i = $index) {
               <div
                 [formGroupName]="i"
@@ -44,7 +53,8 @@
                   </label>
 
                   <input
-                    [formControl]="searchGame"
+                    formControlName="searchControl"
+                    (input)="onGameSearch($any($event.target).value, i)"
                     class="shadow border rounded w-full py-2 px-3"
                     placeholder="searchGame ..."
                   />
@@ -52,7 +62,7 @@
                     @for (games of games().content; track $index) {
                       <li
                         class="p-2 hover:bg-gray-100 cursor-pointer"
-                        (click)="selectGame(games)"
+                        (click)="selectGame(games, i)"
                       >
                         {{ games.title }}
                       </li>
@@ -97,7 +107,6 @@
           <div class="flex justify-center">
             <button
               (click)="addCart()"
-              [disabled]="cartForm.invalid"
               class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-6"
             >
               Add Cart

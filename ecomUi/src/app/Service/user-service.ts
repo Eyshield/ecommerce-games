@@ -11,7 +11,7 @@ export class UserService {
   http = inject(HttpClient);
   public getAllUsers(size: number, page: number): Observable<Page<user>> {
     return this.http.get<Page<user>>(
-      `${environment.apiUrl}/user/all?size=${size}&page=${page}`
+      `${environment.apiUrl}/user/all?size=${size}&page=${page}`,
     );
   }
   public getUserById(id: number): Observable<user> {
@@ -29,9 +29,9 @@ export class UserService {
   public deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/user/${id}`);
   }
-  public searchCategories(name: string): Observable<Page<user>> {
+  public searchUsers(name: string): Observable<Page<user>> {
     return this.http.get<Page<user>>(
-      `${environment.apiUrl}/user/search/${name}`
+      `${environment.apiUrl}/user/search?nom=${name}`,
     );
   }
 }
