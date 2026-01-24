@@ -2,6 +2,7 @@ package com.api.ecommerce.Cart;
 
 import com.api.ecommerce.Games.Game;
 import com.api.ecommerce.Order.Order;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class CartItem {
     @ManyToOne
     private Game game;
     @ManyToOne
+    @JsonIgnoreProperties("cartItems")
     private Cart cart;
 }
 

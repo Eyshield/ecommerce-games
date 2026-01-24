@@ -1,6 +1,8 @@
 package com.api.ecommerce.User;
 
+import com.api.ecommerce.Cart.Cart;
 import com.api.ecommerce.Order.Order;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +28,7 @@ public class User {
     private String prenom;
     @OneToMany(mappedBy = "user")
     private Collection<Order>orders= new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private Collection<Cart>carts= new ArrayList<>();
 }

@@ -2,6 +2,7 @@ package com.api.ecommerce.Games;
 
 import com.api.ecommerce.Category.Category;
 import com.api.ecommerce.Order.OrderItem;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class Game {
     @OneToMany(mappedBy = "game")
     private Collection<OrderItem>orderItems=new ArrayList<>();
     @ManyToOne
+    @JsonIgnoreProperties("games")
     private Category category;
 
 }

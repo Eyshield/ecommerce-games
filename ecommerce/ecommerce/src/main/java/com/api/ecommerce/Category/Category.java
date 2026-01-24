@@ -1,6 +1,7 @@
 package com.api.ecommerce.Category;
 
 import com.api.ecommerce.Games.Game;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,6 @@ public class Category {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private Collection<Game> games=new ArrayList<>();
 }

@@ -2,6 +2,7 @@ package com.api.ecommerce.Cart;
 
 import com.api.ecommerce.Order.OrderItem;
 import com.api.ecommerce.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,9 @@ public class Cart {
     private Long id;
     private double totalPrice;
     @OneToMany(mappedBy = "cart")
+    @JsonIgnoreProperties("cart")
     private Collection<CartItem> cartItems=new ArrayList<>();
     @ManyToOne
+    @JsonIgnoreProperties("carts")
     private User user;
 }
