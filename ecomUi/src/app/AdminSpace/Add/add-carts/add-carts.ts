@@ -26,7 +26,7 @@ export class AddCarts {
   cartService = inject(CartService);
   gameService = inject(GameService);
   userService = inject(UserService);
-  searchGame = new FormControl('');
+
   games = signal<Page<Game>>({
     content: [],
     page: 0,
@@ -56,15 +56,6 @@ export class AddCarts {
   }
 
   ngOnInit() {
-    this.searchGame.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((value) => {
-        if (value && value.length >= 2) {
-          this.searchGames(value);
-        } else {
-          this.games.set({ ...this.games(), content: [] });
-        }
-      });
     this.userSearch.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((value) => {
@@ -101,9 +92,8 @@ export class AddCarts {
     item.patchValue({
       gameId: game.id,
       gameTitle: game.title,
-      searchControl: '',
     });
-
+    item.get('searchControl')?.setValue(game.title, { emitEvent: false });
     this.games.set({ ...this.games(), content: [] });
   }
   onGameSearch(value: string, index: number): void {
