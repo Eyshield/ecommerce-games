@@ -30,6 +30,7 @@ export class ManageGames implements OnInit {
     this.gamesService
       .getAllGames(this.gamesPage().Size, page)
       .subscribe((response) => {
+        console.log(response);
         this.games.set(response.content);
       });
   }

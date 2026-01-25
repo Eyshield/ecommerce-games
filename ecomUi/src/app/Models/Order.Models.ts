@@ -6,6 +6,7 @@ export interface orders {
   userId: number;
   user?: user;
   date: Date;
+  status: string;
   totalPrice: number;
   items: OrderItem[];
 }

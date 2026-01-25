@@ -4,7 +4,7 @@ export interface Game {
   id?: number;
   title: string;
   category: Category;
-  platform: string;
+  plateform: string;
   releaseDate: Date;
   price: number;
   stock: number;

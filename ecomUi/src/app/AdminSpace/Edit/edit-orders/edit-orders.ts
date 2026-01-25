@@ -75,7 +75,7 @@ export class EditOrders {
 
     const dto: orderRequestDto = {
       userId: this.orderForm.value.userId!,
-      orderItemRequests: this.orderForm.value.orderItmeRequest!.map((item) => ({
+      orderItemRequest: this.orderForm.value.orderItmeRequest!.map((item) => ({
         gameId: item.gameId!,
         quantity: item.quantity,
       })),

@@ -138,11 +138,11 @@ export class AddOrders {
           quantity: item.quantity,
         })),
       };
-      console.log('Submitting cart data:', orderData);
+      console.log('Submitting order data:', orderData);
 
       this.orderService.placeOrder(orderData).subscribe({
         next: (response) => {
-          console.log('Cart added successfully', response);
+          console.log('order added successfully', response);
           this.orderForm.reset();
           this.orderItems.clear();
           this.userSearch.reset();

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../Environment/Environement';
 import { Observable } from 'rxjs';
@@ -30,5 +30,31 @@ export class GameService {
     return this.http.get<Page<Game>>(
       `${environment.apiUrl}/game/search?title=${title}`,
     );
+  }
+  public getHomeGames(
+    bannerPage: number = 0,
+    bannerSize: number = 3,
+    upcomingPage: number = 0,
+    upcomingSize: number = 5,
+    bestPage: number = 0,
+    bestSize: number = 5,
+  ): Observable<{
+    banners: Page<Game>;
+    upcoming: Page<Game>;
+    bestsellers: Page<Game>;
+  }> {
+    const params = new HttpParams()
+      .set('banner.page', bannerPage)
+      .set('banner.size', bannerSize)
+      .set('upcoming.page', upcomingPage)
+      .set('upcoming.size', upcomingSize)
+      .set('bestseller.page', bestPage)
+      .set('bestseller.size', bestSize);
+
+    return this.http.get<{
+      banners: Page<Game>;
+      upcoming: Page<Game>;
+      bestsellers: Page<Game>;
+    }>(`${environment.apiUrl}/game/home`, { params });
   }
 }
