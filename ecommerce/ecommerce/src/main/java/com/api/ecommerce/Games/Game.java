@@ -1,6 +1,8 @@
 package com.api.ecommerce.Games;
 
 import com.api.ecommerce.Category.Category;
+import com.api.ecommerce.Common.HomeSection;
+import com.api.ecommerce.Common.Plateform;
 import com.api.ecommerce.Order.OrderItem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -12,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+
 
 @Entity
 @Data
@@ -26,11 +28,15 @@ public class Game {
     private String title;
     private String description;
     private double price;
-    private String plateform;
+    @Enumerated(EnumType.STRING)
+    private Plateform plateform;
     private LocalDate releaseDate;
     private int stock;
     private String imageUrl;
+    @Enumerated(EnumType.STRING)
+    private HomeSection homeSection;
     @OneToMany(mappedBy = "game")
+    @JsonIgnoreProperties("game")
     private Collection<OrderItem>orderItems=new ArrayList<>();
     @ManyToOne
     @JsonIgnoreProperties("games")

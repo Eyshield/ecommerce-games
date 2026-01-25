@@ -1,12 +1,16 @@
 package com.api.ecommerce.Games;
 
+import com.api.ecommerce.Common.HomeSection;
 import com.api.ecommerce.Common.PageResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -46,20 +50,7 @@ public class ImplGameService implements GameService{
     @Override
     public PageResponse<GameResponse> searchGame(Pageable pageable, String title) {
         Page<Game>gamePage = gameRepo.findByTitleContainingIgnoreCase(title,pageable);
-        List<GameResponse> responses = gamePage.getContent()
-                .stream()
-                .map(gameMapper::toGameResponse)
-                .toList();
-        PageResponse<GameResponse> response= new PageResponse<>(
-                responses,
-                gamePage.getNumber(),
-                gamePage.getSize(),
-                gamePage.getNumberOfElements(),
-                gamePage.getTotalPages(),
-                gamePage.isFirst(),
-                gamePage.isLast()
-
-        );
+        PageResponse<GameResponse> response = toPageResponse(gamePage);
         return response;
     }
 
@@ -81,12 +72,35 @@ public class ImplGameService implements GameService{
     @Override
     public PageResponse<GameResponse> findAllGame(Pageable pageable) {
         Page<Game> gamePage= gameRepo.findAll(pageable);
-        List<GameResponse> gameResponses = gamePage.getContent()
+        PageResponse<GameResponse>response=toPageResponse(gamePage);
+        return response;
+    }
+    public Map<String, PageResponse<GameResponse>> getHomeGames(    Pageable bannerPageable,
+                                                                    Pageable upcomingPageable,
+                                                                     Pageable bestPageable) {
+        Map<String, PageResponse<GameResponse>> result = new HashMap<>();
+        Page<Game> bannerPage =
+                gameRepo.findByHomeSection(HomeSection.BANNER, bannerPageable);
+        result.put("banners", toPageResponse(bannerPage));
+
+        Page<Game> upcomingPage =
+                gameRepo.findByHomeSection(HomeSection.UPCOMING, upcomingPageable);
+        result.put("upcoming", toPageResponse(upcomingPage));
+        Page<Game> bestSellerPage =
+                gameRepo.findBestSellers(bestPageable);
+        result.put("bestsellers", toPageResponse(bestSellerPage));
+
+        return result;
+    }
+    private PageResponse<GameResponse> toPageResponse(Page<Game> gamePage) {
+
+        List<GameResponse> content = gamePage.getContent()
                 .stream()
                 .map(gameMapper::toGameResponse)
                 .toList();
-        PageResponse<GameResponse>response=new PageResponse<>(
-                gameResponses,
+
+        return new PageResponse<>(
+                content,
                 gamePage.getNumber(),
                 gamePage.getSize(),
                 gamePage.getNumberOfElements(),
@@ -94,6 +108,6 @@ public class ImplGameService implements GameService{
                 gamePage.isFirst(),
                 gamePage.isLast()
         );
-        return response;
     }
+
 }

@@ -1,6 +1,9 @@
 package com.api.ecommerce.Games;
 
 import com.api.ecommerce.Category.Category;
+import com.api.ecommerce.Common.Plateform;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +19,8 @@ public class GameRequest {
     private String title;
     private String description;
     private double price;
-    private String plateform;
+    @Enumerated(EnumType.STRING)
+    private Plateform plateform;
     private LocalDate releaseDate;
     private int stock;
     private MultipartFile image;

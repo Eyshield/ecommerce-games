@@ -30,6 +30,8 @@ public class GameMapper {
                 .title(game.getTitle())
                 .price(game.getPrice())
                 .imageUrl(game.getImageUrl())
+                .plateform(game.getPlateform())
+                .category(game.getCategory().getName())
                 .build();
     }
 }

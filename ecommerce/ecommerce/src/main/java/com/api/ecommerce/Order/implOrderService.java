@@ -2,6 +2,7 @@ package com.api.ecommerce.Order;
 
 import com.api.ecommerce.Cart.CartService;
 import com.api.ecommerce.Common.PageResponse;
+import com.api.ecommerce.Common.Status;
 import com.api.ecommerce.Games.Game;
 import com.api.ecommerce.Games.GameRepo;
 import com.api.ecommerce.User.User;
@@ -11,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -23,14 +26,19 @@ public class implOrderService implements OrderService{
     private OrderMapper orderMapper;
     private CartService cartService;
     @Override
-    public Order MakeOrder(Long cartId,Long userId, List<OrderItemRequest> items) {
+    public Order MakeOrder(Long cartId, Long userId, List<OrderItemRequest> items, Status status) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        if(cartId != null){
         cartService.clearCart(cartId);
+        }
         Order order = new Order();
         order.setUser(user);
         order.setOrderItems(new ArrayList<>());
+        order.setStatus(status);
+        order.setDate(LocalDate.now());
         double totalPrice = 0.0;
+        order = orderRepo.save(order);
         for (OrderItemRequest itemRequest : items) {
             Game game = gameRepo.findById(itemRequest.getGameId())
                     .orElseThrow(() -> new RuntimeException("Game not found: " + itemRequest.getGameId()));

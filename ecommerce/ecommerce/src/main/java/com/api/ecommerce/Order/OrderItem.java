@@ -1,6 +1,7 @@
 package com.api.ecommerce.Order;
 
 import com.api.ecommerce.Games.Game;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,9 @@ public class OrderItem {
     private Long id;
     private int quantity;
     @ManyToOne
+    @JsonIgnoreProperties("orderItems")
     private Game game;
     @ManyToOne
+    @JsonIgnoreProperties("orderItems")
     private Order order;
 }

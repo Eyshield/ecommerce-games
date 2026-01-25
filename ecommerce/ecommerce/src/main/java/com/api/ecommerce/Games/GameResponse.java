@@ -1,5 +1,6 @@
 package com.api.ecommerce.Games;
 
+import com.api.ecommerce.Common.Plateform;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -14,4 +15,6 @@ public class GameResponse {
     private String title;
     private double price;
     private String imageUrl;
+    private Plateform plateform;
+    private String category;
 }

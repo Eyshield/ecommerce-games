@@ -19,8 +19,10 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order>makeOrder(@RequestBody OrderRequestDto orderRequestDto){
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(orderService.MakeOrder(orderRequestDto.getCartId(), orderRequestDto.getUserId(),orderRequestDto.getOrderItemRequest()));
+            System.out.println(orderRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(orderService.MakeOrder(orderRequestDto.getCartId(), orderRequestDto.getUserId(),orderRequestDto.getOrderItemRequest(),orderRequestDto.getStatus()));
         }catch (Exception e){
+            e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -27,6 +27,7 @@ public class User {
     private String nom;
     private String prenom;
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
     private Collection<Order>orders= new ArrayList<>();
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")

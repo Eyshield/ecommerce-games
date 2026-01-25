@@ -2,12 +2,15 @@ package com.api.ecommerce.Games;
 
 import com.api.ecommerce.Common.PageResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -97,5 +100,25 @@ public class GameController {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+    @GetMapping
+    public ResponseEntity<Map<String, PageResponse<GameResponse>>> getHome(
+            @Qualifier("banner")
+            @PageableDefault(size = 3,page = 0) Pageable bannerPageable,
+            @Qualifier("upcoming")
+             @PageableDefault(size = 5,page = 0) Pageable upcomingPageable,
+            @Qualifier("bestseller")
+            @PageableDefault(size = 5,page = 0) Pageable bestPageable
+    ) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(gameService.getHomeGames(
+                    bannerPageable,
+                    upcomingPageable,
+                    bestPageable));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+
     }
 }
