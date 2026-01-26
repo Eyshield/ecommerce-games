@@ -9,6 +9,7 @@ import java.util.Map;
 public interface GameService {
     Game addGame(GameRequest gameRequest);
     Game getGameById(Long id);
+    GameResponse getGameByIdForUsers(Long id);
     Game updateGame(Long id,GameRequest gameRequest);
     String deleteGame(Long id);
 

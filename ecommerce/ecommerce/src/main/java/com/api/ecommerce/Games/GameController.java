@@ -38,6 +38,15 @@ public class GameController {
 
         }
     }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<GameResponse> getGameByIdForUser(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(gameService.getGameByIdForUsers(id));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+    }
 
 
     @PutMapping("/{id}")
@@ -101,7 +110,7 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    @GetMapping
+    @GetMapping("/home")
     public ResponseEntity<Map<String, PageResponse<GameResponse>>> getHome(
             @Qualifier("banner")
             @PageableDefault(size = 3,page = 0) Pageable bannerPageable,

@@ -15,6 +15,7 @@ public class GameResponse {
     private String title;
     private double price;
     private String imageUrl;
+    private String description;
     private Plateform plateform;
     private String category;
 }

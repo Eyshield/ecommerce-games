@@ -1,6 +1,7 @@
 package com.api.ecommerce.Games;
 
 import com.api.ecommerce.Category.Category;
+import com.api.ecommerce.Common.HomeSection;
 import com.api.ecommerce.Common.Plateform;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +23,8 @@ public class GameRequest {
     @Enumerated(EnumType.STRING)
     private Plateform plateform;
     private LocalDate releaseDate;
+    @Enumerated(EnumType.STRING)
+    private HomeSection homeSection;
     private int stock;
     private MultipartFile image;
     private Long categoryId;

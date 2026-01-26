@@ -2,6 +2,7 @@ package com.api.ecommerce.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,6 +38,7 @@ public class securityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/game/**").permitAll()
                         .requestMatchers("/api/game/**").hasRole("Admin")
                         .requestMatchers("/api/category/**").hasRole("Admin")
                         .requestMatchers("/api/cart/**").hasRole("Admin")

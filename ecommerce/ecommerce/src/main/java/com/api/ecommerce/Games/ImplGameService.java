@@ -29,6 +29,13 @@ public class ImplGameService implements GameService{
     }
 
     @Override
+    public GameResponse getGameByIdForUsers(Long id) {
+        Game game=getGameById(id);
+        GameResponse gameResponse =gameMapper.toGameResponse(game);
+        return gameResponse;
+    }
+
+    @Override
     public Game updateGame(Long id, GameRequest gameRequest) {
         Game game=gameMapper.toGame(gameRequest);
         game.setId(id);

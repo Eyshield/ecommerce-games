@@ -11,7 +11,7 @@ spring:
     password: samy
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       show-sql: true
   web:
     resources:
@@ -27,7 +27,7 @@ spring:
 jwt:
   auth:
     converter:
-      resource_id: ecom-api
+      resource-id: ecom-api
       principal-attribute: preferred_username
 
 
