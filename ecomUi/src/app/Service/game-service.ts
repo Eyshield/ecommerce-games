@@ -21,6 +21,9 @@ export class GameService {
   public getGameById(id: number): Observable<Game> {
     return this.http.get<Game>(`${environment.apiUrl}/game/${id}`);
   }
+  public getGameByIdForUsers(id: number): Observable<Game> {
+    return this.http.get<Game>(`${environment.apiUrl}/game/user/${id}`);
+  }
   public getAllGames(Size: number, page: number): Observable<Page<Game>> {
     return this.http.get<Page<Game>>(
       `${environment.apiUrl}/game?size=${Size}&page=${page}`,

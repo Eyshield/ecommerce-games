@@ -26,6 +26,7 @@ export class AddGames {
     categoryId: new FormControl<number | null>(null),
     releaseDate: new FormControl(''),
     plateform: new FormControl(''),
+    homeSection: new FormControl(''),
     stock: new FormControl(''),
     image: new FormControl(''),
   });

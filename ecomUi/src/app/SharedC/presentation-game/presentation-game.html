@@ -4,10 +4,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div class="flex justify-center items-center">
         <div class="flex flex-col items-start">
-          <h1 class="text-5xl font-bold mb-3">Title</h1>
-          <p class="text-3xl font-semibold mb-8 text-blue-300">price</p>
+          <h1 class="text-5xl font-bold mb-3">{{ game()?.title }}</h1>
+          <p class="text-3xl font-semibold mb-8 text-blue-300">
+            {{ game()?.price }}
+          </p>
           <img
-            src="pes.jpg"
+            [src]="game()?.imageUrl"
             alt="game image"
             class="h-96 w-full object-cover rounded-lg shadow-2xl"
           />
@@ -15,8 +17,8 @@
       </div>
 
       <div class="flex flex-col">
-        <h1 class="text-3xl font-bold mb-4">title</h1>
-        <p class="text-lg mb-8 text-gray-300">description</p>
+        <h1 class="text-3xl font-bold mb-4">{{ game()?.title }}</h1>
+        <p class="text-lg mb-8 text-gray-300">{{ game()?.description }}</p>
 
         <div class="flex flex-col justify-end items-center gap-4">
           <button

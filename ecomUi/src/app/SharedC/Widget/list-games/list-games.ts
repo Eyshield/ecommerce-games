@@ -1,5 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Game } from '../../../Models/Game.models';
 
 @Component({
   selector: 'app-list-games',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ListGames {
   router = inject(Router);
-  game = input<any>();
+  game = input<Game>();
   navigatePresentaionGame(id: number) {
     this.router.navigate(['/presentation-game', id]);
   }

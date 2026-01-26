@@ -1,7 +1,25 @@
-<div class="bg-linear-to-b from-blue-900 to-black">
-  <app-navbar></app-navbar>
-  <app-banner></app-banner>
-  @for (item of games; track $index) {
-  <app-list-games [game]="item"></app-list-games>
+<div class="bg-linear-to-b from-blue-900 to-black min-h-screen">
+  <app-navbar />
+
+  @defer (when banners() && upcoming() && bestsellers()) {
+    @for (banner of banners()?.content; track $index) {
+      <app-banner [game]="banner" />
+    }
+    @for (upcoming of upcoming()?.content; track $index) {
+      <p
+        class="border rounded-full border-transparent bg-gray-900 text-gray-50 w-fit px-4 py-2 ml-4 mb-2"
+      >
+        Up coming
+      </p>
+      <app-list-games title="Upcoming Games" [game]="upcoming" />
+    }
+
+    @for (bestseller of bestsellers()?.content; track $index) {
+      <app-list-games title="Best Sellers" [game]="bestseller" />
+    }
+  } @loading {
+    <div class="text-center text-white py-10">Loading games...</div>
+  } @error {
+    <div class="text-center text-red-500 py-10">Failed to load games</div>
   }
 </div>

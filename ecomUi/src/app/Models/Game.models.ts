@@ -8,6 +8,7 @@ export interface Game {
   releaseDate: Date;
   price: number;
   stock: number;
+  homeSection: string;
   description: string;
   imageUrl: string;
 }
