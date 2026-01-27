@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { SideBarAdmin } from '../../../SharedC/Widget/side-bar-admin/side-bar-admin';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../../Service/game-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../../../Models/Category.models';
 import { CategoryService } from '../../../Service/category-service';
 
@@ -17,7 +17,7 @@ export class EditGames {
   selectedFile: File | null = null;
   gameService = inject(GameService);
   categoryService = inject(CategoryService);
-
+  router = inject(Router);
   categories = signal<Category[]>([]);
   gameForm = new FormGroup({
     title: new FormControl(''),
@@ -27,6 +27,7 @@ export class EditGames {
     releaseDate: new FormControl(''),
     platform: new FormControl(''),
     stock: new FormControl(''),
+    homeSection: new FormControl(''),
     image: new FormControl(''),
   });
 
@@ -73,6 +74,7 @@ export class EditGames {
       }
       this.gameService.addGame(fromData).subscribe((response) => {
         console.log('Game added successfully', response);
+        this.router.navigate(['/games']);
       });
     } else {
       console.log('Form is invalid');

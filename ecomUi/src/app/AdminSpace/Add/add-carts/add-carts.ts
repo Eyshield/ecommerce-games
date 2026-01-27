@@ -15,6 +15,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { user } from '../../../Models/User.models';
 import { UserService } from '../../../Service/user-service';
 import { cartRequestDto } from '../../../Models/CartRequestDto.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-carts',
@@ -26,6 +27,7 @@ export class AddCarts {
   cartService = inject(CartService);
   gameService = inject(GameService);
   userService = inject(UserService);
+  router = inject(Router);
 
   games = signal<Page<Game>>({
     content: [],
@@ -135,6 +137,7 @@ export class AddCarts {
       this.cartService.addToCart(cartData).subscribe({
         next: (response) => {
           console.log('Cart added successfully', response);
+          this.router.navigate(['/carts']);
           this.cartForm.reset();
           this.cartItems.clear();
           this.userSearch.reset();

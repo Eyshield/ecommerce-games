@@ -22,6 +22,10 @@
                 type="text"
                 [formControl]="userSearch"
                 class="shadow border rounded w-full py-2 px-3"
+                [class.border-red-500]="
+                  orderForm.get('userId')?.invalid &&
+                  orderForm.get('userId')?.touched
+                "
                 placeholder="Enter Customer  ..."
               />
               <ul>
@@ -61,6 +65,9 @@
                     formControlName="searchControl"
                     (input)="onGameSearch($any($event.target).value, i)"
                     class="shadow border rounded w-full py-2 px-3"
+                    [class.border-red-500]="
+                      item.get('gameId')?.invalid && item.get('gameId')?.touched
+                    "
                     placeholder="searchGame ..."
                   />
                   <ul class="border rounded mt-2 max-h-40 overflow-y-auto">
@@ -73,6 +80,13 @@
                       </li>
                     }
                   </ul>
+                  @if (
+                    item.get("gameId")?.invalid && item.get("gameId")?.touched
+                  ) {
+                    <p class="text-red-500 text-xs italic mt-1">
+                      Game is required
+                    </p>
+                  }
                 </div>
 
                 <div class="mb-3">
@@ -85,13 +99,30 @@
                     min="1"
                     formControlName="quantity"
                     class="shadow border rounded w-full py-2 px-3"
+                    [class.border-red-500]="
+                      item.get('quantity')?.invalid &&
+                      item.get('quantity')?.touched
+                    "
                   />
+                  @if (
+                    item.get("quantity")?.invalid &&
+                    item.get("quantity")?.touched
+                  ) {
+                    <p class="text-red-500 text-xs italic mt-1">
+                      @if (item.get("quantity")?.errors?.["required"]) {
+                        Quantity is required
+                      }
+                      @if (item.get("quantity")?.errors?.["min"]) {
+                        Quantity must be at least 1
+                      }
+                    </p>
+                  }
                 </div>
 
                 <button
                   type="button"
                   (click)="removeItem(i)"
-                  class="text-red-600 text-sm"
+                  class="text-red-600 text-sm hover:text-red-800"
                 >
                   Remove
                 </button>
@@ -118,9 +149,22 @@
               </label>
               <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [class.border-red-500]="
+                  orderForm.get('orderDate')?.invalid &&
+                  orderForm.get('orderDate')?.touched
+                "
                 id="orderDate"
+                formControlName="orderDate"
                 type="date"
               />
+              @if (
+                orderForm.get("orderDate")?.invalid &&
+                orderForm.get("orderDate")?.touched
+              ) {
+                <p class="text-red-500 text-xs italic mt-1">
+                  Order date is required
+                </p>
+              }
             </div>
 
             <div>
@@ -132,7 +176,12 @@
               </label>
               <select
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [class.border-red-500]="
+                  orderForm.get('status')?.invalid &&
+                  orderForm.get('status')?.touched
+                "
                 id="status"
+                formControlName="status"
               >
                 <option value="" disabled selected>Select status</option>
                 <option value="Pending">Pending</option>
@@ -140,6 +189,14 @@
                 <option value="Completed">Completed</option>
                 <option value="Cancelled">Cancelled</option>
               </select>
+              @if (
+                orderForm.get("status")?.invalid &&
+                orderForm.get("status")?.touched
+              ) {
+                <p class="text-red-500 text-xs italic mt-1">
+                  Status is required
+                </p>
+              }
             </div>
           </div>
 
@@ -153,12 +210,30 @@
               </label>
               <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [class.border-red-500]="
+                  orderForm.get('totalAmount')?.invalid &&
+                  orderForm.get('totalAmount')?.touched
+                "
                 id="totalAmount"
+                formControlName="totalAmount"
                 type="number"
                 min="0"
                 step="0.01"
                 placeholder="Enter total amount"
               />
+              @if (
+                orderForm.get("totalAmount")?.invalid &&
+                orderForm.get("totalAmount")?.touched
+              ) {
+                <p class="text-red-500 text-xs italic mt-1">
+                  @if (orderForm.get("totalAmount")?.errors?.["required"]) {
+                    Total amount is required
+                  }
+                  @if (orderForm.get("totalAmount")?.errors?.["min"]) {
+                    Total amount must be greater than 0
+                  }
+                </p>
+              }
             </div>
           </div>
 
@@ -171,16 +246,29 @@
             </label>
             <textarea
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none"
+              [class.border-red-500]="
+                orderForm.get('shippingAddress')?.invalid &&
+                orderForm.get('shippingAddress')?.touched
+              "
               id="shippingAddress"
+              formControlName="shippingAddress"
               rows="3"
               placeholder="Enter shipping address"
             ></textarea>
+            @if (
+              orderForm.get("shippingAddress")?.invalid &&
+              orderForm.get("shippingAddress")?.touched
+            ) {
+              <p class="text-red-500 text-xs italic mt-1">
+                Shipping address is required
+              </p>
+            }
           </div>
 
           <div class="flex items-center justify-center">
             <button
               (click)="makeOrder()"
-              class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+              class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
               type="button"
             >
               Add Order

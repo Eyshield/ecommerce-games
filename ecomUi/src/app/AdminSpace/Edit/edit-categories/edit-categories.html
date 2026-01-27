@@ -3,7 +3,7 @@
   <div class="flex-1 flex items-center justify-center p-6">
     <div class="w-full max-w-lg">
       <h1 class="text-3xl font-bold mb-6 text-gray-900 text-center">
-        Edit Category
+        Add New Category
       </h1>
       <form
         [formGroup]="categoryForm"
@@ -18,17 +18,30 @@
           </label>
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            [class.border-red-500]="
+              categoryForm.get('name')?.invalid &&
+              categoryForm.get('name')?.touched
+            "
             id="categoryName"
             formControlName="name"
             type="text"
             placeholder="Enter category name"
           />
+          @if (
+            categoryForm.get("name")?.invalid &&
+            categoryForm.get("name")?.touched
+          ) {
+            <p class="text-red-500 text-xs italic mt-2">
+              Category name is required.
+            </p>
+          }
         </div>
 
         <div class="flex items-center justify-center">
           <button
             (click)="EditCategory()"
-            class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+            class="bg-blue-500 hover:bg-blue-700 rounded-lg text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="categoryForm.invalid"
             type="button"
           >
             Edit Category

@@ -7,7 +7,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-categories',
@@ -18,6 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 export class EditCategories {
   categoryService = inject(CategoryService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
   id: number = 0;
   categoryForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -41,6 +42,7 @@ export class EditCategories {
         .updateCategory(this.id, category)
         .subscribe((response) => {
           console.log('Category added successfully', response);
+          this.router.navigate(['/category']);
         });
     } else {
       console.log('Form is invalid');

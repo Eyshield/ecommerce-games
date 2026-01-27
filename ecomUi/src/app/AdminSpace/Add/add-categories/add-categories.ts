@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-categories',
@@ -16,6 +17,7 @@ import {
 })
 export class AddCategories {
   categoryService = inject(CategoryService);
+  router = inject(Router);
   categoryForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
   });
@@ -27,6 +29,7 @@ export class AddCategories {
       };
       this.categoryService.addCategory(category).subscribe((response) => {
         console.log('Category added successfully', response);
+        this.router.navigate(['/category']);
       });
     } else {
       console.log('Form is invalid');

@@ -15,6 +15,7 @@ import { GameService } from '../../../Service/game-service';
 import { UserService } from '../../../Service/user-service';
 import { Page } from '../../../Models/Page.Models';
 import { orderRequestDto } from '../../../Models/OrderRequestDto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-orders',
@@ -26,6 +27,7 @@ export class AddOrders {
   orderService = inject(OrderService);
   gameService = inject(GameService);
   userService = inject(UserService);
+  router = inject(Router);
   searchGame = new FormControl('');
   orderForm = new FormGroup({
     userId: new FormControl<number | null>(null, Validators.required),
@@ -143,6 +145,7 @@ export class AddOrders {
       this.orderService.placeOrder(orderData).subscribe({
         next: (response) => {
           console.log('order added successfully', response);
+          this.router.navigate(['/orders']);
           this.orderForm.reset();
           this.orderItems.clear();
           this.userSearch.reset();

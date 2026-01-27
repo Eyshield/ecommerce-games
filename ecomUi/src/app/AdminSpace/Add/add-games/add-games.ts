@@ -15,6 +15,7 @@ import { Category } from '../../../Models/Category.models';
 export class AddGames {
   previewImage: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
+
   router = inject(Router);
   categoryService = inject(CategoryService);
   gameService = inject(GameService);
@@ -55,6 +56,7 @@ export class AddGames {
       }
       this.gameService.addGame(fromData).subscribe((response) => {
         console.log('Game added successfully', response);
+        this.router.navigate(['/games']);
       });
     } else {
       console.log('Form is invalid');
