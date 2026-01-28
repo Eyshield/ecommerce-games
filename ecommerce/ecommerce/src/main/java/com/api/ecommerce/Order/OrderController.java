@@ -55,10 +55,14 @@ public class OrderController {
         }
     }
 
-
-
-
-
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<Order>> searchOrderByUser(@PageableDefault(size = 10, page = 0)Pageable pageable, @RequestParam(defaultValue = "")String nom){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(orderService.searchOrderByUser(pageable,nom));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 
 }

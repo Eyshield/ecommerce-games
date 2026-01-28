@@ -127,4 +127,19 @@ public class ImplCartService implements CartService {
         List<CartResponse> cartResponse= cartMapper.toCartResponse(cart);
         return cartResponse;
     }
+
+    @Override
+    public PageResponse<Cart> searchCartByUser(Pageable pageable, String nom) {
+        Page<Cart>carts = cartRepo.findByUser_NomContainingIgnoreCase(nom,pageable);
+        PageResponse<Cart> response=new PageResponse<>(
+                carts.getContent(),
+                carts.getNumber(),
+                carts.getSize(),
+                carts.getNumberOfElements(),
+                carts.getTotalPages(),
+                carts.isFirst(),
+                carts.isLast()
+        );
+        return response;
+    }
 }

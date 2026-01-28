@@ -112,4 +112,20 @@ public class implOrderService implements OrderService{
         );
         return response;
     }
+
+    @Override
+    public PageResponse<Order> searchOrderByUser(Pageable pageable, String nom) {
+        Page<Order> orders=orderRepo.findByUser_NomContainingIgnoreCase(nom,pageable);
+        PageResponse<Order>response=new PageResponse<>(
+                orders.getContent(),
+                orders.getNumber(),
+                orders.getSize(),
+                orders.getNumberOfElements(),
+                orders.getTotalPages(),
+                orders.isFirst(),
+                orders.isLast()
+        );
+        return response;
+
+    }
 }

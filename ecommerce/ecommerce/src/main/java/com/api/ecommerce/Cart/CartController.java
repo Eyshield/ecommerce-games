@@ -63,4 +63,12 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<Cart>> searchOrderByUser(@PageableDefault(size = 10, page = 0)Pageable pageable, @RequestParam(defaultValue = "")String nom){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(cartService.searchCartByUser(pageable,nom));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

@@ -14,4 +14,5 @@ public interface CartService {
 
     PageResponse<Cart> getAllCarts(Pageable pageable);
    List <CartResponse> getCartById(Long id);
+   PageResponse<Cart>searchCartByUser(Pageable pageable, String nom);
 }

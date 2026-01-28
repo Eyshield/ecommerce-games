@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepo extends JpaRepository<Order,Long> {
     Page<Order> findByUserId(Long id, Pageable pageable);
+    Page<Order> findByUser_NomContainingIgnoreCase(String name, Pageable pageable);
+
 }
