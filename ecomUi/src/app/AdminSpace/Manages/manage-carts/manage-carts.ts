@@ -5,15 +5,17 @@ import { RouterLink } from '@angular/router';
 import { Page } from '../../../Models/Page.Models';
 import { CartService } from '../../../Service/cart-service';
 import { Cart } from '../../../Models/Cart.models';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-carts',
-  imports: [SideBarAdmin, RouterLink],
+  imports: [SideBarAdmin, RouterLink, ReactiveFormsModule],
   templateUrl: './manage-carts.html',
   styleUrl: './manage-carts.css',
 })
 export class ManageCarts implements OnInit {
   carts = signal<Cart[]>([]);
+  searchTerm = new FormControl('');
   cartService = inject(CartService);
   pageCarts = signal<Page<Cart>>({
     content: [],
@@ -25,14 +27,38 @@ export class ManageCarts implements OnInit {
     isLast: false,
   });
   ngOnInit() {
-    this.loadCarts(0);
+    this.loadCarts();
   }
-  loadCarts(page: number) {
-    this.cartService
-      .getAllCarts(page, this.pageCarts().Size)
-      .subscribe((response) => {
-        this.pageCarts.set(response);
-        this.carts.set(response.content);
-      });
+  loadCarts() {
+    if (this.searchTerm.value !== '' && this.searchTerm.value) {
+      this.cartService
+        .searchCarts(this.searchTerm.value)
+        .subscribe((response) => {
+          this.pageCarts.set(response);
+          this.carts.set(response.content);
+        });
+    } else {
+      this.carts.set([]);
+      this.pageCarts().page = 0;
+      this.cartService
+        .getAllCarts(this.pageCarts().page, this.pageCarts().Size)
+        .subscribe((response) => {
+          this.pageCarts.set(response);
+          this.carts.set(response.content);
+        });
+    }
+  }
+  nextPage() {
+    if (this.pageCarts().page < this.pageCarts().totalPages - 1) {
+      this.pageCarts().page++;
+      this.loadCarts();
+    }
+  }
+
+  prevPage() {
+    if (this.pageCarts().page > 0) {
+      this.pageCarts().page--;
+      this.loadCarts();
+    }
   }
 }

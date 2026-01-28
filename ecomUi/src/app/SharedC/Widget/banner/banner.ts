@@ -8,5 +8,22 @@ import { Game } from '../../../Models/Game.models';
   styleUrl: './banner.css',
 })
 export class Banner {
-  game = input<Game | null>();
+  game = input<Game[] | null>();
+  currentIndex = 0;
+
+  currentGame(): Game | null {
+    const games = this.game();
+    return games && games.length ? games[this.currentIndex] : null;
+  }
+
+  next() {
+    const games = this.game();
+    this.currentIndex = (this.currentIndex + 1) % (games?.length ?? 1);
+  }
+
+  prev() {
+    const games = this.game();
+    this.currentIndex =
+      (this.currentIndex - 1 + (games?.length ?? 1)) % (games?.length ?? 1);
+  }
 }

@@ -23,16 +23,21 @@ export class CartService {
   }
   public updateCart(
     id: number,
-    cartRequestDto: cartRequestDto
+    cartRequestDto: cartRequestDto,
   ): Observable<Cart> {
     return this.http.put<Cart>(
       `${environment.apiUrl}/cart/${id}`,
-      cartRequestDto
+      cartRequestDto,
     );
   }
   public getAllCarts(page: number, size: number): Observable<Page<Cart>> {
     return this.http.get<Page<Cart>>(
-      `${environment.apiUrl}/cart?page=${page}&size=${size}`
+      `${environment.apiUrl}/cart?page=${page}&size=${size}`,
+    );
+  }
+  public searchCarts(name: string): Observable<Page<Cart>> {
+    return this.http.get<Page<Cart>>(
+      `${environment.apiUrl}/cart/search?nom=${name}`,
     );
   }
 }

@@ -34,7 +34,7 @@ export class CategoryService {
   }
   public searchCategories(name: string): Observable<Page<Category>> {
     return this.http.get<Page<Category>>(
-      `${environment.apiUrl}/category/search/${name}`,
+      `${environment.apiUrl}/category/search?name=${name}`,
     );
   }
   public getAllCategorie(): Observable<[]> {

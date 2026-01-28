@@ -38,4 +38,9 @@ export class OrderService {
       `${environment.apiUrl}/order?page=${page}&size=${size}`,
     );
   }
+  public searchOrders(name: string): Observable<Page<orders>> {
+    return this.http.get<Page<orders>>(
+      `${environment.apiUrl}/order/search?nom=${name}`,
+    );
+  }
 }

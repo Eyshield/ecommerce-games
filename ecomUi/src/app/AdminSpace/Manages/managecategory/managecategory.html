@@ -8,6 +8,8 @@
       <div class="flex items-center gap-4 flex-wrap">
         <div class="relative flex-1 w-64 max-w-md">
           <input
+            [formControl]="searchTerm"
+            (input)="loadCategories()"
             type="text"
             placeholder="Search Categories..."
             class="border border-gray-300 p-2 pl-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
@@ -23,37 +25,37 @@
         class="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all hover:-translate-y-1 group"
       >
         @for (category of categories(); track $index) {
-        <div class="p-6">
-          <div class="flex items-start justify-between mb-4">
-            <div
-              class="w-12 h-12 bg-linear-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm"
-            ></div>
-            <span class="text-xs font-semibold text-gray-400">{{
-              category.id
-            }}</span>
-          </div>
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-4">
+              <div
+                class="w-12 h-12 bg-linear-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm"
+              ></div>
+              <span class="text-xs font-semibold text-gray-400">{{
+                category.id
+              }}</span>
+            </div>
 
-          <h3 class="text-lg font-bold text-gray-900 mb-2">
-            {{ category.name }}
-          </h3>
-          <p class="text-sm text-gray-500 mb-4">12 games</p>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">
+              {{ category.name }}
+            </h3>
+            <p class="text-sm text-gray-500 mb-4">12 games</p>
 
-          <div class="flex gap-2">
-            <a [routerLink]="['/editCategory', category.id]">
+            <div class="flex gap-2">
+              <a [routerLink]="['/editCategory', category.id]">
+                <button
+                  class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
+                >
+                  Edit
+                </button>
+              </a>
               <button
-                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
+                (click)="deleteCategory(category.id!)"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
               >
-                Edit
+                delete
               </button>
-            </a>
-            <button
-              (click)="deleteCategory(category.id!)"
-              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm"
-            >
-              delete
-            </button>
+            </div>
           </div>
-        </div>
         }
       </div>
       <a

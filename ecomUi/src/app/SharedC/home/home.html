@@ -2,9 +2,8 @@
   <app-navbar />
 
   @defer (when banners() && upcoming() && bestsellers()) {
-    @for (banner of banners()?.content; track $index) {
-      <app-banner [game]="banner" />
-    }
+    <app-banner [game]="banners()?.content" />
+
     @for (upcoming of upcoming()?.content; track $index) {
       <p
         class="border rounded-full border-transparent bg-gray-900 text-gray-50 w-fit px-4 py-2 ml-4 mb-2"

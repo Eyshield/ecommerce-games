@@ -24,11 +24,11 @@ export class ManageUser {
   });
   users = signal<user[]>([]);
   ngOnInit() {
-    this.loadUsers(0);
+    this.loadUsers();
   }
-  loadUsers(page: number) {
+  loadUsers() {
     this.userService
-      .getAllUsers(this.userPage().Size, page)
+      .getAllUsers(this.userPage().Size, this.userPage().page)
       .subscribe((response) => {
         this.userPage.set(response);
         this.users.set(response.content);
@@ -36,5 +36,18 @@ export class ManageUser {
   }
   deleteUser(id: number) {
     this.userService.deleteUser(id);
+  }
+  nextPage() {
+    if (this.userPage().page < this.userPage().totalPages - 1) {
+      this.userPage().page++;
+      this.loadUsers();
+    }
+  }
+
+  prevPage() {
+    if (this.userPage().page > 0) {
+      this.userPage().page--;
+      this.loadUsers();
+    }
   }
 }

@@ -9,6 +9,8 @@
         <div class="relative flex-1 w-64 max-w-md">
           <input
             type="text"
+            [formControl]="searchTerm"
+            (input)="loadCarts()"
             placeholder="Search carts..."
             class="border border-gray-300 p-2 pl-10 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
           />
@@ -88,6 +90,24 @@
           }
         </tbody>
       </table>
+    </div>
+    <div class="flex justify-center space-x-4 mt-4">
+      <button
+        class="border rounded-lg px-1 py-2 hover:shadow-lg hover:border-blue-700"
+        (click)="prevPage()"
+      >
+        previeous
+      </button>
+      <span class="px-2 py-1"
+        >Page {{ pageCarts().page + 1 }} sur {{ pageCarts().totalPages }}</span
+      >
+
+      <button
+        class="border rounded-lg px-1 py-2 hover:shadow-lg hover:border-blue-700"
+        (click)="nextPage()"
+      >
+        next
+      </button>
     </div>
   </div>
 </div>
