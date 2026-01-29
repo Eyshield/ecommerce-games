@@ -15,6 +15,7 @@ import { Game } from '../../../Models/Game.models';
 import { user } from '../../../Models/User.models';
 import { UserService } from '../../../Service/user-service';
 import { GameService } from '../../../Service/game-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-carts',
@@ -129,25 +130,42 @@ export class EditCarts {
     }
   }
   updateCart(): void {
-    if (this.cartForm.invalid) return;
+    if (this.cartForm.valid) {
+      const dto: cartRequestDto = {
+        userId: this.cartForm.value.userId!,
+        cartItemRequests: this.cartForm.value.cartItmeRequest!.map((item) => ({
+          gameId: item.gameId!,
+          quantity: item.quantity,
+        })),
+      };
 
-    const dto: cartRequestDto = {
-      userId: this.cartForm.value.userId!,
-      cartItemRequests: this.cartForm.value.cartItmeRequest!.map((item) => ({
-        gameId: item.gameId!,
-        quantity: item.quantity,
-      })),
-    };
-
-    this.cartService.updateCart(this.id, dto).subscribe({
-      next: (response) => {
-        console.log('Cart updated successfully', response);
-        this.router.navigate(['/carts']);
-      },
-      error: (error) => {
-        console.error('Error updating cart', error);
-      },
-    });
+      this.cartService.updateCart(this.id, dto).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Cart Edited Successfully',
+            text: 'The cart has been edited successfully.',
+          });
+          this.router.navigate(['/carts']);
+          this.cartForm.reset();
+          this.cartItems.clear();
+          this.userSearch.reset();
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Editing Cart',
+            text: 'There was an error editing the cart. Please try again.',
+          });
+        },
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
+    }
   }
   addItem(): void {
     this.cartItems.push(

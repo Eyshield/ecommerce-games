@@ -20,27 +20,61 @@ import { EditGames } from './AdminSpace/Edit/edit-games/edit-games';
 import { EditOrders } from './AdminSpace/Edit/edit-orders/edit-orders';
 import { EditUsers } from './AdminSpace/Edit/edit-users/edit-users';
 import { Redirect } from './SharedC/Widget/redirect/redirect';
+import { authGuard } from './Guards/auth-guard';
+import { authAdminGuard } from './Guards/auth-admin-guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'redirect', component: Redirect },
   { path: 'presentation-game/:id', component: PresentationGame },
   { path: 'cart', component: Cart },
-  { path: 'personal', component: DashBoardPersonelAccount },
-  { path: 'dashboard', component: DashBoard },
-  { path: 'user', component: ManageUser },
-  { path: 'category', component: Managecategory },
-  { path: 'games', component: ManageGames },
-  { path: 'orders', component: ManageOrders },
-  { path: 'carts', component: ManageCarts },
-  { path: 'addUsers', component: AddUsers },
-  { path: 'addCategory', component: AddCategories },
-  { path: 'addGames', component: AddGames },
-  { path: 'addOrders', component: AddOrders },
-  { path: 'addCarts', component: AddCarts },
-  { path: 'editGames/:id', component: EditGames },
-  { path: 'editCategory/:id', component: EditCategories },
-  { path: 'editOrders/:id', component: EditOrders },
-  { path: 'editCarts/:id', component: EditCarts },
-  { path: 'editUsers/:id', component: EditUsers },
+  {
+    path: 'personal',
+    component: DashBoardPersonelAccount,
+    canActivate: [authGuard],
+  },
+  { path: 'dashboard', component: DashBoard, canActivate: [authAdminGuard] },
+  { path: 'user', component: ManageUser, canActivate: [authAdminGuard] },
+  {
+    path: 'category',
+    component: Managecategory,
+    canActivate: [authAdminGuard],
+  },
+  { path: 'games', component: ManageGames, canActivate: [authAdminGuard] },
+  { path: 'orders', component: ManageOrders, canActivate: [authAdminGuard] },
+  { path: 'carts', component: ManageCarts, canActivate: [authAdminGuard] },
+  { path: 'addUsers', component: AddUsers, canActivate: [authAdminGuard] },
+  {
+    path: 'addCategory',
+    component: AddCategories,
+    canActivate: [authAdminGuard],
+  },
+  { path: 'addGames', component: AddGames, canActivate: [authAdminGuard] },
+  { path: 'addOrders', component: AddOrders, canActivate: [authAdminGuard] },
+  { path: 'addCarts', component: AddCarts, canActivate: [authAdminGuard] },
+  {
+    path: 'editGames/:id',
+    component: EditGames,
+    canActivate: [authAdminGuard],
+  },
+  {
+    path: 'editCategory/:id',
+    component: EditCategories,
+    canActivate: [authAdminGuard],
+  },
+  {
+    path: 'editOrders/:id',
+    component: EditOrders,
+    canActivate: [authAdminGuard],
+  },
+  {
+    path: 'editCarts/:id',
+    component: EditCarts,
+    canActivate: [authAdminGuard],
+  },
+  {
+    path: 'editUsers/:id',
+    component: EditUsers,
+    canActivate: [authAdminGuard],
+  },
 ];

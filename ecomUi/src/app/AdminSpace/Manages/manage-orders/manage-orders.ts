@@ -5,6 +5,7 @@ import { OrderService } from '../../../Service/order-service';
 import { orders } from '../../../Models/Order.Models';
 import { Page } from '../../../Models/Page.Models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-orders',
@@ -47,6 +48,25 @@ export class ManageOrders implements OnInit {
           this.orders.set(response.content);
         });
     }
+  }
+  removeOrder(id: number) {
+    this.orderService.removeOrder(id).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Order Removed Successfully',
+          text: 'The order has been removed successfully.',
+        });
+        this.loadOrders();
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error removing Order',
+          text: 'There was an error removing the order.',
+        });
+      },
+    });
   }
 
   nextPage() {

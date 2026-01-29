@@ -10,6 +10,11 @@ export class AuthService {
     return this.keycloak.isUserInRole('Admin');
   }
 
+  getCurrentUserId(): number {
+    const userDetails = this.keycloak.getKeycloakInstance().tokenParsed;
+    return userDetails ? Number(userDetails.sub) : 0;
+  }
+
   isUser(): boolean {
     return this.keycloak.isUserInRole('User');
   }

@@ -15,6 +15,7 @@ import { Page } from '../../../Models/Page.Models';
 import { user } from '../../../Models/User.models';
 import { UserService } from '../../../Service/user-service';
 import { GameService } from '../../../Service/game-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-orders',
@@ -134,21 +135,46 @@ export class EditOrders {
   }
 
   updateOrder(): void {
-    if (this.orderForm.invalid) return;
+    if (this.orderForm.valid) {
+      const dto: orderRequestDto = {
+        userId: this.orderForm.value.userId!,
+        orderItemRequest: this.orderForm.value.orderItmeRequest!.map(
+          (item) => ({
+            gameId: item.gameId!,
+            quantity: item.quantity,
+          }),
+        ),
+      };
 
-    const dto: orderRequestDto = {
-      userId: this.orderForm.value.userId!,
-      orderItemRequest: this.orderForm.value.orderItmeRequest!.map((item) => ({
-        gameId: item.gameId!,
-        quantity: item.quantity,
-      })),
-    };
-
-    this.orderService.updateOrder(this.id, dto).subscribe((response) => {
-      console.log('Order updated successfully', response);
-      this.router.navigate(['/orders']);
-    });
+      this.orderService.updateOrder(this.id, dto).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Order Edited Successfully',
+            text: 'The order has been edited successfully.',
+          });
+          this.router.navigate(['/orders']);
+          this.orderForm.reset();
+          this.orderItems.clear();
+          this.userSearch.reset();
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Order failed',
+            text: 'there was an error editing the order. Please try again.',
+          });
+        },
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
+    }
   }
+
   addItem(): void {
     this.orderItems.push(
       new FormGroup({

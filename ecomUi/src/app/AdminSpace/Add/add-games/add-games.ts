@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../../Service/category-service';
 import { Category } from '../../../Models/Category.models';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-games',
@@ -54,12 +55,29 @@ export class AddGames {
       if (this.selectedFile) {
         fromData.append('image', this.selectedFile);
       }
-      this.gameService.addGame(fromData).subscribe((response) => {
-        console.log('Game added successfully', response);
-        this.router.navigate(['/games']);
+      this.gameService.addGame(fromData).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Game Added Successfully',
+            text: 'The game has been added successfully.',
+          });
+          this.router.navigate(['/games']);
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Adding Game',
+            text: 'There was an error adding the game. Please try again.',
+          });
+        },
       });
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
     }
   }
 }

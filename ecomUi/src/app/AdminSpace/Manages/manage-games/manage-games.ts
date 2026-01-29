@@ -5,6 +5,7 @@ import { GameService } from '../../../Service/game-service';
 import { Page } from '../../../Models/Page.Models';
 import { Game } from '../../../Models/Game.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-games',
@@ -49,8 +50,22 @@ export class ManageGames implements OnInit {
     }
   }
   deleteGame(id: number) {
-    this.gamesService.deleteGame(id).subscribe(() => {
-      this.loadGames();
+    this.gamesService.deleteGame(id).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Game Deleted Successfully',
+          text: 'The game has been deleted successfully.',
+        });
+        this.loadGames();
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error Deleting Game',
+          text: 'There was an error deleting the game. Please try again.',
+        });
+      },
     });
   }
   nextPage() {

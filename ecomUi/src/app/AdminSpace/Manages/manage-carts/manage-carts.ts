@@ -6,6 +6,7 @@ import { Page } from '../../../Models/Page.Models';
 import { CartService } from '../../../Service/cart-service';
 import { Cart } from '../../../Models/Cart.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-carts',
@@ -47,6 +48,25 @@ export class ManageCarts implements OnInit {
           this.carts.set(response.content);
         });
     }
+  }
+  removeCart(id: number) {
+    this.cartService.removeCart(id).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cart Removed Successfully',
+          text: 'The cart has been removed successfully.',
+        });
+        this.loadCarts();
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error removing Cart',
+          text: 'There was an error removing the cart. Please try again.',
+        });
+      },
+    });
   }
   nextPage() {
     if (this.pageCarts().page < this.pageCarts().totalPages - 1) {

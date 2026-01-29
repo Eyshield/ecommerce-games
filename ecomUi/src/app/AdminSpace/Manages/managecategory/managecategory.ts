@@ -5,6 +5,7 @@ import { CategoryService } from '../../../Service/category-service';
 import { Page } from '../../../Models/Page.Models';
 import { Category } from '../../../Models/Category.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-managecategory',
@@ -49,8 +50,23 @@ export class Managecategory {
     }
   }
   deleteCategory(id: number) {
-    this.categoryService.deleteCategory(id).subscribe(() => {
-      this.loadCategories();
+    this.categoryService.deleteCategory(id).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Category Deleted Successfully',
+          text: 'The category has been deleted successfully.',
+        });
+
+        this.loadCategories();
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error deleting Category',
+          text: 'There was an error deleting the category. Please try again.',
+        });
+      },
     });
   }
 }

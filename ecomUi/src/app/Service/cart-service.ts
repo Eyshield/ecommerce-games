@@ -40,4 +40,7 @@ export class CartService {
       `${environment.apiUrl}/cart/search?nom=${name}`,
     );
   }
+  public removeCart(id:number):Observable<void>{
+    return this.http.delete<void>(`${environment.apiUrl}/cart/${id}`);
+  }
 }

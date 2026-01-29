@@ -16,6 +16,7 @@ import { UserService } from '../../../Service/user-service';
 import { Page } from '../../../Models/Page.Models';
 import { orderRequestDto } from '../../../Models/OrderRequestDto';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-orders',
@@ -140,19 +141,32 @@ export class AddOrders {
           quantity: item.quantity,
         })),
       };
-      console.log('Submitting order data:', orderData);
 
       this.orderService.placeOrder(orderData).subscribe({
         next: (response) => {
-          console.log('order added successfully', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Order Placed Successfully',
+            text: 'The order has been placed successfully.',
+          });
           this.router.navigate(['/orders']);
           this.orderForm.reset();
           this.orderItems.clear();
           this.userSearch.reset();
         },
         error: (error) => {
-          console.error('Error adding cart', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Order failed',
+            text: 'there was an error placing the order. Please try again.',
+          });
         },
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
       });
     }
   }

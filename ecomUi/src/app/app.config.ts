@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { provideRouter } from '@angular/router';
-
+import { environment } from './Environment/Environement';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpInterceptorInterceptor } from './interceptor/http-interceptor-interceptor';
@@ -15,9 +15,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://localhost:8083',
-        realm: 'ecom-realm',
-        clientId: 'ecom-api',
+        url: environment.keycloak.url,
+        realm: environment.keycloak.realm,
+        clientId: environment.keycloak.clientId,
       },
       initOptions: {
         onLoad: 'check-sso',

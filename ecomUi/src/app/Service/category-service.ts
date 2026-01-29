@@ -37,7 +37,7 @@ export class CategoryService {
       `${environment.apiUrl}/category/search?name=${name}`,
     );
   }
-  public getAllCategorie(): Observable<[]> {
+  public getAllCategorie(): Observable<Category[]> {
     return this.http.get<[]>(`${environment.apiUrl}/category/all`);
   }
 }

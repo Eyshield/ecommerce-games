@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-categories',
@@ -38,14 +39,29 @@ export class EditCategories {
       const category = {
         name: this.categoryForm.get('name')?.value!,
       };
-      this.categoryService
-        .updateCategory(this.id, category)
-        .subscribe((response) => {
-          console.log('Category added successfully', response);
+      this.categoryService.updateCategory(this.id, category).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Category Edited Successfully',
+            text: 'The category has been edited successfully.',
+          });
           this.router.navigate(['/category']);
-        });
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error editing Category',
+            text: 'There was an error editing the category. Please try again.',
+          });
+        },
+      });
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
     }
   }
 }

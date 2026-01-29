@@ -5,6 +5,7 @@ import { GameService } from '../../../Service/game-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../../../Models/Category.models';
 import { CategoryService } from '../../../Service/category-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-games',
@@ -72,12 +73,29 @@ export class EditGames {
       if (this.selectedFile) {
         fromData.append('image', this.selectedFile);
       }
-      this.gameService.addGame(fromData).subscribe((response) => {
-        console.log('Game added successfully', response);
-        this.router.navigate(['/games']);
+      this.gameService.addGame(fromData).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Game Edited Successfully',
+            text: 'The game has been edited successfully.',
+          });
+          this.router.navigate(['/games']);
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Editing Game',
+            text: 'There was an error editing the game. Please try again.',
+          });
+        },
       });
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
     }
   }
 }

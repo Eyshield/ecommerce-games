@@ -16,6 +16,7 @@ import { user } from '../../../Models/User.models';
 import { UserService } from '../../../Service/user-service';
 import { cartRequestDto } from '../../../Models/CartRequestDto.models';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-carts',
@@ -132,19 +133,32 @@ export class AddCarts {
           quantity: item.quantity,
         })),
       };
-      console.log('Submitting cart data:', cartData);
 
       this.cartService.addToCart(cartData).subscribe({
         next: (response) => {
-          console.log('Cart added successfully', response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Cart Added Successfully',
+            text: 'The cart has been added successfully.',
+          });
           this.router.navigate(['/carts']);
           this.cartForm.reset();
           this.cartItems.clear();
           this.userSearch.reset();
         },
         error: (error) => {
-          console.error('Error adding cart', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Adding Cart',
+            text: 'There was an error adding the cart. Please try again.',
+          });
         },
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
       });
     }
   }

@@ -43,4 +43,7 @@ export class OrderService {
       `${environment.apiUrl}/order/search?nom=${name}`,
     );
   }
+  public removeOrder(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/order/${id}`);
+  }
 }

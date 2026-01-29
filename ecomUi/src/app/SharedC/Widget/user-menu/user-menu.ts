@@ -6,7 +6,7 @@ import {
   faSignOut,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../Service/auth-service';
 
 @Component({
@@ -17,8 +17,10 @@ import { AuthService } from '../../../Service/auth-service';
 })
 export class UserMenu {
   auth = inject(AuthService);
+  router = inject(Router);
   logout() {
     this.auth.Logout();
+    this.router.navigate(['/home']);
   }
   faUser = faUser;
   faCart = faCartShopping;
