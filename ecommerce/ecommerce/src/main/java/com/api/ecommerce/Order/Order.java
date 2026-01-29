@@ -27,7 +27,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDate date;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnoreProperties("order")
     private Collection<OrderItem>orderItems=new ArrayList<>();
     @ManyToOne

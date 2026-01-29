@@ -16,5 +16,6 @@ public interface OrderService {
     PageResponse<Order>getAllOrders(Pageable pageable);
 
     PageResponse<Order>searchOrderByUser(Pageable pageable, String nom);
+    void deleteOrder(Long id);
 
 }

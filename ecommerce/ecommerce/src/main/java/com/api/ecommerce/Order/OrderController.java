@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +20,8 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order>makeOrder(@RequestBody OrderRequestDto orderRequestDto){
         try {
-            System.out.println(orderRequestDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(orderService.MakeOrder(orderRequestDto.getCartId(), orderRequestDto.getUserId(),orderRequestDto.getOrderItemRequest(),orderRequestDto.getStatus()));
         }catch (Exception e){
-            e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -63,6 +62,18 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        try {
+            orderService.deleteOrder(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 
 }

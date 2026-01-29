@@ -128,4 +128,9 @@ public class implOrderService implements OrderService{
         return response;
 
     }
+
+    @Override
+    public void deleteOrder(Long id) {
+        orderRepo.deleteById(id);
+    }
 }
