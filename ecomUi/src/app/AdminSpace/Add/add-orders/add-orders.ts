@@ -17,6 +17,7 @@ import { Page } from '../../../Models/Page.Models';
 import { orderRequestDto } from '../../../Models/OrderRequestDto';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-add-orders',
@@ -28,6 +29,7 @@ export class AddOrders {
   orderService = inject(OrderService);
   gameService = inject(GameService);
   userService = inject(UserService);
+  private subscriptions = destroyScope();
   router = inject(Router);
   searchGame = new FormControl('');
   orderForm = new FormGroup({
@@ -54,31 +56,37 @@ export class AddOrders {
     isLast: false,
   });
   ngOnInit() {
-    this.searchGame.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((value) => {
-        if (value && value.length >= 2) {
-          this.searchGames(value);
-        } else {
-          this.games.set({ ...this.games(), content: [] });
-        }
-      });
-    this.userSearch.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((value) => {
-        if (value && value.length >= 2) {
-          this.searchUsers(value);
-        } else {
-          this.customers.set({ ...this.customers(), content: [] });
-        }
-      });
+    this.subscriptions.add(
+      this.searchGame.valueChanges
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe((value) => {
+          if (value && value.length >= 2) {
+            this.searchGames(value);
+          } else {
+            this.games.set({ ...this.games(), content: [] });
+          }
+        }),
+    );
+    this.subscriptions.add(
+      this.userSearch.valueChanges
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe((value) => {
+          if (value && value.length >= 2) {
+            this.searchUsers(value);
+          } else {
+            this.customers.set({ ...this.customers(), content: [] });
+          }
+        }),
+    );
   }
 
   searchUsers(keyword: string) {
-    this.userService.searchUsers(keyword).subscribe({
-      next: (response) => this.customers.set(response),
-      error: () => this.customers.set({ ...this.customers(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.userService.searchUsers(keyword).subscribe({
+        next: (response) => this.customers.set(response),
+        error: () => this.customers.set({ ...this.customers(), content: [] }),
+      }),
+    );
   }
 
   selectCustomer(customer: user) {
@@ -88,10 +96,12 @@ export class AddOrders {
   }
 
   searchGames(keyword: string) {
-    this.gameService.searchGames(keyword).subscribe({
-      next: (response) => this.games.set(response),
-      error: () => this.games.set({ ...this.games(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.gameService.searchGames(keyword).subscribe({
+        next: (response) => this.games.set(response),
+        error: () => this.games.set({ ...this.games(), content: [] }),
+      }),
+    );
   }
 
   selectGame(game: Game, index: number): void {
@@ -141,27 +151,28 @@ export class AddOrders {
           quantity: item.quantity,
         })),
       };
-
-      this.orderService.placeOrder(orderData).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Order Placed Successfully',
-            text: 'The order has been placed successfully.',
-          });
-          this.router.navigate(['/orders']);
-          this.orderForm.reset();
-          this.orderItems.clear();
-          this.userSearch.reset();
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Order failed',
-            text: 'there was an error placing the order. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.orderService.placeOrder(orderData).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Order Placed Successfully',
+              text: 'The order has been placed successfully.',
+            });
+            this.router.navigate(['/orders']);
+            this.orderForm.reset();
+            this.orderItems.clear();
+            this.userSearch.reset();
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Order failed',
+              text: 'there was an error placing the order. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

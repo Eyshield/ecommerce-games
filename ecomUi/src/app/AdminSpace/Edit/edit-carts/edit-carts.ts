@@ -16,6 +16,7 @@ import { user } from '../../../Models/User.models';
 import { UserService } from '../../../Service/user-service';
 import { GameService } from '../../../Service/game-service';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-edit-carts',
@@ -38,6 +39,7 @@ export class EditCarts {
     isFirst: true,
     isLast: false,
   });
+  private subscriptions = destroyScope();
   userSearch = new FormControl('');
   customers = signal<Page<user>>({
     content: [],
@@ -72,10 +74,12 @@ export class EditCarts {
     });
   }
   searchUsers(keyword: string) {
-    this.userService.searchUsers(keyword).subscribe({
-      next: (response) => this.customers.set(response),
-      error: () => this.customers.set({ ...this.customers(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.userService.searchUsers(keyword).subscribe({
+        next: (response) => this.customers.set(response),
+        error: () => this.customers.set({ ...this.customers(), content: [] }),
+      }),
+    );
   }
   selectCustomer(customer: user) {
     this.cartForm.patchValue({ userId: customer.id });
@@ -84,34 +88,38 @@ export class EditCarts {
   }
 
   loadCart(): void {
-    this.cartService.getCartById(this.id).subscribe((cart) => {
-      if (cart.user) {
-        this.cartForm.patchValue({
-          userId: cart.user.id,
-          userLabel: cart.user.nom,
+    this.subscriptions.add(
+      this.cartService.getCartById(this.id).subscribe((cart) => {
+        if (cart.user) {
+          this.cartForm.patchValue({
+            userId: cart.user.id,
+            userLabel: cart.user.nom,
+          });
+        }
+
+        this.cartItems.clear();
+
+        cart.items.forEach((item) => {
+          const group = this.createItem();
+
+          group.patchValue({
+            gameId: item.game.id,
+            gameLabel: item.game.title,
+            quantity: item.quantity,
+          });
+
+          this.cartItems.push(group);
         });
-      }
-
-      this.cartItems.clear();
-
-      cart.items.forEach((item) => {
-        const group = this.createItem();
-
-        group.patchValue({
-          gameId: item.game.id,
-          gameLabel: item.game.title,
-          quantity: item.quantity,
-        });
-
-        this.cartItems.push(group);
-      });
-    });
+      }),
+    );
   }
   searchGames(keyword: string) {
-    this.gameService.searchGames(keyword).subscribe({
-      next: (response) => this.games.set(response),
-      error: () => this.games.set({ ...this.games(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.gameService.searchGames(keyword).subscribe({
+        next: (response) => this.games.set(response),
+        error: () => this.games.set({ ...this.games(), content: [] }),
+      }),
+    );
   }
   selectGame(game: Game, index: number): void {
     const item = this.cartItems.at(index);
@@ -138,27 +146,28 @@ export class EditCarts {
           quantity: item.quantity,
         })),
       };
-
-      this.cartService.updateCart(this.id, dto).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Cart Edited Successfully',
-            text: 'The cart has been edited successfully.',
-          });
-          this.router.navigate(['/carts']);
-          this.cartForm.reset();
-          this.cartItems.clear();
-          this.userSearch.reset();
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error Editing Cart',
-            text: 'There was an error editing the cart. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.cartService.updateCart(this.id, dto).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Cart Edited Successfully',
+              text: 'The cart has been edited successfully.',
+            });
+            this.router.navigate(['/carts']);
+            this.cartForm.reset();
+            this.cartItems.clear();
+            this.userSearch.reset();
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Editing Cart',
+              text: 'There was an error editing the cart. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

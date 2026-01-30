@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-edit-categories',
@@ -18,6 +19,7 @@ import Swal from 'sweetalert2';
 })
 export class EditCategories {
   categoryService = inject(CategoryService);
+  private subscriptions = destroyScope();
   route = inject(ActivatedRoute);
   router = inject(Router);
   id: number = 0;
@@ -27,11 +29,13 @@ export class EditCategories {
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.categoryService.getCategoryById(this.id).subscribe((data) => {
-      this.categoryForm.patchValue({
-        name: data.name,
-      });
-    });
+    this.subscriptions.add(
+      this.categoryService.getCategoryById(this.id).subscribe((data) => {
+        this.categoryForm.patchValue({
+          name: data.name,
+        });
+      }),
+    );
   }
 
   EditCategory() {
@@ -39,23 +43,25 @@ export class EditCategories {
       const category = {
         name: this.categoryForm.get('name')?.value!,
       };
-      this.categoryService.updateCategory(this.id, category).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Category Edited Successfully',
-            text: 'The category has been edited successfully.',
-          });
-          this.router.navigate(['/category']);
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error editing Category',
-            text: 'There was an error editing the category. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.categoryService.updateCategory(this.id, category).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Category Edited Successfully',
+              text: 'The category has been edited successfully.',
+            });
+            this.router.navigate(['/category']);
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error editing Category',
+              text: 'There was an error editing the category. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

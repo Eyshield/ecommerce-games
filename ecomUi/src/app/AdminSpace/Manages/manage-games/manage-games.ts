@@ -6,6 +6,7 @@ import { Page } from '../../../Models/Page.Models';
 import { Game } from '../../../Models/Game.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-manage-games',
@@ -15,6 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class ManageGames implements OnInit {
   gamesService = inject(GameService);
+  private subscriptions = destroyScope();
   searchTerm = new FormControl('');
   gamesPage = signal<Page<Game>>({
     content: [],
@@ -31,42 +33,47 @@ export class ManageGames implements OnInit {
   }
   loadGames() {
     if (this.searchTerm.value !== '' && this.searchTerm.value) {
-      this.gamesService
-        .searchGames(this.searchTerm.value)
-        .subscribe((response) => {
-          this.gamesPage.set(response);
-          this.games.set(response.content);
-        });
+      this.subscriptions.add(
+        this.gamesService
+          .searchGames(this.searchTerm.value)
+          .subscribe((response) => {
+            this.gamesPage.set(response);
+            this.games.set(response.content);
+          }),
+      );
     } else {
       this.games.set([]);
       this.gamesPage().page = 0;
-
-      this.gamesService
-        .getAllGames(this.gamesPage().Size, this.gamesPage().page)
-        .subscribe((response) => {
-          this.gamesPage.set(response);
-          this.games.set(response.content);
-        });
+      this.subscriptions.add(
+        this.gamesService
+          .getAllGames(this.gamesPage().Size, this.gamesPage().page)
+          .subscribe((response) => {
+            this.gamesPage.set(response);
+            this.games.set(response.content);
+          }),
+      );
     }
   }
   deleteGame(id: number) {
-    this.gamesService.deleteGame(id).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Game Deleted Successfully',
-          text: 'The game has been deleted successfully.',
-        });
-        this.loadGames();
-      },
-      error: (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error Deleting Game',
-          text: 'There was an error deleting the game. Please try again.',
-        });
-      },
-    });
+    this.subscriptions.add(
+      this.gamesService.deleteGame(id).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Game Deleted Successfully',
+            text: 'The game has been deleted successfully.',
+          });
+          this.loadGames();
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Deleting Game',
+            text: 'There was an error deleting the game. Please try again.',
+          });
+        },
+      }),
+    );
   }
   nextPage() {
     if (this.gamesPage().page < this.gamesPage().totalPages - 1) {

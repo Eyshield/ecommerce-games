@@ -6,6 +6,7 @@ import { GameService } from '../../../Service/game-service';
 import { Game } from '../../../Models/Game.models';
 import { Page } from '../../../Models/Page.Models';
 import { Router } from '@angular/router';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +19,7 @@ export class Navbar {
   gameService = inject(GameService);
   router = inject(Router);
   games = signal<Game[]>([]);
+  private subscriptions = destroyScope();
   gamePage = signal<Page<Game>>({
     content: [],
     page: 0,
@@ -32,12 +34,14 @@ export class Navbar {
   }
   searchGames() {
     if (this.searchTerm.value !== '' && this.searchTerm.value) {
-      this.gameService
-        .searchGames(this.searchTerm.value)
-        .subscribe((response) => {
-          this.gamePage.set(response);
-          this.games.set(response.content);
-        });
+      this.subscriptions.add(
+        this.gameService
+          .searchGames(this.searchTerm.value)
+          .subscribe((response) => {
+            this.gamePage.set(response);
+            this.games.set(response.content);
+          }),
+      );
     } else {
       this.games.set([]);
       this.gamePage().content = [];

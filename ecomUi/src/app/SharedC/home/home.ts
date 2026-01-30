@@ -5,6 +5,7 @@ import { ListGames } from '../Widget/list-games/list-games';
 import { GameService } from '../../Service/game-service';
 import { Game } from '../../Models/Game.models';
 import { Page } from '../../Models/Page.Models';
+import { destroyScope } from '../../utils/destroyScope';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ import { Page } from '../../Models/Page.Models';
 })
 export class Home {
   gameService = inject(GameService);
-
+  private subscriptions = destroyScope();
   banners = signal<Page<Game> | null>(null);
   upcoming = signal<Page<Game> | null>(null);
   bestsellers = signal<Page<Game> | null>(null);
@@ -24,15 +25,17 @@ export class Home {
   }
 
   loadHomeGames(): void {
-    this.gameService.getHomeGames().subscribe({
-      next: (res) => {
-        this.banners.set(res.banners);
-        this.upcoming.set(res.upcoming);
-        this.bestsellers.set(res.bestsellers);
-      },
-      error: () => {
-        console.error('Failed to load home games');
-      },
-    });
+    this.subscriptions.add(
+      this.gameService.getHomeGames().subscribe({
+        next: (res) => {
+          this.banners.set(res.banners);
+          this.upcoming.set(res.upcoming);
+          this.bestsellers.set(res.bestsellers);
+        },
+        error: () => {
+          console.error('Failed to load home games');
+        },
+      }),
+    );
   }
 }

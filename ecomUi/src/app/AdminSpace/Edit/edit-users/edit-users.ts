@@ -8,7 +8,9 @@ import {
 } from '@angular/forms';
 import { UserService } from '../../../Service/user-service';
 import { user } from '../../../Models/User.models';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-edit-users',
@@ -18,6 +20,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditUsers {
   userService = inject(UserService);
+  router = inject(Router);
+  private subscriptions = destroyScope();
   id: number = 0;
   route = inject(ActivatedRoute);
   userForm = new FormGroup({
@@ -29,14 +33,16 @@ export class EditUsers {
   });
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.userService.getUserById(this.id).subscribe((data) => {
-      this.userForm.patchValue({
-        email: data.email,
-        username: data.username,
-        nom: data.nom,
-        prenom: data.prenom,
-      });
-    });
+    this.subscriptions.add(
+      this.userService.getUserById(this.id).subscribe((data) => {
+        this.userForm.patchValue({
+          email: data.email,
+          username: data.username,
+          nom: data.nom,
+          prenom: data.prenom,
+        });
+      }),
+    );
   }
 
   editUser() {
@@ -48,12 +54,31 @@ export class EditUsers {
         nom: this.userForm.get('nom')?.value!,
         prenom: this.userForm.get('prenom')?.value!,
       };
-
-      this.userService.addUser(user).subscribe((response) => {
-        console.log('User added successfully', response);
-      });
+      this.subscriptions.add(
+        this.userService.addUser(user).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'User Edited Successfully',
+              text: 'The user has been edited successfully.',
+            });
+            this.router.navigate(['/users']);
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Editing User',
+              text: 'There was an error editing the user. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
     }
   }
 }

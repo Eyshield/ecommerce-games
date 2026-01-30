@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-add-categories',
@@ -18,6 +19,7 @@ import Swal from 'sweetalert2';
 })
 export class AddCategories {
   categoryService = inject(CategoryService);
+  private subscriptions = destroyScope();
   router = inject(Router);
   categoryForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -28,23 +30,25 @@ export class AddCategories {
       const category = {
         name: this.categoryForm.get('name')?.value!,
       };
-      this.categoryService.addCategory(category).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Category Added Successfully',
-            text: 'The category has been added successfully.',
-          });
-          this.router.navigate(['/category']);
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error Adding Category',
-            text: 'There was an error adding the category. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.categoryService.addCategory(category).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Category Added Successfully',
+              text: 'The category has been added successfully.',
+            });
+            this.router.navigate(['/category']);
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Adding Category',
+              text: 'There was an error adding the category. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

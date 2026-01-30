@@ -1,11 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { SideBarAdmin } from '../../../SharedC/Widget/side-bar-admin/side-bar-admin';
 import { GameService } from '../../../Service/game-service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../../Service/category-service';
 import { Category } from '../../../Models/Category.models';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-add-games',
@@ -20,17 +26,18 @@ export class AddGames {
   router = inject(Router);
   categoryService = inject(CategoryService);
   gameService = inject(GameService);
+  private subscriptions = destroyScope();
   categories = signal<Category[]>([]);
   gameForm = new FormGroup({
-    title: new FormControl(''),
-    description: new FormControl(''),
-    price: new FormControl(''),
-    categoryId: new FormControl<number | null>(null),
-    releaseDate: new FormControl(''),
-    plateform: new FormControl(''),
-    homeSection: new FormControl(''),
-    stock: new FormControl(''),
-    image: new FormControl(''),
+    title: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    price: new FormControl('', [Validators.required, Validators.min(0)]),
+    categoryId: new FormControl<number | null>(null, Validators.required),
+    releaseDate: new FormControl('', Validators.required),
+    plateform: new FormControl('', Validators.required),
+    homeSection: new FormControl('', Validators.required),
+    stock: new FormControl('', [Validators.required, Validators.min(0)]),
+    image: new FormControl('', [Validators.required]),
   });
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -42,9 +49,11 @@ export class AddGames {
     }
   }
   loadCategories() {
-    this.categoryService.getAllCategorie().subscribe((response) => {
-      this.categories.set(response);
-    });
+    this.subscriptions.add(
+      this.categoryService.getAllCategorie().subscribe((response) => {
+        this.categories.set(response);
+      }),
+    );
   }
   AddGame() {
     if (this.gameForm.valid) {
@@ -55,23 +64,25 @@ export class AddGames {
       if (this.selectedFile) {
         fromData.append('image', this.selectedFile);
       }
-      this.gameService.addGame(fromData).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Game Added Successfully',
-            text: 'The game has been added successfully.',
-          });
-          this.router.navigate(['/games']);
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error Adding Game',
-            text: 'There was an error adding the game. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.gameService.addGame(fromData).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Game Added Successfully',
+              text: 'The game has been added successfully.',
+            });
+            this.router.navigate(['/games']);
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Adding Game',
+              text: 'There was an error adding the game. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

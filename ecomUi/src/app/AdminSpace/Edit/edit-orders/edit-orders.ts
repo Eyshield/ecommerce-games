@@ -16,6 +16,7 @@ import { user } from '../../../Models/User.models';
 import { UserService } from '../../../Service/user-service';
 import { GameService } from '../../../Service/game-service';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-edit-orders',
@@ -27,6 +28,7 @@ export class EditOrders {
   orderService = inject(OrderService);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  private subscriptions = destroyScope();
   userService = inject(UserService);
   gameService = inject(GameService);
   id!: number;
@@ -64,10 +66,12 @@ export class EditOrders {
     return this.orderForm.get('orderItmeRequest') as FormArray;
   }
   searchUsers(keyword: string) {
-    this.userService.searchUsers(keyword).subscribe({
-      next: (response) => this.customers.set(response),
-      error: () => this.customers.set({ ...this.customers(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.userService.searchUsers(keyword).subscribe({
+        next: (response) => this.customers.set(response),
+        error: () => this.customers.set({ ...this.customers(), content: [] }),
+      }),
+    );
   }
 
   selectCustomer(customer: user) {
@@ -77,10 +81,12 @@ export class EditOrders {
   }
 
   searchGames(keyword: string) {
-    this.gameService.searchGames(keyword).subscribe({
-      next: (response) => this.games.set(response),
-      error: () => this.games.set({ ...this.games(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.gameService.searchGames(keyword).subscribe({
+        next: (response) => this.games.set(response),
+        error: () => this.games.set({ ...this.games(), content: [] }),
+      }),
+    );
   }
 
   selectGame(game: Game, index: number): void {
@@ -110,28 +116,30 @@ export class EditOrders {
   }
 
   loadOrder(): void {
-    this.orderService.getOrdersById(this.id).subscribe((order) => {
-      if (order.user) {
-        this.orderForm.patchValue({
-          userId: order.user.id,
-          userLabel: order.user.nom,
+    this.subscriptions.add(
+      this.orderService.getOrdersById(this.id).subscribe((order) => {
+        if (order.user) {
+          this.orderForm.patchValue({
+            userId: order.user.id,
+            userLabel: order.user.nom,
+          });
+        }
+
+        this.orderItems.clear();
+
+        order.items.forEach((item) => {
+          const group = this.createItem();
+
+          group.patchValue({
+            gameId: item.game.id,
+            gameLabel: item.game.title,
+            quantity: item.quantity,
+          });
+
+          this.orderItems.push(group);
         });
-      }
-
-      this.orderItems.clear();
-
-      order.items.forEach((item) => {
-        const group = this.createItem();
-
-        group.patchValue({
-          gameId: item.game.id,
-          gameLabel: item.game.title,
-          quantity: item.quantity,
-        });
-
-        this.orderItems.push(group);
-      });
-    });
+      }),
+    );
   }
 
   updateOrder(): void {
@@ -145,27 +153,28 @@ export class EditOrders {
           }),
         ),
       };
-
-      this.orderService.updateOrder(this.id, dto).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Order Edited Successfully',
-            text: 'The order has been edited successfully.',
-          });
-          this.router.navigate(['/orders']);
-          this.orderForm.reset();
-          this.orderItems.clear();
-          this.userSearch.reset();
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Order failed',
-            text: 'there was an error editing the order. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.orderService.updateOrder(this.id, dto).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Order Edited Successfully',
+              text: 'The order has been edited successfully.',
+            });
+            this.router.navigate(['/orders']);
+            this.orderForm.reset();
+            this.orderItems.clear();
+            this.userSearch.reset();
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Order failed',
+              text: 'there was an error editing the order. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

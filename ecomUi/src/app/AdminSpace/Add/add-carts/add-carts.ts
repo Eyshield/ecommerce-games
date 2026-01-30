@@ -17,6 +17,7 @@ import { UserService } from '../../../Service/user-service';
 import { cartRequestDto } from '../../../Models/CartRequestDto.models';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-add-carts',
@@ -29,7 +30,7 @@ export class AddCarts {
   gameService = inject(GameService);
   userService = inject(UserService);
   router = inject(Router);
-
+  private subscriptions = destroyScope();
   games = signal<Page<Game>>({
     content: [],
     page: 0,
@@ -59,22 +60,26 @@ export class AddCarts {
   }
 
   ngOnInit() {
-    this.userSearch.valueChanges
-      .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((value) => {
-        if (value && value.length >= 2) {
-          this.searchUsers(value);
-        } else {
-          this.customers.set({ ...this.customers(), content: [] });
-        }
-      });
+    this.subscriptions.add(
+      this.userSearch.valueChanges
+        .pipe(debounceTime(300), distinctUntilChanged())
+        .subscribe((value) => {
+          if (value && value.length >= 2) {
+            this.searchUsers(value);
+          } else {
+            this.customers.set({ ...this.customers(), content: [] });
+          }
+        }),
+    );
   }
 
   searchUsers(keyword: string) {
-    this.userService.searchUsers(keyword).subscribe({
-      next: (response) => this.customers.set(response),
-      error: () => this.customers.set({ ...this.customers(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.userService.searchUsers(keyword).subscribe({
+        next: (response) => this.customers.set(response),
+        error: () => this.customers.set({ ...this.customers(), content: [] }),
+      }),
+    );
   }
 
   selectCustomer(customer: user) {
@@ -84,10 +89,12 @@ export class AddCarts {
   }
 
   searchGames(keyword: string) {
-    this.gameService.searchGames(keyword).subscribe({
-      next: (response) => this.games.set(response),
-      error: () => this.games.set({ ...this.games(), content: [] }),
-    });
+    this.subscriptions.add(
+      this.gameService.searchGames(keyword).subscribe({
+        next: (response) => this.games.set(response),
+        error: () => this.games.set({ ...this.games(), content: [] }),
+      }),
+    );
   }
 
   selectGame(game: Game, index: number): void {
@@ -133,27 +140,28 @@ export class AddCarts {
           quantity: item.quantity,
         })),
       };
-
-      this.cartService.addToCart(cartData).subscribe({
-        next: (response) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Cart Added Successfully',
-            text: 'The cart has been added successfully.',
-          });
-          this.router.navigate(['/carts']);
-          this.cartForm.reset();
-          this.cartItems.clear();
-          this.userSearch.reset();
-        },
-        error: (error) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error Adding Cart',
-            text: 'There was an error adding the cart. Please try again.',
-          });
-        },
-      });
+      this.subscriptions.add(
+        this.cartService.addToCart(cartData).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Cart Added Successfully',
+              text: 'The cart has been added successfully.',
+            });
+            this.router.navigate(['/carts']);
+            this.cartForm.reset();
+            this.cartItems.clear();
+            this.userSearch.reset();
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Adding Cart',
+              text: 'There was an error adding the cart. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
       Swal.fire({
         icon: 'error',

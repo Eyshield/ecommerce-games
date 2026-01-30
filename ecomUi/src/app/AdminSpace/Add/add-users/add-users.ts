@@ -8,6 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { user } from '../../../Models/User.models';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 @Component({
   selector: 'app-add-users',
   imports: [SideBarAdmin, ReactiveFormsModule],
@@ -16,6 +19,8 @@ import { user } from '../../../Models/User.models';
 })
 export class AddUsers {
   userService = inject(UserService);
+  router = inject(Router);
+  private subscriptions = destroyScope();
   userForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     telephone: new FormControl('', [Validators.required]),
@@ -32,12 +37,31 @@ export class AddUsers {
         nom: this.userForm.get('nom')?.value!,
         prenom: this.userForm.get('prenom')?.value!,
       };
-
-      this.userService.addUser(user).subscribe((response) => {
-        console.log('User added successfully', response);
-      });
+      this.subscriptions.add(
+        this.userService.addUser(user).subscribe({
+          next: (response) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'User Added Successfully',
+              text: 'The user has been added successfully.',
+            });
+            this.router.navigate(['/users']);
+          },
+          error: (error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Adding User',
+              text: 'There was an error adding the user. Please try again.',
+            });
+          },
+        }),
+      );
     } else {
-      console.log('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Form',
+        text: 'Please fill out the form correctly before submitting.',
+      });
     }
   }
 }

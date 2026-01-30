@@ -7,6 +7,7 @@ import { CartService } from '../../../Service/cart-service';
 import { Cart } from '../../../Models/Cart.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-manage-carts',
@@ -16,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class ManageCarts implements OnInit {
   carts = signal<Cart[]>([]);
+  private subscriptions = destroyScope();
   searchTerm = new FormControl('');
   cartService = inject(CartService);
   pageCarts = signal<Page<Cart>>({
@@ -32,41 +34,47 @@ export class ManageCarts implements OnInit {
   }
   loadCarts() {
     if (this.searchTerm.value !== '' && this.searchTerm.value) {
-      this.cartService
-        .searchCarts(this.searchTerm.value)
-        .subscribe((response) => {
-          this.pageCarts.set(response);
-          this.carts.set(response.content);
-        });
+      this.subscriptions.add(
+        this.cartService
+          .searchCarts(this.searchTerm.value)
+          .subscribe((response) => {
+            this.pageCarts.set(response);
+            this.carts.set(response.content);
+          }),
+      );
     } else {
       this.carts.set([]);
       this.pageCarts().page = 0;
-      this.cartService
-        .getAllCarts(this.pageCarts().page, this.pageCarts().Size)
-        .subscribe((response) => {
-          this.pageCarts.set(response);
-          this.carts.set(response.content);
-        });
+      this.subscriptions.add(
+        this.cartService
+          .getAllCarts(this.pageCarts().page, this.pageCarts().Size)
+          .subscribe((response) => {
+            this.pageCarts.set(response);
+            this.carts.set(response.content);
+          }),
+      );
     }
   }
   removeCart(id: number) {
-    this.cartService.removeCart(id).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Cart Removed Successfully',
-          text: 'The cart has been removed successfully.',
-        });
-        this.loadCarts();
-      },
-      error: () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error removing Cart',
-          text: 'There was an error removing the cart. Please try again.',
-        });
-      },
-    });
+    this.subscriptions.add(
+      this.cartService.removeCart(id).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Cart Removed Successfully',
+            text: 'The cart has been removed successfully.',
+          });
+          this.loadCarts();
+        },
+        error: () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error removing Cart',
+            text: 'There was an error removing the cart. Please try again.',
+          });
+        },
+      }),
+    );
   }
   nextPage() {
     if (this.pageCarts().page < this.pageCarts().totalPages - 1) {

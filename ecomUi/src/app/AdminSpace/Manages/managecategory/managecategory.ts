@@ -6,6 +6,7 @@ import { Page } from '../../../Models/Page.Models';
 import { Category } from '../../../Models/Category.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../../utils/destroyScope';
 
 @Component({
   selector: 'app-managecategory',
@@ -15,6 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class Managecategory {
   categoryService = inject(CategoryService);
+  private subscriptions = destroyScope();
   searchTerm = new FormControl('');
   categoriePage = signal<Page<Category>>({
     content: [],
@@ -31,42 +33,50 @@ export class Managecategory {
   }
   loadCategories() {
     if (this.searchTerm.value !== '' && this.searchTerm.value) {
-      this.categoryService
-        .searchCategories(this.searchTerm.value)
-        .subscribe((response) => {
-          this.categoriePage.set(response);
-          this.categories.set(response.content);
-        });
+      this.subscriptions.add(
+        this.categoryService
+          .searchCategories(this.searchTerm.value)
+          .subscribe((response) => {
+            this.categoriePage.set(response);
+            this.categories.set(response.content);
+          }),
+      );
     } else {
       this.categories.set([]);
       this.categoriePage().page = 0;
-
-      this.categoryService
-        .getAllCategories(this.categoriePage().Size, this.categoriePage().page)
-        .subscribe((response) => {
-          this.categoriePage.set(response);
-          this.categories.set(response.content);
-        });
+      this.subscriptions.add(
+        this.categoryService
+          .getAllCategories(
+            this.categoriePage().Size,
+            this.categoriePage().page,
+          )
+          .subscribe((response) => {
+            this.categoriePage.set(response);
+            this.categories.set(response.content);
+          }),
+      );
     }
   }
   deleteCategory(id: number) {
-    this.categoryService.deleteCategory(id).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Category Deleted Successfully',
-          text: 'The category has been deleted successfully.',
-        });
+    this.subscriptions.add(
+      this.categoryService.deleteCategory(id).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Category Deleted Successfully',
+            text: 'The category has been deleted successfully.',
+          });
 
-        this.loadCategories();
-      },
-      error: (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error deleting Category',
-          text: 'There was an error deleting the category. Please try again.',
-        });
-      },
-    });
+          this.loadCategories();
+        },
+        error: (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error deleting Category',
+            text: 'There was an error deleting the category. Please try again.',
+          });
+        },
+      }),
+    );
   }
 }

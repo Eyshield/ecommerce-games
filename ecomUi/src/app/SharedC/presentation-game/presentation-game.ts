@@ -7,6 +7,7 @@ import { OrderService } from '../../Service/order-service';
 import { AuthService } from '../../Service/auth-service';
 import { orderRequestDto } from '../../Models/OrderRequestDto';
 import Swal from 'sweetalert2';
+import { destroyScope } from '../../utils/destroyScope';
 
 @Component({
   selector: 'app-presentation-game',
@@ -18,13 +19,16 @@ export class PresentationGame {
   game = signal<Game | null>(null);
   orderService = inject(OrderService);
   gameService = inject(GameService);
+  private subscriptions = destroyScope();
   authService = inject(AuthService);
   router = inject(ActivatedRoute);
   ngOnInit() {
     const id = Number(this.router.snapshot.paramMap.get('id'));
-    this.gameService.getGameByIdForUsers(id).subscribe((response) => {
-      this.game.set(response);
-    });
+    this.subscriptions.add(
+      this.gameService.getGameByIdForUsers(id).subscribe((response) => {
+        this.game.set(response);
+      }),
+    );
   }
   makeOrder() {
     if (!this.authService.isLoggedIn()) {
@@ -43,22 +47,23 @@ export class PresentationGame {
         },
       ],
     };
-
-    this.orderService.placeOrder(orderDto).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Order Placed Successfully',
-          text: 'Thank you for your purchase!',
-        });
-      },
-      error: () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Order Failed',
-          text: 'There was an issue placing your order. Please try again later.',
-        });
-      },
-    });
+    this.subscriptions.add(
+      this.orderService.placeOrder(orderDto).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Order Placed Successfully',
+            text: 'Thank you for your purchase!',
+          });
+        },
+        error: () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Order Failed',
+            text: 'There was an issue placing your order. Please try again later.',
+          });
+        },
+      }),
+    );
   }
 }
