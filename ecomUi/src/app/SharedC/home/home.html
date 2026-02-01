@@ -4,18 +4,15 @@
   @defer (when banners() && upcoming() && bestsellers()) {
     <app-banner [game]="banners()?.content" />
 
-    @for (upcoming of upcoming()?.content; track $index) {
-      <p
-        class="border rounded-full border-transparent bg-gray-900 text-gray-50 w-fit px-4 py-2 ml-4 mb-2"
-      >
-        Up coming
-      </p>
-      <app-list-games title="Upcoming Games" [game]="upcoming" />
-    }
+    <p
+      class="border rounded-full border-transparent bg-gray-900 text-gray-50 w-fit px-4 py-2 ml-4 mb-2"
+    >
+      Up coming
+    </p>
 
-    @for (bestseller of bestsellers()?.content; track $index) {
-      <app-list-games title="Best Sellers" [game]="bestseller" />
-    }
+    <app-list-games title="Upcoming Games" [games]="upcoming()?.content!" />
+
+    <app-list-games title="Best Sellers" [games]="bestsellers()?.content!" />
   } @loading {
     <div class="text-center text-white py-10">Loading games...</div>
   } @error {

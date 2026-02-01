@@ -25,6 +25,7 @@ import { authAdminGuard } from './Guards/auth-admin-guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
+  { path: 'home', component: Home },
   { path: 'redirect', component: Redirect },
   { path: 'presentation-game/:id', component: PresentationGame },
   { path: 'cart', component: Cart },

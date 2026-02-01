@@ -5,18 +5,20 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../../Service/game-service';
 import { Game } from '../../../Models/Game.models';
 import { Page } from '../../../Models/Page.Models';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { destroyScope } from '../../../utils/destroyScope';
+import { cartStore } from '../../../CartStore/cart.store';
 
 @Component({
   selector: 'app-navbar',
-  imports: [UserMenu, ReactiveFormsModule],
+  imports: [UserMenu, ReactiveFormsModule, RouterLink],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
 export class Navbar {
   searchTerm = new FormControl('');
   gameService = inject(GameService);
+
   router = inject(Router);
   games = signal<Game[]>([]);
   private subscriptions = destroyScope();

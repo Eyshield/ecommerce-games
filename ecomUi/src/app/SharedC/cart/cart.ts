@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Navbar } from '../Widget/navbar/navbar';
+import { cartStore } from '../../CartStore/cart.store';
 
 @Component({
   selector: 'app-cart',
@@ -8,14 +9,11 @@ import { Navbar } from '../Widget/navbar/navbar';
   styleUrl: './cart.css',
 })
 export class Cart {
-  removeFromCart(_t10: any) {
-    throw new Error('Method not implemented.');
+  cartStore = inject(cartStore);
+  cartItems = this.cartStore.items;
+  totalPrice = this.cartStore.totalPrice;
+  quantity = this.cartStore.itemsCount;
+  removeFromCart(id: number) {
+    this.cartStore.removeFromCart(id);
   }
-  cartItems = signal<Array<any>>([
-    {
-      imageUrl: 'pes.jpg',
-      title: 'Pro Evolution Soccer 2024',
-      price: '59.99',
-    },
-  ]);
 }

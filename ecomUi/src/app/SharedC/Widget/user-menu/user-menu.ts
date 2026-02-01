@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../Service/auth-service';
+import { cartStore } from '../../../CartStore/cart.store';
 
 @Component({
   selector: 'app-user-menu',
@@ -18,6 +19,8 @@ import { AuthService } from '../../../Service/auth-service';
 export class UserMenu {
   auth = inject(AuthService);
   router = inject(Router);
+  cartStore = inject(cartStore);
+  itemsCount = this.cartStore.itemsCount;
   logout() {
     this.auth.Logout();
     this.router.navigate(['/home']);
