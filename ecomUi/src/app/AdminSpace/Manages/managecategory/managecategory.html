@@ -21,10 +21,10 @@
     <div
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
     >
-      <div
-        class="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all hover:-translate-y-1 group"
-      >
-        @for (category of categories(); track $index) {
+      @for (category of categories(); track $index) {
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all hover:-translate-y-1 group"
+        >
           <div class="p-6">
             <div class="flex items-start justify-between mb-4">
               <div
@@ -38,7 +38,10 @@
             <h3 class="text-lg font-bold text-gray-900 mb-2">
               {{ category.name }}
             </h3>
-            <p class="text-sm text-gray-500 mb-4">12 games</p>
+            <p class="text-sm text-gray-500 mb-4">
+              {{ category.games?.length }}
+              games
+            </p>
 
             <div class="flex gap-2">
               <a [routerLink]="['/editCategory', category.id]">
@@ -56,8 +59,8 @@
               </button>
             </div>
           </div>
-        }
-      </div>
+        </div>
+      }
       <a
         [routerLink]="['/addCategory']"
         class="bg-white rounded-xl border-2 border-dashed border-gray-300 hover:border-green-500 transition-all cursor-pointer group"

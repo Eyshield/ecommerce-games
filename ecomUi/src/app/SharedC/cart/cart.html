@@ -75,9 +75,9 @@
                   class="flex justify-between items-center text-gray-300 text-sm"
                 >
                   <span class="truncate mr-2"
-                    >{{ cartItem.game.title }} x1</span
+                    >{{ cartItem.game.title }} x{{ cartItem.quantity }}</span
                   >
-                  <span>{{ cartItem.price }}</span>
+                  <span>{{ cartItem.price * cartItem.quantity }}</span>
                 </div>
               }
             </div>
@@ -85,7 +85,7 @@
             <div class="border-t border-gray-700 pt-4 mb-4">
               <div class="flex justify-between items-center text-white">
                 <span>Total Items:</span>
-                <span class="font-semibold">{{ cartItems().length }}</span>
+                <span class="font-semibold">{{ quantity() }}</span>
               </div>
             </div>
 

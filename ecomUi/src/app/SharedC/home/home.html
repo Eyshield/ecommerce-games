@@ -12,6 +12,12 @@
 
     <app-list-games title="Upcoming Games" [games]="upcoming()?.content!" />
 
+    <p
+      class="border rounded-full border-transparent bg-gray-900 text-gray-50 w-fit px-4 py-2 ml-4 mb-2"
+    >
+      Best sellers
+    </p>
+
     <app-list-games title="Best Sellers" [games]="bestsellers()?.content!" />
   } @loading {
     <div class="text-center text-white py-10">Loading games...</div>

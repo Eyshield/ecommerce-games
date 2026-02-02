@@ -14,18 +14,14 @@ export class Redirect implements OnInit {
   router = inject(Router);
   userService = inject(UserService);
   async ngOnInit() {
-    const isLogged = await this.keycloak.isLoggedIn();
-
-    if (!isLogged) {
-      await this.keycloak.login();
-      return;
-    }
-
     if (this.keycloak.isUserInRole('Admin')) {
       this.userService.getUserByMe().subscribe();
       this.router.navigate(['/dashboard']);
-    } else {
+    } else if (this.keycloak.isUserInRole('User')) {
+      this.userService.getUserByMe().subscribe();
       this.router.navigate(['/personal']);
+    } else {
+      this.router.navigate(['/home']);
     }
   }
 }

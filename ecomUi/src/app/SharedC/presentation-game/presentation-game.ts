@@ -8,6 +8,7 @@ import { AuthService } from '../../Service/auth-service';
 import { orderRequestDto } from '../../Models/OrderRequestDto';
 import Swal from 'sweetalert2';
 import { destroyScope } from '../../utils/destroyScope';
+import { cartStore } from '../../CartStore/cart.store';
 
 @Component({
   selector: 'app-presentation-game',
@@ -19,6 +20,7 @@ export class PresentationGame {
   game = signal<Game | null>(null);
   orderService = inject(OrderService);
   gameService = inject(GameService);
+  cartStore = inject(cartStore);
   private subscriptions = destroyScope();
   authService = inject(AuthService);
   router = inject(ActivatedRoute);

@@ -35,6 +35,9 @@ export class AddOrders {
   orderForm = new FormGroup({
     userId: new FormControl<number | null>(null, Validators.required),
     orderItemRequests: new FormArray<FormGroup>([]),
+    orderDate: new FormControl<Date>(new Date()),
+    shippingAddress: new FormControl<string>('', Validators.required),
+    status: new FormControl<string>('PENDING', Validators.required),
   });
   games = signal<Page<Game>>({
     content: [],
