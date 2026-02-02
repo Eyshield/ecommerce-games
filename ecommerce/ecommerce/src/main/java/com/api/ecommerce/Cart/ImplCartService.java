@@ -63,7 +63,7 @@ public class ImplCartService implements CartService {
                 responses,
                 cartPage.getNumber(),
                 cartPage.getSize(),
-                cartPage.getNumberOfElements(),
+                cartPage.getTotalElements(),
                 cartPage.getTotalPages(),
                 cartPage.isFirst(),
                 cartPage.isLast()
@@ -113,7 +113,7 @@ public class ImplCartService implements CartService {
                 carts.getContent(),
                 carts.getNumber(),
                 carts.getSize(),
-                carts.getNumberOfElements(),
+                carts.getTotalElements(),
                 carts.getTotalPages(),
                 carts.isFirst(),
                 carts.isLast()
@@ -135,7 +135,7 @@ public class ImplCartService implements CartService {
                 carts.getContent(),
                 carts.getNumber(),
                 carts.getSize(),
-                carts.getNumberOfElements(),
+                carts.getTotalElements(),
                 carts.getTotalPages(),
                 carts.isFirst(),
                 carts.isLast()

@@ -46,7 +46,7 @@ public class ImplCategoryService implements CategoryService{
                 categoryPage.getContent(),
                 categoryPage.getNumber(),
                 categoryPage.getSize(),
-                categoryPage.getNumberOfElements(),
+                categoryPage.getTotalElements(),
                 categoryPage.getTotalPages(),
                 categoryPage.isFirst(),
                 categoryPage.isLast()
@@ -61,7 +61,7 @@ public class ImplCategoryService implements CategoryService{
                 categoryPage.getContent(),
                 categoryPage.getNumber(),
                 categoryPage.getSize(),
-                categoryPage.getNumberOfElements(),
+                categoryPage.getTotalElements(),
                 categoryPage.getTotalPages(),
                 categoryPage.isFirst(),
                 categoryPage.isLast()

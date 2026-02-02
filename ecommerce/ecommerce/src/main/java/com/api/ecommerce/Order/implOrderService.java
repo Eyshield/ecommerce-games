@@ -65,7 +65,7 @@ public class implOrderService implements OrderService{
                 responses,
                 orderPage.getNumber(),
                 orderPage.getSize(),
-                orderPage.getNumberOfElements(),
+                orderPage.getTotalElements(),
                 orderPage.getTotalPages(),
                 orderPage.isFirst(),
                 orderPage.isLast()
@@ -105,7 +105,7 @@ public class implOrderService implements OrderService{
                 orders.getContent(),
                 orders.getNumber(),
                 orders.getSize(),
-                orders.getNumberOfElements(),
+                orders.getTotalElements(),
                 orders.getTotalPages(),
                 orders.isFirst(),
                 orders.isLast()
@@ -120,7 +120,7 @@ public class implOrderService implements OrderService{
                 orders.getContent(),
                 orders.getNumber(),
                 orders.getSize(),
-                orders.getNumberOfElements(),
+                orders.getTotalElements(),
                 orders.getTotalPages(),
                 orders.isFirst(),
                 orders.isLast()

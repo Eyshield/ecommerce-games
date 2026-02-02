@@ -12,7 +12,7 @@ public class PageResponse <T>{
     private List<T>content;
     private int page;
     private int size;
-    private int TotalElements;
+    private long TotalElements;
     private int TotalPages;
     private Boolean isFirst;
     private Boolean isLast;

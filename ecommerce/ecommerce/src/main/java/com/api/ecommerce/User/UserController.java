@@ -20,7 +20,6 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public User me(@AuthenticationPrincipal Jwt jwt) {
-
         return userService.getOrCreate(jwt);
     }
     @GetMapping("/all")

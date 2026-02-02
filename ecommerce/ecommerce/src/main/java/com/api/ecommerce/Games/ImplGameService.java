@@ -68,7 +68,7 @@ public class ImplGameService implements GameService{
                 gamePage.getContent(),
                 gamePage.getNumber(),
                 gamePage.getSize(),
-                gamePage.getNumberOfElements(),
+                gamePage.getTotalElements(),
                 gamePage.getTotalPages(),
                 gamePage.isFirst(),
                 gamePage.isLast()
@@ -110,7 +110,7 @@ public class ImplGameService implements GameService{
                 content,
                 gamePage.getNumber(),
                 gamePage.getSize(),
-                gamePage.getNumberOfElements(),
+                gamePage.getTotalElements(),
                 gamePage.getTotalPages(),
                 gamePage.isFirst(),
                 gamePage.isLast()

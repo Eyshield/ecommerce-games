@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
                 userPage.getContent(),
                 userPage.getNumber(),
                 userPage.getSize(),
-                userPage.getNumberOfElements(),
+                userPage.getTotalElements(),
                 userPage.getTotalPages(),
                 userPage.isFirst(),
                 userPage.isLast()
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService{
         user.setUsername(jwt.getClaim("preferred_username"));
         user.setPrenom(jwt.getClaim("given_name"));
         user.setNom(jwt.getClaim("family_name"));
-
         return userRepo.save(user);
     }
 
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService{
                 userPage.getContent(),
                 userPage.getNumber(),
                 userPage.getSize(),
-                userPage.getNumberOfElements(),
+                userPage.getTotalElements(),
                 userPage.getTotalPages(),
                 userPage.isFirst(),
                 userPage.isLast()
