@@ -16,6 +16,7 @@ public class GameResponse {
     private double price;
     private String imageUrl;
     private String description;
+    private int stock;
     private Plateform plateform;
     private String category;
 }

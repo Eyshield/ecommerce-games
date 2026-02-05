@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -29,9 +30,11 @@ public class implOrderService implements OrderService{
     public Order MakeOrder(Long cartId, Long userId, List<OrderItemRequest> items, Status status) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        verifyAndUpdateStock(items);
         if(cartId != null){
-        cartService.clearCart(cartId);
+            cartService.clearCart(cartId);
         }
+
         Order order = new Order();
         order.setUser(user);
         order.setOrderItems(new ArrayList<>());
@@ -39,6 +42,7 @@ public class implOrderService implements OrderService{
         order.setDate(LocalDate.now());
         double totalPrice = 0.0;
         order = orderRepo.save(order);
+
         for (OrderItemRequest itemRequest : items) {
             Game game = gameRepo.findById(itemRequest.getGameId())
                     .orElseThrow(() -> new RuntimeException("Game not found: " + itemRequest.getGameId()));
@@ -52,6 +56,7 @@ public class implOrderService implements OrderService{
 
             totalPrice += game.getPrice() * orderItem.getQuantity();
         }
+
         order.setTotalPrice(totalPrice);
         return orderRepo.save(order);
     }
@@ -76,11 +81,16 @@ public class implOrderService implements OrderService{
     public Order updateOrder(Long orderId, List<OrderItemRequest> items) {
         Order order = orderRepo.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        restoreStock(order.getOrderItems());
+        verifyAndUpdateStock(items);
+
         List<OrderItem> existingItems = new ArrayList<>(order.getOrderItems());
         for (OrderItem item : existingItems) {
             orderItemRepo.delete(item);
         }
         order.getOrderItems().clear();
+
         double totalPrice = 0.0;
         for (OrderItemRequest itemRequest : items) {
             Game game = gameRepo.findById(itemRequest.getGameId())
@@ -94,6 +104,7 @@ public class implOrderService implements OrderService{
             order.getOrderItems().add(orderItem);
             totalPrice += game.getPrice() * orderItem.getQuantity();
         }
+
         order.setTotalPrice(totalPrice);
         return orderRepo.save(order);
     }
@@ -128,6 +139,29 @@ public class implOrderService implements OrderService{
         return response;
 
     }
+  //ideally these two function should be placed in game service but i don t care
+    private void verifyAndUpdateStock(List<OrderItemRequest> items) {
+        for (OrderItemRequest itemRequest : items) {
+            Game game = gameRepo.findById(itemRequest.getGameId())
+                    .orElseThrow(() -> new RuntimeException("Game not found: " + itemRequest.getGameId()));
+            if (game.getStock() < itemRequest.getQuantity()) {
+                throw new RuntimeException("Insufficiant stock : " + game.getTitle() +
+                        ". Stock avaible: " + game.getStock() +
+                        ", Quantity demanded: " + itemRequest.getQuantity());
+            }
+            game.setStock(game.getStock() - itemRequest.getQuantity());
+            gameRepo.save(game);
+        }
+    }private void restoreStock(Collection<OrderItem> orderItems) {
+        for (OrderItem item : orderItems) {
+            Game game = item.getGame();
+            game.setStock(game.getStock() + item.getQuantity());
+            gameRepo.save(game);
+        }
+    }
+
+
+
 
     @Override
     public void deleteOrder(Long id) {

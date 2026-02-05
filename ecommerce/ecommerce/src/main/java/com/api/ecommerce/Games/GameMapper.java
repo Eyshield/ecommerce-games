@@ -11,6 +11,16 @@ public class GameMapper {
     private FileStorage fileStorage;
     private CategoryRepo categoryRepo;
     public Game toGame(GameRequest gameRequest){
+        String imageUrl;
+        if (gameRequest.getImage() != null && !gameRequest.getImage().isEmpty()) {
+            imageUrl = fileStorage.saveFile(gameRequest.getImage());
+        }
+        else if (gameRequest.getImageUrl() != null && !gameRequest.getImageUrl().isEmpty()) {
+            imageUrl = gameRequest.getImageUrl();
+        }
+        else {
+            imageUrl = null;
+        }
         return Game.builder()
                 .id(gameRequest.getId())
                 .title(gameRequest.getTitle())
@@ -19,7 +29,8 @@ public class GameMapper {
                 .plateform(gameRequest.getPlateform())
                 .homeSection(gameRequest.getHomeSection())
                 .releaseDate(gameRequest.getReleaseDate())
-                .imageUrl(fileStorage.saveFile(gameRequest.getImage()))
+                .stock(gameRequest.getStock())
+                .imageUrl(imageUrl)
                 .category(categoryRepo.findById(gameRequest.getCategoryId()).orElseThrow())
                 .build();
 
@@ -30,6 +41,7 @@ public class GameMapper {
                 .id(game.getId())
                 .title(game.getTitle())
                 .price(game.getPrice())
+                .stock(game.getStock())
                 .description(game.getDescription())
                 .imageUrl(game.getImageUrl())
                 .plateform(game.getPlateform())

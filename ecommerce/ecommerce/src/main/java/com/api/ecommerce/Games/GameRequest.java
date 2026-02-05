@@ -27,5 +27,6 @@ public class GameRequest {
     private HomeSection homeSection;
     private int stock;
     private MultipartFile image;
+    private String imageUrl;
     private Long categoryId;
 }
