@@ -6,10 +6,11 @@ import { GameService } from '../../Service/game-service';
 import { Game } from '../../Models/Game.models';
 import { Page } from '../../Models/Page.Models';
 import { destroyScope } from '../../utils/destroyScope';
+import { Footer } from '../Widget/footer/footer';
 
 @Component({
   selector: 'app-home',
-  imports: [Navbar, Banner, ListGames],
+  imports: [Navbar, Banner, ListGames, Footer],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

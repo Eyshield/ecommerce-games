@@ -37,10 +37,14 @@ export class AddGames {
     plateform: new FormControl('', Validators.required),
     homeSection: new FormControl('', Validators.required),
     stock: new FormControl('', [Validators.required, Validators.min(0)]),
-    image: new FormControl('', [Validators.required]),
+    image: new FormControl(''),
   });
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
+  ngOnInit() {
+    this.loadCategories();
+  }
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
     if (file) {
       this.selectedFile = file;
       this.previewImage = URL.createObjectURL(file);

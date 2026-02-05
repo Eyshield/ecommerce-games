@@ -21,7 +21,7 @@ import { destroyScope } from '../../../utils/destroyScope';
 })
 export class EditGames {
   previewImage: string | ArrayBuffer | null = null;
-  selectedFile: File | null = null;
+  selectedFile: File | string | null = null;
   gameService = inject(GameService);
   categoryService = inject(CategoryService);
   private subscriptions = destroyScope();
@@ -31,12 +31,12 @@ export class EditGames {
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     price: new FormControl('', [Validators.required, Validators.min(0)]),
-    category: new FormControl('', Validators.required),
+    categoryId: new FormControl<number | null>(null, Validators.required),
     releaseDate: new FormControl('', Validators.required),
     plateform: new FormControl('', Validators.required),
     homeSection: new FormControl('', Validators.required),
-    stock: new FormControl('', [Validators.required, Validators.min(0)]),
-    image: new FormControl('', [Validators.required]),
+    stock: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+    image: new FormControl(),
   });
 
   id: number = 0;
@@ -49,14 +49,17 @@ export class EditGames {
           title: data.title,
           description: data.description,
           price: String(data.price),
-          category: data.category.name,
+          categoryId: data.category.id,
           releaseDate: new Date(data.releaseDate).toISOString().split('T')[0],
-          stock: String(data.stock),
-          image: data.imageUrl,
+          plateform: data.plateform,
+          homeSection: data.homeSection,
+          stock: data.stock,
         });
+        this.selectedFile = data.imageUrl;
         this.previewImage = data.imageUrl;
       }),
     );
+    this.loadCategories();
   }
   loadCategories() {
     this.subscriptions.add(
@@ -65,8 +68,9 @@ export class EditGames {
       }),
     );
   }
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
     if (file) {
       this.selectedFile = file;
       this.previewImage = URL.createObjectURL(file);
@@ -77,11 +81,18 @@ export class EditGames {
   editGame() {
     if (this.gameForm.valid) {
       const fromData = new FormData();
-      for (const [Key, value] of Object.entries(this.gameForm.value)) {
-        fromData.append(Key, value as string);
+      for (const [key, value] of Object.entries(this.gameForm.value)) {
+        if (key !== 'image') {
+          fromData.append(key, value as string);
+        }
       }
-      if (this.selectedFile) {
+      if (
+        typeof this.selectedFile === 'object' &&
+        this.selectedFile instanceof File
+      ) {
         fromData.append('image', this.selectedFile);
+      } else {
+        fromData.append('imageUrl', this.selectedFile as string);
       }
       this.subscriptions.add(
         this.gameService.updateGame(this.id, fromData).subscribe({

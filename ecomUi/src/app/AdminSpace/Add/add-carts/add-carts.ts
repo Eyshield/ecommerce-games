@@ -18,6 +18,8 @@ import { cartRequestDto } from '../../../Models/CartRequestDto.models';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { destroyScope } from '../../../utils/destroyScope';
+import { CartItem } from '../../../Models/CartItem.models';
+import { cartItemRequest } from '../../../Models/CartItemRequest.models';
 
 @Component({
   selector: 'app-add-carts',
@@ -135,7 +137,7 @@ export class AddCarts {
     if (this.cartForm.valid) {
       const cartData: cartRequestDto = {
         userId: this.cartForm.value.userId!,
-        cartItemRequests: this.cartItems.value.map((item: any) => ({
+        cartItemRequests: this.cartItems.value.map((item: cartItemRequest) => ({
           gameId: item.gameId,
           quantity: item.quantity,
         })),

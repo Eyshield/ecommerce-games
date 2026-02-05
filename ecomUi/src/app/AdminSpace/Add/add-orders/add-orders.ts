@@ -18,6 +18,7 @@ import { orderRequestDto } from '../../../Models/OrderRequestDto';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { destroyScope } from '../../../utils/destroyScope';
+import { orderItemRequest } from '../../../Models/OrderItemRequest.models';
 
 @Component({
   selector: 'app-add-orders',
@@ -149,10 +150,12 @@ export class AddOrders {
     if (this.orderForm.valid) {
       const orderData: orderRequestDto = {
         userId: this.orderForm.value.userId!,
-        orderItemRequest: this.orderItems.value.map((item: any) => ({
-          gameId: item.gameId,
-          quantity: item.quantity,
-        })),
+        orderItemRequest: this.orderItems.value.map(
+          (item: orderItemRequest) => ({
+            gameId: item.gameId,
+            quantity: item.quantity,
+          }),
+        ),
       };
       this.subscriptions.add(
         this.orderService.placeOrder(orderData).subscribe({

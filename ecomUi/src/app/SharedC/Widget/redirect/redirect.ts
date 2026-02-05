@@ -12,6 +12,7 @@ import { UserService } from '../../../Service/user-service';
 export class Redirect implements OnInit {
   keycloak = inject(KeycloakService);
   router = inject(Router);
+
   userService = inject(UserService);
   async ngOnInit() {
     if (this.keycloak.isUserInRole('Admin')) {

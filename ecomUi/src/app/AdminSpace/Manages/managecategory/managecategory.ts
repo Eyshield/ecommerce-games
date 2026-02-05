@@ -52,7 +52,7 @@ export class Managecategory {
           )
           .subscribe((response) => {
             this.categoriePage.set(response);
-            console.log(response);
+
             this.categories.set(response.content);
           }),
       );

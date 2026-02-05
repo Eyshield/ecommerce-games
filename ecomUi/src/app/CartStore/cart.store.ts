@@ -9,6 +9,7 @@ import {
 
 import { cartState } from './cart.state';
 import { CartItem } from '../Models/CartItem.models';
+import Swal from 'sweetalert2';
 
 export const cartStore = signalStore(
   { providedIn: 'root' },
@@ -31,26 +32,36 @@ export const cartStore = signalStore(
     addToCart(game: CartItem['game'], quantity: number = 1) {
       const items = store.cartItems();
       const existingItem = items.find((i) => i.game.id === game.id);
+      if (
+        game.stock <
+        (existingItem ? existingItem.quantity + quantity : quantity)
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Insufficient Stock',
+          text: 'The requested quantity exceeds available stock.',
+        });
+      } else {
+        const updatedItems = existingItem
+          ? items.map((i) =>
+              i.game.id === game.id
+                ? { ...i, quantity: i.quantity + quantity }
+                : i,
+            )
+          : [
+              ...items,
+              {
+                game,
+                quantity,
+                price: game.price,
+              },
+            ];
 
-      const updatedItems = existingItem
-        ? items.map((i) =>
-            i.game.id === game.id
-              ? { ...i, quantity: i.quantity + quantity }
-              : i,
-          )
-        : [
-            ...items,
-            {
-              game,
-              quantity,
-              price: game.price,
-            },
-          ];
-
-      patchState(store, {
-        cartItems: updatedItems,
-        totalPrice: calculateTotal(updatedItems),
-      });
+        patchState(store, {
+          cartItems: updatedItems,
+          totalPrice: calculateTotal(updatedItems),
+        });
+      }
     },
 
     removeFromCart(gameId: number) {
@@ -65,16 +76,26 @@ export const cartStore = signalStore(
     },
 
     updateQuantity(gameId: number, quantity: number) {
-      if (quantity <= 0) return;
+      if (quantity <= 0) this.removeFromCart(gameId);
+      if (
+        quantity >
+        store.cartItems().find((i) => i.game.id === gameId)?.game.stock!
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Insufficient Stock',
+          text: 'The requested quantity exceeds available stock.',
+        });
+      } else {
+        const updatedItems = store
+          .cartItems()
+          .map((i) => (i.game.id === gameId ? { ...i, quantity } : i));
 
-      const updatedItems = store
-        .cartItems()
-        .map((i) => (i.game.id === gameId ? { ...i, quantity } : i));
-
-      patchState(store, {
-        cartItems: updatedItems,
-        totalPrice: calculateTotal(updatedItems),
-      });
+        patchState(store, {
+          cartItems: updatedItems,
+          totalPrice: calculateTotal(updatedItems),
+        });
+      }
     },
 
     clearCart() {

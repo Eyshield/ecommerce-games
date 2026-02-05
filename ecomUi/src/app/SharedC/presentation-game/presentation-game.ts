@@ -9,10 +9,11 @@ import { orderRequestDto } from '../../Models/OrderRequestDto';
 import Swal from 'sweetalert2';
 import { destroyScope } from '../../utils/destroyScope';
 import { cartStore } from '../../CartStore/cart.store';
+import { Footer } from '../Widget/footer/footer';
 
 @Component({
   selector: 'app-presentation-game',
-  imports: [Navbar],
+  imports: [Navbar, Footer],
   templateUrl: './presentation-game.html',
   styleUrl: './presentation-game.css',
 })

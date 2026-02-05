@@ -1,0 +1,81 @@
+<footer class="bg-gray-900 text-gray-300">
+  <div class="px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div class="space-y-4">
+        <h3 class="text-white text-lg font-bold">Game</h3>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4">Produit</h4>
+        <ul class="space-y-2">
+          @for (link of footerLinks.product; track link.label) {
+            <li>
+              <a
+                [href]="link.url"
+                class="text-sm hover:text-white transition-colors duration-200"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4">Entreprise</h4>
+        <ul class="space-y-2">
+          @for (link of footerLinks.company; track link.label) {
+            <li>
+              <a
+                [href]="link.url"
+                class="text-sm hover:text-white transition-colors duration-200"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4">Légal</h4>
+        <ul class="space-y-2">
+          @for (link of footerLinks.legal; track link.label) {
+            <li>
+              <a
+                [href]="link.url"
+                class="text-sm hover:text-white transition-colors duration-200"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-gray-800">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+      >
+        <p class="text-sm text-gray-400">
+          © {{ currentYear }} Samy amaouche. Tous droits réservés.
+        </p>
+        <div class="flex space-x-6">
+          <a
+            href="/privacy"
+            class="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+          >
+            Politique de confidentialité
+          </a>
+          <a
+            href="/terms"
+            class="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+          >
+            Conditions d'utilisation
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
