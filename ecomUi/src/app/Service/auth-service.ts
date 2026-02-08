@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import { user } from '../Models/User.models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,23 @@ export class AuthService {
     return this.keycloak.isUserInRole('Admin');
   }
 
-  getCurrentUserId(): number {
-    const userDetails = this.keycloak.getKeycloakInstance().tokenParsed;
-    return userDetails ? Number(userDetails.sub) : 0;
+  getCurrentUserId(): string | null {
+    const tokenParsed = this.keycloak.getKeycloakInstance().tokenParsed;
+    return tokenParsed?.sub ?? null;
+  }
+  getCurrentUserInfo(): user | null {
+    const tokenParsed = this.keycloak.getKeycloakInstance().tokenParsed;
+    if (tokenParsed) {
+      return {
+        keycloakId: tokenParsed.sub,
+        email: tokenParsed['email'] ?? '',
+        username: tokenParsed['preferred_username'] ?? '',
+        nom: tokenParsed['family_name'] ?? '',
+        prenom: tokenParsed['given_name'] ?? '',
+      };
+    } else {
+      return null;
+    }
   }
 
   isUser(): boolean {

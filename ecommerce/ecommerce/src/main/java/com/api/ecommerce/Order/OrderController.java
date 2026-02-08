@@ -18,6 +18,7 @@ import java.util.List;
 public class OrderController {
     private OrderService orderService;
     @PostMapping
+    @PreAuthorize("hasAnyRole('User','Admin')")
     public ResponseEntity<Order>makeOrder(@RequestBody OrderRequestDto orderRequestDto){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(orderService.MakeOrder(orderRequestDto.getCartId(), orderRequestDto.getUserId(),orderRequestDto.getOrderItemRequest(),orderRequestDto.getStatus()));
@@ -26,7 +27,8 @@ public class OrderController {
         }
     }
     @GetMapping("{userId}")
-    public ResponseEntity<PageResponse<OrderResponse>> getOrder(@PathVariable Long userId, @PageableDefault(page = 0,size = 10)Pageable pageable){
+    @PreAuthorize("hasAnyRole('User','Admin')")
+    public ResponseEntity<PageResponse<OrderResponse>> getOrder(@PathVariable String userId, @PageableDefault(page = 0,size = 10)Pageable pageable){
         try {
         return  ResponseEntity.status(HttpStatus.OK).body(orderService.getOrders(pageable,userId));
         }catch (Exception e){

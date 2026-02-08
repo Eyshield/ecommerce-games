@@ -42,7 +42,7 @@ export class PresentationGame {
     if (!this.game()) return;
 
     const orderDto: orderRequestDto = {
-      userId: this.authService.getCurrentUserId(),
+      userId: this.authService.getCurrentUserId()!,
       orderItemRequest: [
         {
           gameId: this.game()!.id!,

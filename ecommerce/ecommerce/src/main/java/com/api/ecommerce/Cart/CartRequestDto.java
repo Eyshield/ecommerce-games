@@ -4,6 +4,6 @@ import lombok.Data;
 import java.util.List;
 @Data
 public class CartRequestDto {
-    private Long userId;
+    private String userId;
     private List<CartItemRequest> cartItemRequests;
 }

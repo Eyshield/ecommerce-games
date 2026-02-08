@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar-client',
@@ -7,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './side-bar-client.css',
 })
 export class SideBarClient {
-
+  selectedMenu = output<string>();
+  select(section: string) {
+    this.selectedMenu.emit(section);
+  }
 }

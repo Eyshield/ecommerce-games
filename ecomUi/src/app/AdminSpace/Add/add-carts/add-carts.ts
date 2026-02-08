@@ -18,7 +18,6 @@ import { cartRequestDto } from '../../../Models/CartRequestDto.models';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { destroyScope } from '../../../utils/destroyScope';
-import { CartItem } from '../../../Models/CartItem.models';
 import { cartItemRequest } from '../../../Models/CartItemRequest.models';
 
 @Component({
@@ -43,7 +42,7 @@ export class AddCarts {
     isLast: false,
   });
   cartForm = new FormGroup({
-    userId: new FormControl<number | null>(null, Validators.required),
+    userId: new FormControl('', Validators.required),
     cartItemRequests: new FormArray<FormGroup>([]),
   });
   userSearch = new FormControl('');
@@ -85,7 +84,7 @@ export class AddCarts {
   }
 
   selectCustomer(customer: user) {
-    this.cartForm.patchValue({ userId: customer.id });
+    this.cartForm.patchValue({ userId: customer.keycloakId });
     this.userSearch.setValue(`${customer.nom} ${customer.prenom}`);
     this.customers.set({ ...this.customers(), content: [] });
   }

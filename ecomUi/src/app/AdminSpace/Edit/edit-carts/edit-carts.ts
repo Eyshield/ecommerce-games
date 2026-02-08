@@ -51,7 +51,7 @@ export class EditCarts {
     isLast: false,
   });
   cartForm = new FormGroup({
-    userId: new FormControl<number | null>(null, Validators.required),
+    userId: new FormControl('', Validators.required),
     userLabel: new FormControl(''),
     cartItmeRequest: new FormArray<FormGroup>([]),
   });
@@ -82,7 +82,7 @@ export class EditCarts {
     );
   }
   selectCustomer(customer: user) {
-    this.cartForm.patchValue({ userId: customer.id });
+    this.cartForm.patchValue({ userId: customer.keycloakId });
     this.userSearch.setValue(`${customer.nom} ${customer.prenom}`);
     this.customers.set({ ...this.customers(), content: [] });
   }
@@ -92,7 +92,7 @@ export class EditCarts {
       this.cartService.getCartById(this.id).subscribe((cart) => {
         if (cart.user) {
           this.cartForm.patchValue({
-            userId: cart.user.id,
+            userId: cart.user.keycloakId,
             userLabel: cart.user.nom,
           });
         }

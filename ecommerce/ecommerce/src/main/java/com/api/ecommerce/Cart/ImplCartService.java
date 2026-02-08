@@ -22,8 +22,8 @@ public class ImplCartService implements CartService {
     private GameRepo gameRepo;
     private CartMapper cartMapper;
     @Override
-    public Cart makeCart(Long userId, List<CartItemRequest> items) {
-        User user = userRepo.findById(userId)
+    public Cart makeCart(String userId, List<CartItemRequest> items) {
+        User user = userRepo.findByKeycloakId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Cart cart = new Cart();
@@ -55,8 +55,9 @@ public class ImplCartService implements CartService {
 
 
     @Override
-    public PageResponse<CartResponse> getCarts(Pageable pageable, Long userId) {
-        Page<Cart> cartPage = cartRepo.findByUserId(userId, pageable);
+    public PageResponse<CartResponse> getCarts(Pageable pageable, String userId) {
+        Long id = userRepo.findByKeycloakId(userId).orElseThrow(()->new RuntimeException("not found")).getId();
+        Page<Cart> cartPage = cartRepo.findByUserId(id, pageable);
         List<CartResponse> responses = cartMapper.toCartResponse(cartPage.getContent());
 
         return new PageResponse<>(
@@ -71,13 +72,16 @@ public class ImplCartService implements CartService {
     }
 
     @Override
-    public Cart updateCart(Long cartId, List<CartItemRequest> items) {
+    public Cart updateCart(Long cartId, List<CartItemRequest> items,String userId) {
         Cart cart = cartRepo.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+        User user = userRepo.findByKeycloakId(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         List<CartItem> existingItems = new ArrayList<>(cart.getCartItems());
         for (CartItem item : existingItems) {
             cartItemRepo.delete(item);
         }
+        cart.setUser(user);
         cart.getCartItems().clear();
         double totalPrice = 0.0;
         for (CartItemRequest itemRequest : items) {

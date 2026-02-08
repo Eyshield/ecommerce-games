@@ -52,7 +52,7 @@ export class EditOrders {
     isLast: false,
   });
   orderForm = new FormGroup({
-    userId: new FormControl<number | null>(null, Validators.required),
+    userId: new FormControl('', Validators.required),
     userLabel: new FormControl(''),
     orderItmeRequest: new FormArray<FormGroup>([]),
   });
@@ -75,7 +75,7 @@ export class EditOrders {
   }
 
   selectCustomer(customer: user) {
-    this.orderForm.patchValue({ userId: customer.id });
+    this.orderForm.patchValue({ userId: customer.keycloakId });
     this.userSearch.setValue(`${customer.nom} ${customer.prenom}`);
     this.customers.set({ ...this.customers(), content: [] });
   }
@@ -120,7 +120,7 @@ export class EditOrders {
       this.orderService.getOrdersById(this.id).subscribe((order) => {
         if (order.user) {
           this.orderForm.patchValue({
-            userId: order.user.id,
+            userId: order.user.keycloakId,
             userLabel: order.user.nom,
           });
         }

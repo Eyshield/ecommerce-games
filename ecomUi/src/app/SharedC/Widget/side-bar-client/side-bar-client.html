@@ -1,14 +1,20 @@
 <nav class="border rounded-lg w-fit bg-blue-900 p-6 mt-10 ml-10">
   <ul class="text-white flex flex-col gap-4">
-    <li class="flex flex-col gap-2 border-b w-full">
+    <li
+      (click)="select('myAccount')"
+      class="flex flex-col gap-2 border-b w-full"
+    >
       <a class="text-xl font-semibold">My account</a>
       <span class="text-gray-400 pb-2">Account management</span>
     </li>
-    <li class="flex flex-col gap-2 border-b w-full">
+    <li
+      (click)="select('pesonnalInfo')"
+      class="flex flex-col gap-2 border-b w-full"
+    >
       <a class="text-xl font-semibold">Personal information</a>
       <span class="text-gray-400 pb-2">Modify your personal information</span>
     </li>
-    <li class="flex flex-col gap-2 w-full">
+    <li (click)="select('myOrders')" class="flex flex-col gap-2 w-full">
       <a class="text-xl font-semibold">My orders</a>
       <span class="text-gray-400">view your previews orders</span>
     </li>

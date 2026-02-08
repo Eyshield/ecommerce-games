@@ -28,7 +28,7 @@ public class CartController {
         }
     }
     @GetMapping("/{userId}")
-    public ResponseEntity<PageResponse<CartResponse>> getCart(@PathVariable Long userId, @PageableDefault(page = 0,size = 10) Pageable pageable){
+    public ResponseEntity<PageResponse<CartResponse>> getCart(@PathVariable String userId, @PageableDefault(page = 0,size = 10) Pageable pageable){
         try {
             return  ResponseEntity.status(HttpStatus.OK).body(cartService.getCarts(pageable,userId));
         }catch (Exception e){
@@ -37,9 +37,9 @@ public class CartController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cart>updateCart(@PathVariable Long id, @RequestBody List<CartItemRequest> cartItemRequests){
+    public ResponseEntity<Cart>updateCart(@PathVariable Long id, @RequestBody CartRequestDto cartRequestDto){
         try {
-            return   ResponseEntity.status(HttpStatus.OK).body(cartService.updateCart(id,cartItemRequests));
+            return   ResponseEntity.status(HttpStatus.OK).body(cartService.updateCart(id,cartRequestDto.getCartItemRequests(),cartRequestDto.getUserId()));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

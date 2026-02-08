@@ -27,8 +27,8 @@ public class implOrderService implements OrderService{
     private OrderMapper orderMapper;
     private CartService cartService;
     @Override
-    public Order MakeOrder(Long cartId, Long userId, List<OrderItemRequest> items, Status status) {
-        User user = userRepo.findById(userId)
+    public Order MakeOrder(Long cartId, String userId, List<OrderItemRequest> items, Status status) {
+        User user = userRepo.findByKeycloakId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         verifyAndUpdateStock(items);
         if(cartId != null){
@@ -62,8 +62,9 @@ public class implOrderService implements OrderService{
     }
 
     @Override
-    public PageResponse<OrderResponse> getOrders(Pageable pageable, Long userId) {
-        Page<Order> orderPage = orderRepo.findByUserId(userId, pageable);
+    public PageResponse<OrderResponse> getOrders(Pageable pageable, String userId) {
+        Long id = userRepo.findByKeycloakId(userId).orElseThrow(()->new RuntimeException("not found")).getId();
+        Page<Order> orderPage = orderRepo.findByUserId(id, pageable);
         List<OrderResponse> responses = orderMapper.toOrderResponse(orderPage.getContent());
 
         return new PageResponse<>(

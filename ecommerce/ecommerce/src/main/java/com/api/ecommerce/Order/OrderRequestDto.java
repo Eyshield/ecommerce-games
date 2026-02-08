@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class OrderRequestDto {
-    private Long userId;
+    private String userId;
     private Long cartId;
     @Enumerated(EnumType.STRING)
     private Status status;

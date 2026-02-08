@@ -34,7 +34,7 @@ export class AddOrders {
   router = inject(Router);
   searchGame = new FormControl('');
   orderForm = new FormGroup({
-    userId: new FormControl<number | null>(null, Validators.required),
+    userId: new FormControl('', Validators.required),
     orderItemRequests: new FormArray<FormGroup>([]),
     orderDate: new FormControl<Date>(new Date()),
     shippingAddress: new FormControl<string>('', Validators.required),
@@ -94,7 +94,7 @@ export class AddOrders {
   }
 
   selectCustomer(customer: user) {
-    this.orderForm.patchValue({ userId: customer.id });
+    this.orderForm.patchValue({ userId: customer.keycloakId });
     this.userSearch.setValue(`${customer.nom} ${customer.prenom}`);
     this.customers.set({ ...this.customers(), content: [] });
   }
@@ -165,10 +165,10 @@ export class AddOrders {
               title: 'Order Placed Successfully',
               text: 'The order has been placed successfully.',
             });
-            this.router.navigate(['/orders']);
             this.orderForm.reset();
             this.orderItems.clear();
             this.userSearch.reset();
+            this.router.navigate(['/orders']);
           },
           error: (error) => {
             Swal.fire({

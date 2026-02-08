@@ -1,16 +1,30 @@
 <div class="bg-linear-to-b from-blue-900 to-black h-screen w-full">
   <app-navbar></app-navbar>
   <div class="grid-cols-2 flex justify-center items-center">
-    <app-side-bar-client></app-side-bar-client>
+    <app-side-bar-client
+      (selectedMenu)="onSelect($event)"
+    ></app-side-bar-client>
     <div
-      class="text-white mt-10 ml-10 border rounded-lg p-6 w-3/5 self-stretch"
+      class="text-white mt-10 ml-10 border rounded-lg p-6 w-3/5 h-1/2 self-stretch"
     >
-      <h1 class="text-4xl font-bold mb-8">Personal Account Dashboard</h1>
-      <p class="text-lg text-gray-300">
-        Welcome to your personal account dashboard. Here you can manage your
-        personal information, view your orders, and update your account
-        settings.
-      </p>
+      @switch (selectedSection) {
+        @case ("myAccount") {
+          <h1 class="text-4xl font-bold mb-8">Personal Account Dashboard</h1>
+          <p class="text-lg text-gray-300">
+            Welcome to your personal account dashboard. Here you can manage your
+            personal information, view your orders, and update your account
+            settings.
+          </p>
+        }
+
+        @case ("pesonnalInfo") {
+          <app-personnal-info></app-personnal-info>
+        }
+
+        @case ("myOrders") {
+          <app-my-orders></app-my-orders>
+        }
+      }
     </div>
   </div>
 </div>

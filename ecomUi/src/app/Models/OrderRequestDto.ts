@@ -1,7 +1,7 @@
 import { orderItemRequest } from './OrderItemRequest.models';
 
 export interface orderRequestDto {
-  userId: number;
+  userId: string;
   cartId?: number;
   orderItemRequest: orderItemRequest[];
 }

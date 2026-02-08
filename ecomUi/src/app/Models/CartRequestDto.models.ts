@@ -1,6 +1,6 @@
 import { cartItemRequest } from './CartItemRequest.models';
 
 export interface cartRequestDto {
-  userId: number;
+  userId: string;
   cartItemRequests: cartItemRequest[];
 }

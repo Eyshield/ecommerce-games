@@ -38,6 +38,8 @@ public class securityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/order/**").hasAnyRole("User","Admin")
+                        .requestMatchers(HttpMethod.POST,"/api/order/**").hasAnyRole("User","Admin")
                         .requestMatchers(HttpMethod.GET,"/api/game/**").permitAll()
                         .requestMatchers("/api/game/**").hasRole("Admin")
                         .requestMatchers("/api/category/**").hasRole("Admin")
