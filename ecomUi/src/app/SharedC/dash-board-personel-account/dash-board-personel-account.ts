@@ -11,7 +11,7 @@ import { MyOrders } from '../my-orders/my-orders';
   styleUrl: './dash-board-personel-account.css',
 })
 export class DashBoardPersonelAccount {
-  selectedSection: any;
+  selectedSection: string = 'myAccount';
   onSelect(section: string) {
     this.selectedSection = section;
   }

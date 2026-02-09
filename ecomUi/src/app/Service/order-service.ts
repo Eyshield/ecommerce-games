@@ -52,4 +52,7 @@ export class OrderService {
   public removeOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/order/${id}`);
   }
+  public getTotalRevenue(): Observable<number> {
+    return this.http.get<number>(`${environment.apiUrl}/order/total`);
+  }
 }

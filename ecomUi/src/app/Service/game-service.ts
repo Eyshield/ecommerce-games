@@ -60,4 +60,27 @@ export class GameService {
       bestsellers: Page<Game>;
     }>(`${environment.apiUrl}/game/home`, { params });
   }
+  public getDashGames(
+    flopsPage: number = 0,
+    flopsSize: number = 5,
+
+    bestPage: number = 0,
+    bestSize: number = 5,
+  ): Observable<{
+    flops: Page<Game>;
+
+    bestsellers: Page<Game>;
+  }> {
+    const params = new HttpParams()
+      .set('flop.page', flopsPage)
+      .set('flop.size', flopsSize)
+      .set('bestseller.page', bestPage)
+      .set('bestseller.size', bestSize);
+
+    return this.http.get<{
+      flops: Page<Game>;
+
+      bestsellers: Page<Game>;
+    }>(`${environment.apiUrl}/game/dashboard`, { params });
+  }
 }
