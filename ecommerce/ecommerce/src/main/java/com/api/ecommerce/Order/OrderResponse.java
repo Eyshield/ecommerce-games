@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @Data
 @SuperBuilder
@@ -13,5 +15,6 @@ public class OrderResponse {
     private String imageUrl;
     private Integer quantity;
     private Double price;
+    private LocalDate date;
     private Double subtotal;
 }

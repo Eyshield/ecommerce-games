@@ -130,4 +130,21 @@ public class GameController {
         }
 
     }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<Map<String, PageResponse<GameResponse>>> getDash(
+
+            @Qualifier("upcoming")
+            @PageableDefault(size = 5,page = 0) Pageable flopsPageable,
+            @Qualifier("bestseller")
+            @PageableDefault(size = 5,page = 0) Pageable bestPageable
+    ) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(gameService.getDashboardGames(flopsPageable,bestPageable));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        }
+
+    }
 }

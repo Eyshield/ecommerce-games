@@ -20,4 +20,14 @@ public interface GameRepo extends JpaRepository<Game,Long> {
         ORDER BY SUM(oi.quantity) DESC
     """)
     Page<Game> findBestSellers(Pageable pageable);
+
+    @Query("""
+        SELECT g
+        FROM OrderItem oi
+        JOIN oi.game g
+        JOIN oi.order o
+        GROUP BY g
+        ORDER BY SUM(oi.quantity) ASC
+    """)
+    Page<Game> findFlops(Pageable pageable);
 }

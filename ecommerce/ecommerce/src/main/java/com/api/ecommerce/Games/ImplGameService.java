@@ -82,6 +82,7 @@ public class ImplGameService implements GameService{
         PageResponse<GameResponse>response=toPageResponse(gamePage);
         return response;
     }
+    @Override
     public Map<String, PageResponse<GameResponse>> getHomeGames(    Pageable bannerPageable,
                                                                     Pageable upcomingPageable,
                                                                      Pageable bestPageable) {
@@ -93,6 +94,21 @@ public class ImplGameService implements GameService{
         Page<Game> upcomingPage =
                 gameRepo.findByHomeSection(HomeSection.UPCOMING, upcomingPageable);
         result.put("upcoming", toPageResponse(upcomingPage));
+        Page<Game> bestSellerPage =
+                gameRepo.findBestSellers(bestPageable);
+        result.put("bestsellers", toPageResponse(bestSellerPage));
+
+        return result;
+    }
+    @Override
+    public Map<String, PageResponse<GameResponse>> getDashboardGames(
+                                                                    Pageable flopPageable,
+                                                                    Pageable bestPageable) {
+        Map<String, PageResponse<GameResponse>> result = new HashMap<>();
+
+        Page<Game> flopPage =
+                gameRepo.findFlops(flopPageable);
+        result.put("flops", toPageResponse(flopPage));
         Page<Game> bestSellerPage =
                 gameRepo.findBestSellers(bestPageable);
         result.put("bestsellers", toPageResponse(bestSellerPage));

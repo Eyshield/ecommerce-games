@@ -19,7 +19,9 @@ public interface GameService {
      Map<String, PageResponse<GameResponse>> getHomeGames(Pageable bannerPageable,
                                                           Pageable upcomingPageable,
                                                           Pageable bestPageable);
-
+    Map<String, PageResponse<GameResponse>> getDashboardGames(
+            Pageable flopPageable,
+            Pageable bestPageable);
 
 
 

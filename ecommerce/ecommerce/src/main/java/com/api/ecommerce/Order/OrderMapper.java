@@ -13,6 +13,7 @@ public class OrderMapper {
                 .imageUrl(orderItem.getGame().getImageUrl())
                 .quantity(orderItem.getQuantity())
                 .price(orderItem.getGame().getPrice())
+                .date(orderItem.getOrder().getDate())
                 .subtotal(orderItem.getGame().getPrice() * orderItem.getQuantity())
                 .build();
     }

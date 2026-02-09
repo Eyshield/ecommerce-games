@@ -168,4 +168,9 @@ public class implOrderService implements OrderService{
     public void deleteOrder(Long id) {
         orderRepo.deleteById(id);
     }
+
+    @Override
+    public Double getTotal() {
+        return orderRepo.getTotalRevenue();
+    }
 }
