@@ -16,7 +16,6 @@ export class Redirect implements OnInit {
   userService = inject(UserService);
   async ngOnInit() {
     if (this.keycloak.isUserInRole('Admin')) {
-      this.userService.getUserByMe().subscribe();
       this.router.navigate(['/dashboard']);
     } else if (this.keycloak.isUserInRole('User')) {
       this.userService.getUserByMe().subscribe();

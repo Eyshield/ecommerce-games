@@ -1,5 +1,5 @@
 <nav
-  class="group w-16 bg-linear-to-b from-blue-900 to-black h-screen p-6 text-white hover:w-32 transition-all duration-300 ease-in-out"
+  class="group w-16 bg-linear-to-b from-blue-900 to-black h-screen p-6 text-white hover:w-36 transition-all duration-300 ease-in-out"
 >
   <ul
     class="flex flex-col pt-12 gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -7,43 +7,66 @@
     <li class="whitespace-nowrap">
       <a
         [routerLink]="['/dashboard']"
-        class="hover:text-blue-300 transition-colors font-semibold"
-        >Dashboard</a
+        class="hover:text-blue-300 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faDashBoard" class="mr-2"></fa-icon>
+        Dashboard</a
       >
     </li>
     <li class="whitespace-nowrap">
       <a
         [routerLink]="['/user']"
-        class="hover:text-blue-300 transition-colors font-semibold"
-        >Users</a
+        class="hover:text-blue-300 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faUsers" class="mr-2"></fa-icon>
+        Users</a
       >
     </li>
     <li class="whitespace-nowrap">
       <a
         [routerLink]="['/category']"
-        class="hover:text-blue-300 transition-colors font-semibold"
-        >Category</a
+        class="hover:text-blue-300 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faCategory" class="mr-2"></fa-icon>
+        Category</a
       >
     </li>
     <li class="whitespace-nowrap">
       <a
         [routerLink]="['/games']"
-        class="hover:text-blue-300 transition-colors font-semibold"
-        >Games</a
+        class="hover:text-blue-300 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faGamepad" class="mr-2"></fa-icon>
+        Games</a
       >
     </li>
     <li class="whitespace-nowrap">
       <a
         [routerLink]="['/orders']"
-        class="hover:text-blue-300 transition-colors font-semibold"
-        >Orders</a
+        class="hover:text-blue-300 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faOrders" class="mr-2"></fa-icon>
+        Orders</a
       >
     </li>
     <li class="whitespace-nowrap">
       <a
         [routerLink]="['/carts']"
-        class="hover:text-blue-300 transition-colors font-semibold"
-        >Carts</a
+        class="hover:text-blue-300 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faCarts" class="mr-2"></fa-icon>
+
+        Carts</a
+      >
+    </li>
+
+    <li class="whitespace-nowrap mt-16">
+      <a
+        (click)="Logout()"
+        class="hover:text-red-500 transition-colors font-semibold cursor-pointer"
+      >
+        <fa-icon [icon]="faSignOut" class="mr-2"></fa-icon>
+        Log Out</a
       >
     </li>
   </ul>

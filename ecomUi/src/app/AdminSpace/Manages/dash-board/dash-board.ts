@@ -78,6 +78,7 @@ export class DashBoard {
     this.gameService.getDashGames(0, 5, 0, 5).subscribe({
       next: (response) => {
         this.gameFlops.set(response.flops);
+
         this.gameBest.set(response.bestsellers);
       },
       error: (err) => {

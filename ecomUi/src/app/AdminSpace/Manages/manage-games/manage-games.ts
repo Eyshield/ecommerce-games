@@ -21,7 +21,7 @@ export class ManageGames implements OnInit {
   gamesPage = signal<Page<Game>>({
     content: [],
     page: 0,
-    Size: 10,
+    Size: 5,
     totalElements: 0,
     totalPages: 0,
     isFirst: true,

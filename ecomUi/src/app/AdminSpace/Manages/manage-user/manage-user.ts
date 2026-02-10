@@ -16,7 +16,7 @@ export class ManageUser {
   userPage = signal<Page<user>>({
     content: [],
     page: 0,
-    Size: 10,
+    Size: 5,
     totalElements: 0,
     totalPages: 0,
     isFirst: true,

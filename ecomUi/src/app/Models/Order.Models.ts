@@ -9,4 +9,5 @@ export interface orders {
   status: string;
   totalPrice: number;
   items: OrderItem[];
+  subtotal?: number;
 }

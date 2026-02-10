@@ -38,9 +38,9 @@ export class GameService {
     bannerPage: number = 0,
     bannerSize: number = 3,
     upcomingPage: number = 0,
-    upcomingSize: number = 5,
+    upcomingSize: number = 4,
     bestPage: number = 0,
-    bestSize: number = 5,
+    bestSize: number = 4,
   ): Observable<{
     banners: Page<Game>;
     upcoming: Page<Game>;
