@@ -34,6 +34,9 @@ public class implOrderService implements OrderService{
         if(cartId != null){
             cartService.clearCart(cartId);
         }
+        if (status == null){
+            status = Status.Processing;
+        }
 
         Order order = new Order();
         order.setUser(user);
@@ -79,7 +82,7 @@ public class implOrderService implements OrderService{
     }
 
     @Override
-    public Order updateOrder(Long orderId, List<OrderItemRequest> items) {
+    public Order updateOrder(Long orderId, List<OrderItemRequest> items,Status status) {
         Order order = orderRepo.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
@@ -105,7 +108,7 @@ public class implOrderService implements OrderService{
             order.getOrderItems().add(orderItem);
             totalPrice += game.getPrice() * orderItem.getQuantity();
         }
-
+        order.setStatus(status);
         order.setTotalPrice(totalPrice);
         return orderRepo.save(order);
     }

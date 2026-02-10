@@ -2,6 +2,7 @@ package com.api.ecommerce.Games;
 
 import com.api.ecommerce.Common.HomeSection;
 import com.api.ecommerce.Common.PageResponse;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -101,6 +102,7 @@ public class ImplGameService implements GameService{
         return result;
     }
     @Override
+    @Transactional
     public Map<String, PageResponse<GameResponse>> getDashboardGames(
                                                                     Pageable flopPageable,
                                                                     Pageable bestPageable) {
@@ -109,6 +111,7 @@ public class ImplGameService implements GameService{
         Page<Game> flopPage =
                 gameRepo.findFlops(flopPageable);
         result.put("flops", toPageResponse(flopPage));
+
         Page<Game> bestSellerPage =
                 gameRepo.findBestSellers(bestPageable);
         result.put("bestsellers", toPageResponse(bestSellerPage));

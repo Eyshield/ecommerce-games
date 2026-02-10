@@ -37,9 +37,9 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order>updateOrder(@PathVariable Long id, @RequestBody List<OrderItemRequest> orderItemRequests){
+    public ResponseEntity<Order>updateOrder(@PathVariable Long id, @RequestBody OrderRequestDto orderRequestDto){
         try {
-          return   ResponseEntity.status(HttpStatus.OK).body(orderService.updateOrder(id,orderItemRequests));
+          return   ResponseEntity.status(HttpStatus.OK).body(orderService.updateOrder(id,orderRequestDto.getOrderItemRequest(), orderRequestDto.getStatus()));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

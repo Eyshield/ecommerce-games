@@ -134,7 +134,7 @@ public class GameController {
     @GetMapping("/dashboard")
     public ResponseEntity<Map<String, PageResponse<GameResponse>>> getDash(
 
-            @Qualifier("upcoming")
+            @Qualifier("flop")
             @PageableDefault(size = 5,page = 0) Pageable flopsPageable,
             @Qualifier("bestseller")
             @PageableDefault(size = 5,page = 0) Pageable bestPageable

@@ -14,6 +14,7 @@ public class OrderMapper {
                 .quantity(orderItem.getQuantity())
                 .price(orderItem.getGame().getPrice())
                 .date(orderItem.getOrder().getDate())
+                .status(orderItem.getOrder().getStatus())
                 .subtotal(orderItem.getGame().getPrice() * orderItem.getQuantity())
                 .build();
     }

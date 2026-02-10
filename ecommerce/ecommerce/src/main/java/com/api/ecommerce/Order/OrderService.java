@@ -11,7 +11,7 @@ public interface OrderService {
     Order MakeOrder(Long cartId, String userId, List<OrderItemRequest> items, Status status);
     PageResponse<OrderResponse> getOrders(Pageable pageable, String userId);
 
-    Order updateOrder(Long orderId, List<OrderItemRequest> items);
+    Order updateOrder(Long orderId, List<OrderItemRequest> items,Status status);
 
     PageResponse<Order>getAllOrders(Pageable pageable);
 

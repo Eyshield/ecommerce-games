@@ -22,12 +22,11 @@ public interface GameRepo extends JpaRepository<Game,Long> {
     Page<Game> findBestSellers(Pageable pageable);
 
     @Query("""
-        SELECT g
-        FROM OrderItem oi
-        JOIN oi.game g
-        JOIN oi.order o
-        GROUP BY g
-        ORDER BY SUM(oi.quantity) ASC
-    """)
+    SELECT g
+    FROM Game g
+    LEFT JOIN g.orderItems oi
+    GROUP BY g.id
+    ORDER BY COALESCE(SUM(oi.quantity), 0) ASC
+""")
     Page<Game> findFlops(Pageable pageable);
 }
